@@ -1,5 +1,5 @@
 // import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 // import SplashScreen from './app/screens/splash_screen';
@@ -9,30 +9,32 @@ import { NavigationContainer } from "@react-navigation/native";
 // import DashboardScreen from './app/screens/dashboard_screen';
 // import NotificationDetailScreen from './app/screens/notification_detail_screen';
 
-import AuthStackNavigator from './app/navigation/AuthStackNavigator';
-import DrawerNavigator from './app/navigation/DrawerNavigator';
+import AuthStackNavigator from "./app/navigation/AuthStackNavigator";
+import DrawerNavigator from "./app/navigation/DrawerNavigator";
 // import { HomeStackNavigator } from './app/navigation/StackNavigator';
 // import BottomTabNavigator from './app/navigation/TabNavigator';
 // import {SecureStore} from 'expo';
 
-import { UserContext } from './app/context/user_context';
-import { useState } from 'react/cjs/react.development';
-import { useContext } from 'react';
+import { Store } from "./app/redux/store";
+import { Provider } from "react-redux";
+import { useSelector } from "react-redux";
 export default function App() {
-
-
+  // const user_data = useSelector((state)=>state.userData)
+  // const user_type = user_data && user_data.is_admin === true ? "isAdmin" : user_data.is_faculty ? "isTeacher" : "isStudent"
   return (
+    <Provider store={Store}>
       <NavigationContainer>
-          <AuthStackNavigator/>
+        <AuthStackNavigator />
       </NavigationContainer>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
