@@ -7,7 +7,7 @@ const [password , setPassword]= useState(null)
 const [username, setUsername]= useState(null)
 
   const handleSubmit = async (event)=>{
-    
+    const test = []
     event.preventDefault();
 console.log(username, password);
 axios.post(`https://2e90-2400-adc7-13d-5200-3183-2225-af23-d71d.ngrok.io/auth/login`, {username :username,password: password })
