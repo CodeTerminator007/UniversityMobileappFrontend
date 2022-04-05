@@ -10,6 +10,7 @@
 export const SET_USER_NAME = "SET_USER_NAME";
 export const SET_TOKEN = "SET_TOKEN";
 export const SET_USERDATA = "SET_USERDATA";
+export const SET_ID = "SET_ID";
 export const setName = (name) => (dispatch) => {
   dispatch({
     type: SET_USER_NAME,
@@ -27,5 +28,11 @@ export const setUserData = (userData) => (dispatch) => {
   dispatch({
     type: SET_USERDATA,
     payload: userData,
+  });
+};
+export const setId = (id) => (dispatch) => {
+  dispatch({
+    type: SET_ID,
+    payload: id,
   });
 };

@@ -8,32 +8,11 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
-import ListItem from "../components/ListItem";
+import ListItem from "../../components/ListItem";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const notifications = [
-  {
-    id: 1,
-    title: "T1",
-    detail: "D1",
-    image: "https://bootdey.com/img/Content/avatar/avatar6.png",
-  },
-  {
-    id: 2,
-    title: "T2",
-    detail: "D2",
-    image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-  },
-  {
-    id: 3,
-    title: "T3",
-    detail: "D3",
-    image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-  },
-];
-
-function NotificationScreen() {
+function StudentNotificationScreen() {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -45,10 +24,9 @@ function NotificationScreen() {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(
-      "https://2e90-2400-adc7-13d-5200-3183-2225-af23-d71d.ngrok.io/announcement",
-      { headers: { Authorization: AuthStr } }
-    )
+    .get("https://547c-119-156-31-204.ngrok.io/announcement/", {
+      headers: { Authorization: AuthStr },
+    })
     .then((response) => {
       // If request is good...
       console.log(response.data);
@@ -83,4 +61,4 @@ const styles = StyleSheet.create({
     padding: 8,
   },
 });
-export default NotificationScreen;
+export default StudentNotificationScreen;

@@ -9,45 +9,50 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { setToken, setName, setUserData } from "../redux/actions";
-import DrawerNavigator from "../navigation/DrawerNavigator";
-import { NavigationContainer } from "@react-navigation/native";
+import { setToken, setName, setUserData, setId } from "../redux/actions";
 import { useNavigation } from "@react-navigation/native";
+
 export default loginScreen = () => {
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigation = useNavigation();
+
   useEffect(() => {
     console.log("state : ", state);
   }, [state]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     axios
-      .post(
-        `https://2e90-2400-adc7-13d-5200-3183-2225-af23-d71d.ngrok.io/auth/login`,
-        { username: username, password: password }
-      )
+      .post(`https://c673-121-52-152-106.ngrok.io/auth/login`, {
+        username: username,
+        password: password,
+      })
       .then((res) => {
         console.log("response ", res.data);
         dispatch(setUserData(res.data.user));
+        dispatch(setId(res.data.user.id));
         dispatch(setToken(res.data.jwt.access));
         const userData = res.data.user;
         const { is_admin, is_faculty, is_student } = userData;
+
         if (is_admin) {
           // navigate to admin dashboard
 
-          navigation.replace("Student");
+          navigation.replace("Admin");
 
           console.log(
             "admin is logged it....................................."
           );
           // navigation.navigate("Student");
         } else if (is_student) {
+          navigation.replace("Student");
           //navigate to student dashboard
         } else if (is_faculty) {
+          navigation.replace("Teacher");
           //navigate to teacher
         }
       })

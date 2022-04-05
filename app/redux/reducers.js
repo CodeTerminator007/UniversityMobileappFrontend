@@ -13,12 +13,13 @@
 // }
 // export default userReducer;
 
-import { SET_USER_NAME, SET_TOKEN, SET_USERDATA } from "./actions";
+import { SET_USER_NAME, SET_TOKEN, SET_USERDATA, SET_ID } from "./actions";
 
 const initialState = {
   name: "",
   token: "",
   userData: null,
+  id: "",
 };
 
 function userReducer(state = initialState, action) {
@@ -29,6 +30,8 @@ function userReducer(state = initialState, action) {
       return { ...state, token: action.payload };
     case SET_USERDATA:
       return { ...state, userData: action.payload };
+    case SET_ID:
+      return { ...state, id: action.payload };
     default:
       return state;
   }
