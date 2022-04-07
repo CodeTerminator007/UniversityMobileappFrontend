@@ -24,7 +24,7 @@ function StudentNotificationScreen() {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get("https://547c-119-156-31-204.ngrok.io/announcement/", {
+    .get(`https://c673-121-52-152-106.ngrok.io/announcement/`, {
       headers: { Authorization: AuthStr },
     })
     .then((response) => {

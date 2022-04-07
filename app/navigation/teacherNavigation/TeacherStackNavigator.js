@@ -10,6 +10,7 @@ import TeacherCreateQuizScreen from "../../screens/teacherScreens/teacher_create
 import TeacherMarkAttandanceScreen from "../../screens/teacherScreens/teacher_mark_attandance_screen";
 import TeacherTimetableScreen from "../../screens/teacherScreens/teacher_timetable_screen";
 import TeacherEditTimetableScreen from "../../screens/teacherScreens/teacher_edit_timetable_screen";
+import AllClassesScreen from "../../screens/teacherScreens/all_classes_screen";
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,7 @@ const TeacherCreateQuizStackNavigator = () => {
 const TeacherMarkAttandanceStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen name="All Classes Screen" component={AllClassesScreen} />
       <Stack.Screen
         name="Mark Attandance"
         component={TeacherMarkAttandanceScreen}

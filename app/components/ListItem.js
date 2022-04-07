@@ -1,15 +1,17 @@
 import React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
-function ListItem({ title, description, url }) {
+function ListItem({ title, description, url, onPress }) {
   return (
-    <View style={styles.notifiContainer}>
-      <Image style={styles.image} source={{ uri: url }}></Image>
-      <View style={styles.textContainer}>
-        <Text style={styles.heading}>{title}</Text>
-        <Text style={styles.detailText}>{description}</Text>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.notifiContainer}>
+        <Image style={styles.image} source={{ uri: url }}></Image>
+        <View style={styles.textContainer}>
+          <Text style={styles.heading}>{title}</Text>
+          <Text style={styles.detailText}>{description}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

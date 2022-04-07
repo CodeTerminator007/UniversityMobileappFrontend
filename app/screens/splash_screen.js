@@ -8,13 +8,18 @@ import {
   Image,
 } from "react-native";
 
-function SplashScreen() {
+function SplashScreen({ navigation }) {
   // useEffect();
   // {
   //   setTimeout(() => {
   //     this.props.navigation.navigate("login");
   //   }, 2000);
   // }
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace("LoginScreen");
+    }, 5000);
+  }, []);
 
   return (
     <View style={styles.container}>
