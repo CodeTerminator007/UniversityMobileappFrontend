@@ -24,7 +24,7 @@ const TeacherDrawerNavigator = () => {
         options={{ headerShown: false }}
       />
       <Drawer.Screen
-        name="Mark Attandance"
+        name="Attandance"
         component={TeacherMarkAttandanceStackNavigator}
         options={{ headerShown: false }}
       />

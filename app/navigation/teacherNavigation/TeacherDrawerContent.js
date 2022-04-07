@@ -65,7 +65,7 @@ export function TeacherDrawerContent(props) {
               )}
               label="Mark Attandance"
               onPress={() => {
-                props.navigation.navigate("Mark Attandance");
+                props.navigation.navigate("Attandance");
               }}
             />
             <DrawerItem
