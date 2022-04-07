@@ -7,27 +7,13 @@ import TimeTable from "@mikezzb/react-native-timetable";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const events = [
-  {
-    courseId: "",
-    title: "Intro to Computer Systems",
-    section: "- - LEC",
-    day: 2,
-    startTime: "11:30",
-    endTime: "12:15",
-    location: "Online Teaching",
-    color: "rgba(253,149,141,1)",
-  },
-];
+
 function TeacherTimetableScreen() {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const ID = stateData.userReducer.id;
   const [data, setdata] = useState();
-
-  // const USER_TOKEN =
-  //   const AuthStr = "Bearer " + token;
 
   const AuthStr = "Bearer ".concat(Token);
   axios
@@ -36,20 +22,32 @@ function TeacherTimetableScreen() {
     })
     .then((response) => {
       // If request is good...
-      setdata(response.data);
+      const d = response.data;
+      const g = d.map((item)=>{
+        return ({
+          day:item.day,
+        location:item.room.toString(),
+          endTime: item.subhoursend.toString(),
+          startTime: item.subhoursstart.toString(),
+          // section: item.sub,
+          courseId:item.sub
+
+          })
+      })
+      setdata(g)
     })
+  
     .catch((error) => {
       console.log("error " + error);
     });
-  console.log(data);
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeAreaContainer}>
         <StatusBar backgroundColor="rgba(21,101,192,1)" />
         <View style={styles.container}>
           <TimeTable
-            events={events}
-            // eventOnPress={(event) => Alert.alert(`${JSON.stringify(event)}`)}
+            events={data}
+            eventOnPress={(event) => Alert.alert(`${JSON.stringify(event)}`)}
           />
         </View>
       </SafeAreaView>
