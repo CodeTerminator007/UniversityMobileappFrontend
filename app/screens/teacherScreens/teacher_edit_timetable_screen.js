@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import {
   StyleSheet,
@@ -14,23 +15,33 @@ import {
 // import { useNavigation } from "@react-navigation/native";
 
 function TeacherEditTimetableScreen() {
+  const state = useSelector((state) => state);
   const [subject, setSubject] = useState(null);
   const [subjectHourStart, setSubjectHourStart] = useState(null);
   const [subjectHourEnd, setSubjectHourEnd] = useState(null);
   const [day, setDay] = useState(null);
   const [room, setRoom] = useState(null);
-
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const ID = stateData.userReducer.id;
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const AuthStr = "Bearer ".concat(Token);
+    const option = {
+      headers: { Authorization: AuthStr },
+    }
+    console.log(AuthStr)
     axios
       .post(`https://c673-121-52-152-106.ngrok.io/Timetable/`, {
-        sub: subject,
-        subhoursstart: subjectHourStart,
-        subhoursend: subjectHourEnd,
-        day: day,
-        room: room,
-      })
+          sub: subject,
+          subhoursstart: subjectHourStart,
+          subhoursend: subjectHourEnd,
+          day: day,
+          room: room,
+          person:ID,
+        },
+        option
+        )
       .then((res) => {
         console.log("response ", res.data);
       })
