@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -13,33 +12,7 @@ import {
 function AdminPostNotificationScreen() {
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
-  const state = useSelector((state) => state);
-
-  const stateData = { ...state };
-  const Token = stateData.userReducer.token;
-  const ID = stateData.userReducer.id;
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const AuthStr = "Bearer ".concat(Token);
-    const option = {
-      headers: { Authorization: AuthStr },
-    }
-    console.log(AuthStr)
-    axios
-      .post(`https://c673-121-52-152-106.ngrok.io/announcement/`, {
-          title: title,
-          detail: detail,
-          Arthur:ID,
-        },
-        option
-        )
-      .then((res) => {
-        console.log("response ", res.data);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-  };
+  const handleSubmit = async (event) => {};
 
   return (
     <View style={styles.container}>
