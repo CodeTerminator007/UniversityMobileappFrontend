@@ -28,7 +28,7 @@ function AllClassesScreen() {
       const g = d.map((item)=>{
         return ({
           id:item.id.toString(),
-          title:item.subject_name,
+          title:`${item.course_name} ${item.class_name} ${item.subject_name} `,
           })
       })
       setdata(g)
