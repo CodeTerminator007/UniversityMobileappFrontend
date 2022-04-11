@@ -27,7 +27,7 @@ export default loginScreen = () => {
     event.preventDefault();
 
     axios
-      .post(`https://c673-121-52-152-106.ngrok.io/auth/login`, {
+      .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/auth/login`, {
         username: username,
         password: password,
       })

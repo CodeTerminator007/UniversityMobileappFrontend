@@ -8,23 +8,36 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
-
-const data = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "BSCS 7Th D",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "BSCS 6th C",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "BSCS 8th C+D",
-  },
-];
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function AllClassesScreen() {
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
+  const ID = stateData.userReducer.id;
+
+  const AuthStr = "Bearer ".concat(Token);
+  axios
+    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Subject/${ID}`, {
+      headers: { Authorization: AuthStr },
+    })
+    .then((response) => {
+      const d = response.data;
+      const g = d.map((item)=>{
+        return ({
+          id:item.id.toString(),
+          title:item.subject_name,
+          })
+      })
+      setdata(g)
+    })
+  
+    .catch((error) => {
+      console.log("error " + error);
+    })
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

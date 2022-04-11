@@ -1,9 +1,7 @@
-import React, { Component, useState } from "react";
-
-import { Alert, StatusBar, StyleSheet, View } from "react-native";
+import React, {  useState } from "react";
+import {  StatusBar, StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import TimeTable from "@mikezzb/react-native-timetable";
-
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -12,24 +10,25 @@ function TeacherTimetableScreen() {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
   const ID = stateData.userReducer.id;
-  const [data, setdata] = useState();
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(`https://c673-121-52-152-106.ngrok.io/Timetable/${ID}`, {
+    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Timetable/${ID}`, {
       headers: { Authorization: AuthStr },
     })
     .then((response) => {
       // If request is good...
       const d = response.data;
+      // // console.log("this is data")
       const g = d.map((item)=>{
         return ({
           day:item.day,
-        location:item.room.toString(),
+          location:item.room.toString(),
           endTime: item.subhoursend.toString(),
           startTime: item.subhoursstart.toString(),
-          // section: item.sub,
+          // section: item.id.toString(),
           courseId:item.sub
 
           })
@@ -44,12 +43,11 @@ function TeacherTimetableScreen() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeAreaContainer}>
         <StatusBar backgroundColor="rgba(21,101,192,1)" />
+          {data && 
         <View style={styles.container}>
-          <TimeTable
-            events={data}
-            eventOnPress={(event) => Alert.alert(`${JSON.stringify(event)}`)}
-          />
+          <TimeTable events={data}/>
         </View>
+          }
       </SafeAreaView>
     </SafeAreaProvider>
   );
