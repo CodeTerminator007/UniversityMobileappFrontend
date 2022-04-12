@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import StudentDashboardScreen from "../../screens/studentScreens/student_dashboard_screen";
 import StudentNotificationScreen from "../../screens/studentScreens/student_notification_screen";
+import StudentNotificationDetailScreen from "../../screens/studentScreens/student_notification_detail_screen";
 import StudentProfileScreen from "../../screens/studentScreens/student_profile_screen";
 import StudentTimetableScreen from "../../screens/studentScreens/student_timetable_screen";
 import StudentUploadAssignmentScreen from "../../screens/studentScreens/student_upload_assignment_screen";
@@ -53,6 +54,10 @@ const StudentNotificationStackNavigator = () => {
       <Stack.Screen
         name="Student Notifications"
         component={StudentNotificationScreen}
+      />
+      <Stack.Screen
+        name="Student Notifications Detail"
+        component={StudentNotificationDetailScreen}
       />
     </Stack.Navigator>
   );

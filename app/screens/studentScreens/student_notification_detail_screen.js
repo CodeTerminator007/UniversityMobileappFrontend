@@ -13,12 +13,14 @@ import Constants from "expo-constants";
 import Separator from "../../components/separator";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
-function StudentNotificationDetailScreen() {
+function StudentNotificationDetailScreen({ navigation, route }) {
+  const listings = route.params;
+  console.log(listings);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}></View>
       <View style={styles.textContainer}>
-        <Text style={styles.heading}>Heading</Text>
+        <Text style={styles.heading}>{listings.title}</Text>
         <View style={styles.dateContainer}>
           <Text style={styles.date}>12.1.22</Text>
         </View>

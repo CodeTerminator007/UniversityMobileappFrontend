@@ -8,6 +8,9 @@ import {
   AdminPostNotificationStackNavigator,
   AdminEditAttandanceStackNavigator,
   AdminMarkResultStackNavigator,
+  AdminCoursesStackNavigator,
+  AdminClassesStackNavigator,
+  AdminSubjectsStackNavigator,
 } from "./AdminStackNavigator";
 import AdminTabNavigator from "./AdminTabNavigator";
 import { AdminDrawerContent } from "./AdminDrawerContent";
@@ -37,6 +40,21 @@ const AdminDrawerNavigator = () => {
       <Drawer.Screen
         name="Add Student"
         component={AdminAddStudentStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="All Courses"
+        component={AdminCoursesStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="All Classes"
+        component={AdminClassesStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="All Subjects"
+        component={AdminSubjectsStackNavigator}
         options={{ headerShown: false }}
       />
       <Drawer.Screen

@@ -12,7 +12,7 @@ import ListItem from "../../components/ListItem";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-function StudentNotificationScreen() {
+function StudentNotificationScreen({ navigation }) {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -46,6 +46,11 @@ function StudentNotificationScreen() {
             title={item.title}
             description={item.detail}
             url={item.image}
+            onPress={() =>
+              navigation.navigate("Student Notifications Detail", {
+                ...item,
+              })
+            }
           />
         )}
       />

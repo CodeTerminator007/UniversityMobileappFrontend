@@ -81,6 +81,33 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
+              label="All Courses"
+              onPress={() => {
+                props.navigation.navigate("All Courses");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="account-plus-outline" color={color} size={size} />
+              )}
+              label="All Classes"
+              onPress={() => {
+                props.navigation.navigate("All Classes");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="account-plus-outline" color={color} size={size} />
+              )}
+              label="All Subjects"
+              onPress={() => {
+                props.navigation.navigate("All Subjects");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="account-plus-outline" color={color} size={size} />
+              )}
               label="Edit Attandance"
               onPress={() => {
                 props.navigation.navigate("Admin Edit Attandance");

@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import AdminDashboardScreen from "../../screens/adminScreens/admin_dashboard_screen";
@@ -10,6 +10,13 @@ import AddTeacherScreen from "../../screens/adminScreens/add_teacher_screen";
 import AdminPostNotificationScreen from "../../screens/adminScreens/admin_post_notification_screen";
 import AdminEditAttandanceScreen from "../../screens/adminScreens/admin_edit_attandance_screen";
 import AdminMarkResultScreen from "../../screens/adminScreens/admin_mark_result_screen";
+
+import AdminAllClassesScreen from "../../screens/adminScreens/all_classes_screen";
+import AddClassScreen from "../../screens/adminScreens/add_class_screen";
+import AllCoursesScreen from "../../screens/adminScreens/all_courses_screen";
+import AddCourseScreen from "../../screens/adminScreens/add_course_screen";
+import AllSubjectsScreen from "../../screens/adminScreens/all_subjects_screen";
+import AddSubjectScreen from "../../screens/adminScreens/add_subject_screen";
 
 const Stack = createStackNavigator();
 
@@ -98,6 +105,93 @@ const AdminMarkResultStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+const AdminCoursesStackNavigator = () => {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="All Courses"
+        component={AllCoursesScreen}
+        options={{
+          headerStyle: {
+            //padding: 20
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Add Course")}
+              style={{ marginLeft: 9, marginRight: 9 }}
+            >
+              <Ionicons name="ios-add-circle-outline" size={30} color="black" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Add Course"
+        component={AddCourseScreen}
+        //options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+const AdminClassesStackNavigator = () => {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="Admin All Classes"
+        component={AdminAllClassesScreen}
+        options={{
+          headerStyle: {
+            //padding: 20
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Add Class")}
+              style={{ marginLeft: 9, marginRight: 9 }}
+            >
+              <Ionicons name="ios-add-circle-outline" size={30} color="black" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Add Class"
+        component={AddClassScreen}
+        //options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+const AdminSubjectsStackNavigator = () => {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="All Subjects"
+        component={AllSubjectsScreen}
+        options={{
+          headerStyle: {
+            //padding: 20,
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Add Subject")}
+              style={{ marginLeft: 9, marginRight: 9 }}
+            >
+              <Ionicons name="ios-add-circle-outline" size={30} color="black" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Add Subject"
+        component={AddSubjectScreen}
+        //options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export {
   AdminHomeStackNavigator,
@@ -106,4 +200,7 @@ export {
   AdminPostNotificationStackNavigator,
   AdminEditAttandanceStackNavigator,
   AdminMarkResultStackNavigator,
+  AdminCoursesStackNavigator,
+  AdminClassesStackNavigator,
+  AdminSubjectsStackNavigator,
 };
