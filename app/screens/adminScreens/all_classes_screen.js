@@ -32,7 +32,7 @@ function AdminAllClassesScreen() {
       const g = d.map((item)=>{
         return ({
           id:item.id,
-          title:`${item.course_name} ${item.class_name} ${item.sec}`,
+          title:`${item.course_name} ${item.class_name} ${item.semaster} ${item.sec}`,
   
           })
       })
