@@ -27,7 +27,7 @@ function AllClassesScreen() {
       const d = response.data;
       const g = d.map((item)=>{
         return ({
-          id:item.id.toString(),
+          id:item.class_id.toString(),
           title:`${item.course_name} ${item.class_name} ${item.subject_name} `,
           })
       })
