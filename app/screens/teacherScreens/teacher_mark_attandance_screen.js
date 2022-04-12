@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View, Switch } from "react-native";
 import DatePickerr from "../../components/date_picker";
 
-function TeacherMarkAttandanceScreen() {
+function TeacherMarkAttandanceScreen({ route }) {
+  const paasedData = route.params;
+  console.log(paasedData);
+
   const data = [
     { name: "Ali", rollno: "11112", switch: false },
     { name: "Ahmed", rollno: "11113", switch: false },
