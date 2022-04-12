@@ -12,7 +12,35 @@ import {
 function AdminPostNotificationScreen() {
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
-  const handleSubmit = async (event) => {};
+  const state = useSelector((state) => state);
+
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const ID = stateData.userReducer.id;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const AuthStr = "Bearer ".concat(Token);
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    console.log(AuthStr);
+    axios
+      .post(
+        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/announcement/`,
+        {
+          title: title,
+          detail: detail,
+          Arthur: ID,
+        },
+        option
+      )
+      .then((res) => {
+        console.log("response ", res.data);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   return (
     <View style={styles.container}>
