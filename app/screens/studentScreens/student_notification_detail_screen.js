@@ -18,15 +18,14 @@ function StudentNotificationDetailScreen({ navigation, route }) {
   console.log(listings);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.image}></View>
+      <View style={styles.image}>{listings.image}</View>
       <View style={styles.textContainer}>
         <Text style={styles.heading}>{listings.title}</Text>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>12.1.22</Text>
+          <Text style={styles.date}>{listings.created_at}</Text>
         </View>
         <Text style={styles.detailText}>
-          Detail
-          ..........................................................................................................................................
+          {listings.detail}
         </Text>
       </View>
     </SafeAreaView>
