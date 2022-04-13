@@ -18,9 +18,6 @@ function StudentNotificationScreen({ navigation }) {
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState();
 
-  // const USER_TOKEN =
-  //   const AuthStr = "Bearer " + token;
-  console.log("stateData", Token);
 
   const AuthStr = "Bearer ".concat(Token);
   axios
@@ -29,7 +26,6 @@ function StudentNotificationScreen({ navigation }) {
     })
     .then((response) => {
       // If request is good...
-      console.log(response.data);
       setdata(response.data);
     })
     .catch((error) => {

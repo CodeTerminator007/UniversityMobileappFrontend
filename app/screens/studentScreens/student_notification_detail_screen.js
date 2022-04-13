@@ -14,8 +14,7 @@ import Separator from "../../components/separator";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 function StudentNotificationDetailScreen({ navigation, route }) {
-  const listings = route.params;
-  console.log(listings);
+  const listings = route.params;  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}>{listings.image}</View>
