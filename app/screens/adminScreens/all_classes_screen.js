@@ -8,23 +8,40 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const data = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "Class 1",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Class 2",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Class 3",
-  },
-];
+
+
 
 function AdminAllClassesScreen() {
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
+  
+  const AuthStr = "Bearer ".concat(Token);
+  axios
+    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Class/`, {
+      headers: { Authorization: AuthStr },
+    })
+    .then((response) => {
+      // If request is good...
+      const d = response.data;
+      // // console.log("this is data")
+      const g = d.map((item)=>{
+        return ({
+          id:item.id,
+          title:`${item.course_name} ${item.class_name} ${item.semaster} ${item.sec}`,
+  
+          })
+      })
+      setdata(g)
+    })
+  
+    .catch((error) => {
+      console.log("error " + error);
+    });  
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

@@ -32,7 +32,7 @@ function TeacherEditTimetableScreen() {
     }
     console.log(AuthStr)
     axios
-      .post(`https://c673-121-52-152-106.ngrok.io/Timetable/`, {
+      .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Timetable/`, {
           sub: subject,
           subhoursstart: subjectHourStart,
           subhoursend: subjectHourEnd,
