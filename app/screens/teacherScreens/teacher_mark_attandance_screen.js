@@ -20,34 +20,61 @@ function TeacherMarkAttandanceScreen({ route }) {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
+  const [attandanceID, setattandanceID] = useState(null);
+
+  const [attandance_data, set_attandance_data] = useState(null);
+
   const [isFetching, setIssFethin] = useState(false);
 
-  // const AttandanceReport = (event) => {
-  //   event.preventDefault();
-  //   const option = {
-  //     headers: { Authorization: AuthStr },
-  //   }
-  //   console.log(AuthStr)
-  //   axios
-  //     .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/`, {
-  //       attendance_date: subject,
-  //       subject_id: subjectHourStart,
-  //       class_id: subjectHourEnd,
-  //       },
-  //       option
-  //       )
-  //     .then((res) => {
-  //       console.log("attandance created")
-  //       console.log(res.data)
-  //     })
-  //     .catch((err) => {
-  //       console.log("error", err);
-  //     });
-  // };
-  
-  const handleSubmit = () => {
-    console.log(date)
-    // AttandanceReport()
+  const AttandanceReport = () => {
+    const option = {
+      headers: { Authorization: AuthStr },
+    }
+    axios
+      .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/`, {
+        attendance_date: date,
+        subject_id: paasedData.subject_id,
+        class_id: paasedData.id,
+        },
+        option
+        )
+      .then((res) => {
+        setattandanceID(res.data.id)
+
+        const s = data.map((item) => {
+              return {
+                status: item.switch,
+                student_id: item.id,
+                attendance_id: res.data.id,
+                subject_id: paasedData.subject_id
+              };
+            });
+            set_attandance_data(s);
+
+            axios
+            .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/BulkAttendance/`, 
+            s,
+              option
+              )
+            .then((res2) => {
+            })
+            .catch((err2) => {
+              console.log("error", err2);
+            });
+        
+        
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
+
+
+
+
+  const handleSubmit = async () => {
+    AttandanceReport()
   };
 
   const AuthStr = "Bearer ".concat(Token);
@@ -62,11 +89,13 @@ function TeacherMarkAttandanceScreen({ route }) {
       .then((response) => {
         setIssFethin(true);
         const d = response.data;
+        console.log(d)
         const g = d.map((item) => {
           return {
             name: item.username,
             rollno: item.roll_num.toString(),
             switch: false,
+            id:item.user.toString(),
           };
         });
         setdata(g);
