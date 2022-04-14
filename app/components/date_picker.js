@@ -44,7 +44,7 @@ export default DatePickerr;
 const styles = StyleSheet.create({
   container: {
     //flex: 1,
-    paddingTop: 30,
+    paddingTop: 10,
     paddingBottom: 10,
     justifyContent: "center",
     alignItems: "center",

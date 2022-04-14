@@ -1,9 +1,16 @@
-import React, { useState ,useEffect} from "react";
-import { FlatList, StyleSheet, Text, View, Switch } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Switch,
+  TouchableOpacity,
+} from "react-native";
 import DatePickerr from "../../components/date_picker";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import _ from 'lodash';
+import _ from "lodash";
 
 function TeacherMarkAttandanceScreen({ route }) {
   const paasedData = route.params;
@@ -13,47 +20,47 @@ function TeacherMarkAttandanceScreen({ route }) {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
-const [isFetching,setIssFethin]=useState(false)
+  const [isFetching, setIssFethin] = useState(false);
+
+  const handleSubmit = () => {};
 
   const AuthStr = "Bearer ".concat(Token);
-  const getStudents =()=>{
+  const getStudents = () => {
     axios
-    .get(
-      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/student/${paasedData.id}`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      setIssFethin(true)
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          name: item.username,
-          rollno: item.roll_num.toString(),
-          switch : false,
-        };
+      .get(
+        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/student/${paasedData.id}`,
+        {
+          headers: { Authorization: AuthStr },
+        }
+      )
+      .then((response) => {
+        setIssFethin(true);
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            name: item.username,
+            rollno: item.roll_num.toString(),
+            switch: false,
+          };
+        });
+        setdata(g);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
       });
-      setdata(g);
-
-    })
-
-    .catch((error) => {
-      console.log("error " + error);
-    });  
-  }
+  };
 
   const setSwitchValue = (val, ind) => {
     const tempData = _.cloneDeep(data);
     tempData[ind].switch = val;
-    setdata(tempData)
+    setdata(tempData);
   };
-useEffect(()=>{
-  if(!isFetching){
-    getStudents()
-  }
-
-},[isFetching])
+  useEffect(() => {
+    if (!isFetching) {
+      getStudents();
+    }
+  }, [isFetching]);
   const listItem = ({ item, index }) => (
     <View
       style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}
@@ -68,14 +75,28 @@ useEffect(()=>{
   );
 
   return (
-    <>
+    <View style={styles.container}>
       <DatePickerr />
+      <View
+        style={{
+          //flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={styles.itemHeader}>NAME</Text>
+        <Text style={styles.itemHeader}>ROLL NO</Text>
+        <Text style={styles.itemHeader}></Text>
+      </View>
       <FlatList
         data={data}
         keyExtractor={(data) => data.rollno.toString()}
         renderItem={listItem}
       />
-    </>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.loginText}>Mark Attandance</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -88,6 +109,26 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44,
+  },
+  itemHeader: {
+    padding: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    height: 44,
+  },
+  button: {
+    width: "80%",
+    backgroundColor: "#185079",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 10,
+    alignSelf: "center",
+  },
+  loginText: {
+    color: "white",
   },
 });
 
