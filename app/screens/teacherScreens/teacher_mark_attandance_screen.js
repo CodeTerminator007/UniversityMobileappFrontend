@@ -14,7 +14,7 @@ import _ from "lodash";
 
 function TeacherMarkAttandanceScreen({ route }) {
   const paasedData = route.params;
-  console.log(paasedData);
+  const [date, setDate] = useState("2022-01-01");
 
   const state = useSelector((state) => state);
   const stateData = { ...state };
@@ -22,7 +22,33 @@ function TeacherMarkAttandanceScreen({ route }) {
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
 
-  const handleSubmit = () => {};
+  // const AttandanceReport = (event) => {
+  //   event.preventDefault();
+  //   const option = {
+  //     headers: { Authorization: AuthStr },
+  //   }
+  //   console.log(AuthStr)
+  //   axios
+  //     .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/`, {
+  //       attendance_date: subject,
+  //       subject_id: subjectHourStart,
+  //       class_id: subjectHourEnd,
+  //       },
+  //       option
+  //       )
+  //     .then((res) => {
+  //       console.log("attandance created")
+  //       console.log(res.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log("error", err);
+  //     });
+  // };
+  
+  const handleSubmit = () => {
+    console.log(date)
+    // AttandanceReport()
+  };
 
   const AuthStr = "Bearer ".concat(Token);
   const getStudents = () => {
@@ -76,7 +102,7 @@ function TeacherMarkAttandanceScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <DatePickerr />
+      <DatePickerr date={date} setDate = {setDate} />
       <View
         style={{
           //flex: 1,
