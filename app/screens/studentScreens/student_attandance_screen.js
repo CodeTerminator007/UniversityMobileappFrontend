@@ -141,7 +141,6 @@ function StudentAttandanceScreen() {
         <DataTable.Header>
           <DataTable.Title>CourseName</DataTable.Title>
           <DataTable.Title>TeacherName</DataTable.Title>
-          <DataTable.Title numeric>CrHrs</DataTable.Title>
           <DataTable.Title numeric>Lectures</DataTable.Title>
           <DataTable.Title numeric>Presents</DataTable.Title>
           <DataTable.Title numeric>Absents</DataTable.Title>
@@ -154,7 +153,6 @@ function StudentAttandanceScreen() {
             <DataTable.Row>
               <DataTable.Cell>{item.CourseName}</DataTable.Cell>
               <DataTable.Cell>{item.TeacherName}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.CrHrs}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Lectures}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Present}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Absents}</DataTable.Cell>
@@ -171,7 +169,6 @@ function StudentAttandanceScreen() {
             <DataTable.Row>
               <DataTable.Cell>{item.CourseName}</DataTable.Cell>
               <DataTable.Cell>{item.TeacherName}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.CrHrs}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Lectures}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Present}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Absents}</DataTable.Cell>
@@ -188,10 +185,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    //marginTop: 70,
+    marginTop: 10,
     //padding: 5,
     //alignItems: "center",
     //justifyContent: "center",
+    alignSelf: "center",
   },
 });
 
