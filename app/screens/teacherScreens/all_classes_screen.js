@@ -31,6 +31,7 @@ function AllClassesScreen({ navigation }) {
       const g = d.map((item) => {
         return {
           id: item.class_id.toString(),
+          subject_id : item.id,
           title: `${item.course_name} ${item.class_name} ${item.class_semaster} Section ${item.class_sec} ${item.subject_name} `,
         };
       });

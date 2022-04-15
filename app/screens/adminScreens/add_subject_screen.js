@@ -13,10 +13,91 @@ import {
 } from "react-native";
 
 function AddSubjectScreen() {
-  const [subjectname, setSubjectname] = useState(null);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
+const [isFetchingcourse,setIssFethincourse]=useState(false)
+// const [isFetchingstaff,setIssFethinstaff]=useState(false)
 
-  const [courseopen, setCourseopen] = useState(false);
-  const [course, setCourse] = useState(null);
+const [subjectname, setSubjectname] = useState(null);
+
+const [courseopen, setCourseopen] = useState(false);
+const [course, setCourse] = useState(null);
+
+const [staffopen, setStaffopen] = useState(false);
+const [staff, setStaff] = useState(null);
+
+  const AuthStr = "Bearer ".concat(Token);
+  const getCourses =()=>{
+    axios
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      setIssFethincourse(true)
+      const d = response.data;
+      const g = d.map((item) => {
+        return {
+          label: item.course_name,
+          value: item.id.toString(),
+        };
+      });
+      setdata(g);
+
+    })
+
+    .catch((error) => {
+      console.log("error " + error);
+    });  
+  }
+//   const getStaff =()=>{
+//     axios
+//     .get(
+//       `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/
+// `,
+//       {
+//         headers: { Authorization: AuthStr },
+//       }
+//     )
+//     .then((response) => {
+//       setIssFethincourse(true)
+//       const d = response.data;
+//       const g = d.map((item) => {
+//         return {
+//           label: item.course_name,
+//           value: item.id.toString(),
+//         };
+//       });
+//       setdata(g);
+
+//     })
+
+//     .catch((error) => {
+//       console.log("error " + error);
+//     });  
+//   }
+
+  
+  
+  useEffect(()=>{
+    if(!isFetchingcourse){
+      getCourses()
+
+    }
+  
+  },[isFetchingcourse])
+
+  const [stafflist, setStafflist] = useState([
+    { label: "Staff 1", value: "a" },
+    { label: "Staff 2", value: "b" },
+    { label: "Staff 3", value: "c" },
+    { label: "Staff 4", value: "d" },
+  ]);
+
   const [courseslist, setCourselist] = useState([
     { label: "Course 1", value: "a" },
     { label: "Course 2", value: "b" },
@@ -24,14 +105,6 @@ function AddSubjectScreen() {
     { label: "Course 4", value: "d" },
   ]);
 
-  const [staffopen, setStaffopen] = useState(false);
-  const [staff, setStaff] = useState(null);
-  const [stafflist, setStafflist] = useState([
-    { label: "Staff 1", value: "a" },
-    { label: "Staff 2", value: "b" },
-    { label: "Staff 3", value: "c" },
-    { label: "Staff 4", value: "d" },
-  ]);
 
   const [classopen, setClassopen] = useState(false);
   const [classs, setClasss] = useState(null);
@@ -69,12 +142,13 @@ function AddSubjectScreen() {
           onChangeText={setSubjectname}
         />
       </View>
+      {data &&
       <DropDownPicker
         placeholder="Select Course"
         open={courseopen}
         onOpen={onCourseOpen}
         value={course}
-        items={courseslist}
+        items={data}
         setOpen={setCourseopen}
         setValue={setCourse}
         setItems={setCourselist}
@@ -94,7 +168,7 @@ function AddSubjectScreen() {
           color: "#003f5c",
           marginLeft: 10,
         }}
-      />
+      />}
       <DropDownPicker
         placeholder="Select Staff"
         open={staffopen}

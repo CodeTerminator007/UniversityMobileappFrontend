@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DatePicker from "react-native-datepicker";
 
-const DatePickerr = () => {
-  const [date, setDate] = useState("09-10-2020");
+const DatePickerr = ({date,setDate}) => {
 
   return (
     <SafeAreaView style={styles.container}>
@@ -13,9 +12,9 @@ const DatePickerr = () => {
           date={date} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
-          format="DD-MM-YYYY"
-          minDate="01-01-2016"
-          maxDate="01-01-2023"
+          format="YYYY-MM-DD"
+          minDate="2022-01-01"
+          maxDate="2024-01-01"
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
           customStyles={{
