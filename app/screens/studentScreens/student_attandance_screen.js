@@ -11,171 +11,81 @@ import {
   FlatList,
 } from "react-native";
 import { DataTable } from "react-native-paper";
+import { useSelector } from "react-redux";
+
 import { DrawerItemList } from "@react-navigation/drawer";
-const Headerdata = [
-  {
-    CourseName: "CourseName",
-    TeacherName: "TeacherName",
-    CrHrs: "CrHrs",
-    Lectures: "Lectures",
-    Present: "Present",
-    Absents: "Absents",
-    Percent: "Percent",
-  },
-];
-const data = [
-  {
-    CourseName: "Englsihkkkk",
-    TeacherName: "Ali",
-    CrHrs: 4,
-    Lectures: 5,
-    Present: 4,
-    Absents: 1,
-    Percent: 23,
-  },
-  {
-    CourseName: "Urde",
-    TeacherName: "Ahmed",
-    CrHrs: 3,
-    Lectures: 25,
-    Present: 45,
-    Absents: 13,
-    Percent: 223,
-  },
-  {
-    CourseName: "Englsih3",
-    TeacherName: "Ali",
-    CrHrs: 4,
-    Lectures: 5,
-    Present: 4,
-    Absents: 1,
-    Percent: 23,
-  },
-  {
-    CourseName: "Urde3",
-    TeacherName: "Ahmed",
-    CrHrs: 3,
-    Lectures: 25,
-    Present: 45,
-    Absents: 13,
-    Percent: 223,
-  },
-  {
-    CourseName: "Englsih2",
-    TeacherName: "Ali",
-    CrHrs: 4,
-    Lectures: 5,
-    Present: 4,
-    Absents: 1,
-    Percent: 23,
-  },
-  {
-    CourseName: "Urde2",
-    TeacherName: "Ahmed",
-    CrHrs: 3,
-    Lectures: 25,
-    Present: 45,
-    Absents: 13,
-    Percent: 223,
-  },
-  {
-    CourseName: "Englsih1",
-    TeacherName: "Ali",
-    CrHrs: 4,
-    Lectures: 5,
-    Present: 4,
-    Absents: 1,
-    Percent: 23,
-  },
-  {
-    CourseName: "Urde1",
-    TeacherName: "Ahmed",
-    CrHrs: 3,
-    Lectures: 25,
-    Present: 45,
-    Absents: 13,
-    Percent: 223,
-  },
-  {
-    CourseName: "Englsih4",
-    TeacherName: "Ali",
-    CrHrs: 4,
-    Lectures: 5,
-    Present: 4,
-    Absents: 1,
-    Percent: 23,
-  },
-  {
-    CourseName: "Urde4",
-    TeacherName: "Ahmed",
-    CrHrs: 3,
-    Lectures: 25,
-    Present: 45,
-    Absents: 13,
-    Percent: 223,
-  },
-  {
-    CourseName: "Englsih5",
-    TeacherName: "Ali",
-    CrHrs: 4,
-    Lectures: 5,
-    Present: 4,
-    Absents: 1,
-    Percent: 23,
-  },
-  {
-    CourseName: "Urde5",
-    TeacherName: "Ahmed",
-    CrHrs: 3,
-    Lectures: 25,
-    Present: 45,
-    Absents: 13,
-    Percent: 223,
-  },
-];
+
 
 function StudentAttandanceScreen() {
+const [attandance_data, set_attandance_data] = useState(null);
+const state = useSelector((state) => state);
+const stateData = { ...state };
+const Token = stateData.userReducer.token;
+const AuthStr = "Bearer ".concat(Token);
+const [isFetching, setIssFethin] = useState(false);
+const ID = stateData.userReducer.id;
+
+
+
+if (!isFetching){
+useEffect(() => {
+    axios
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/${ID}/student_attendance_report/`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      const data1 = response.data;
+      console.log(data1)
+      set_attandance_data(data1)
+    .catch((error) => {
+      console.log("error " + error);
+    });
+  })
+
+}, [isFetching]);
+}
+
   return (
     <ScrollView horizontal={true} style={styles.container}>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>CourseName</DataTable.Title>
           <DataTable.Title>TeacherName</DataTable.Title>
-          <DataTable.Title numeric>CrHrs</DataTable.Title>
           <DataTable.Title numeric>Lectures</DataTable.Title>
           <DataTable.Title numeric>Presents</DataTable.Title>
           <DataTable.Title numeric>Absents</DataTable.Title>
           <DataTable.Title numeric>Percent</DataTable.Title>
         </DataTable.Header>
         <FlatList
-          data={data}
+          data={attandance_data}
           keyExtractor={(data) => data.CourseName.toString()}
           renderItem={({ item }) => (
             <DataTable.Row>
               <DataTable.Cell>{item.CourseName}</DataTable.Cell>
               <DataTable.Cell>{item.TeacherName}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.CrHrs}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Lectures}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Present}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Absents}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Percent}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.total_present}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.total_absent}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.Percentage}</DataTable.Cell>
             </DataTable.Row>
           )}
         />
       </DataTable>
       <FlatList
-        data={data}
+        data={attandance_data}
         keyExtractor={(data) => data.CourseName.toString()}
         renderItem={({ item }) => (
           <DataTable>
             <DataTable.Row>
               <DataTable.Cell>{item.CourseName}</DataTable.Cell>
               <DataTable.Cell>{item.TeacherName}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.CrHrs}</DataTable.Cell>
               <DataTable.Cell numeric>{item.Lectures}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Present}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Absents}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Percent}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.total_present}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.total_absent}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.Percentage}</DataTable.Cell>
             </DataTable.Row>
           </DataTable>
         )}
@@ -188,10 +98,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    //marginTop: 70,
+    marginTop: 10,
     //padding: 5,
     //alignItems: "center",
     //justifyContent: "center",
+    alignSelf: "center",
   },
 });
 
