@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import DropDownPicker from "react-native-dropdown-picker";
+import { Alert } from 'react-native';
+
 import {
   StyleSheet,
   Text,
@@ -13,91 +15,11 @@ import {
 } from "react-native";
 
 function AddSubjectScreen() {
-  const state = useSelector((state) => state);
-  const stateData = { ...state };
-  const Token = stateData.userReducer.token;
-  const [data, setdata] = useState(null);
-const [isFetchingcourse,setIssFethincourse]=useState(false)
-// const [isFetchingstaff,setIssFethinstaff]=useState(false)
 
-const [subjectname, setSubjectname] = useState(null);
+  const [subjectname, setSubjectname] = useState(null);
 
-const [courseopen, setCourseopen] = useState(false);
-const [course, setCourse] = useState(null);
-
-const [staffopen, setStaffopen] = useState(false);
-const [staff, setStaff] = useState(null);
-
-  const AuthStr = "Bearer ".concat(Token);
-  const getCourses =()=>{
-    axios
-    .get(
-      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      setIssFethincourse(true)
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          label: item.course_name,
-          value: item.id.toString(),
-        };
-      });
-      setdata(g);
-
-    })
-
-    .catch((error) => {
-      console.log("error " + error);
-    });  
-  }
-//   const getStaff =()=>{
-//     axios
-//     .get(
-//       `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/
-// `,
-//       {
-//         headers: { Authorization: AuthStr },
-//       }
-//     )
-//     .then((response) => {
-//       setIssFethincourse(true)
-//       const d = response.data;
-//       const g = d.map((item) => {
-//         return {
-//           label: item.course_name,
-//           value: item.id.toString(),
-//         };
-//       });
-//       setdata(g);
-
-//     })
-
-//     .catch((error) => {
-//       console.log("error " + error);
-//     });  
-//   }
-
-  
-  
-  useEffect(()=>{
-    if(!isFetchingcourse){
-      getCourses()
-
-    }
-  
-  },[isFetchingcourse])
-
-  const [stafflist, setStafflist] = useState([
-    { label: "Staff 1", value: "a" },
-    { label: "Staff 2", value: "b" },
-    { label: "Staff 3", value: "c" },
-    { label: "Staff 4", value: "d" },
-  ]);
-
+  const [courseopen, setCourseopen] = useState(false);
+  const [course, setCourse] = useState(null);
   const [courseslist, setCourselist] = useState([
     { label: "Course 1", value: "a" },
     { label: "Course 2", value: "b" },
@@ -105,6 +27,14 @@ const [staff, setStaff] = useState(null);
     { label: "Course 4", value: "d" },
   ]);
 
+  const [staffopen, setStaffopen] = useState(false);
+  const [staff, setStaff] = useState(null);
+  const [stafflist, setStafflist] = useState([
+    { label: "Staff 1", value: "a" },
+    { label: "Staff 2", value: "b" },
+    { label: "Staff 3", value: "c" },
+    { label: "Staff 4", value: "d" },
+  ]);
 
   const [classopen, setClassopen] = useState(false);
   const [classs, setClasss] = useState(null);
@@ -130,7 +60,130 @@ const [staff, setStaff] = useState(null);
     setStaffopen(false);
   }, []);
 
-  const handleSubmit = () => {};
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
+  const [isFetchingcourse,setIssFethincourse]=useState(false)
+  const [isFetchingstaff,setIssFethinstaff]=useState(false)
+  const [isFetchingclasses,setisFetchingclasses]=useState(false)
+
+  const AuthStr = "Bearer ".concat(Token);
+  const getCourses =()=>{
+    axios
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      setIssFethincourse(false)
+      const d = response.data;
+      const g = d.map((item) => {
+        return {
+          label: item.course_name,
+          value: item.id.toString(),
+        };
+      });
+      setdata(g);
+      setCourselist(g)
+    })
+
+    .catch((error) => {
+      console.log("error " + error);
+    });  
+  }
+  const getstaff =()=>{
+    axios
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      setIssFethinstaff(false)
+      const e = response.data;
+      const f = e.map((item) => {
+        return {
+          label: item.username,
+          value: item.user.toString(),
+        };
+      });
+      setStafflist(f)
+    })
+
+    .catch((error) => {
+      console.log("error " + error);
+    });  
+  }
+  const getclasses =()=>{
+    axios
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Class/`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      setisFetchingclasses(false)
+      const l = response.data;
+      const s = l.map((item) => {
+        return {
+          label: `${item.class_name} ${item.semaster} sec ${item.sec}`,
+          value: item.id.toString(),
+        };
+      });
+      setClasslist(s)
+    })
+
+    .catch((error) => {
+      console.log("error " + error);
+    });  
+  }
+
+
+  useEffect(()=>{
+    if(!isFetchingcourse){
+      getCourses()
+    }
+    if(!isFetchingstaff){
+      getstaff()
+    }
+    if(!isFetchingclasses){
+      getclasses()
+    }
+  
+  },[isFetchingcourse,isFetchingstaff,isFetchingclasses])
+
+
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    axios
+      .post(
+        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Subject/`,
+        {
+          subject_name: subjectname,
+          course_id:course ,
+          staff_id: staff,
+          class_id:classs ,
+        },
+        option
+      )
+      .then((res) => {
+        if(res.status==201){
+          Alert.alert("Subject","The Subject has been created.")
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Add Subject</Text>
@@ -142,13 +195,12 @@ const [staff, setStaff] = useState(null);
           onChangeText={setSubjectname}
         />
       </View>
-      {data &&
       <DropDownPicker
         placeholder="Select Course"
         open={courseopen}
         onOpen={onCourseOpen}
         value={course}
-        items={data}
+        items={courseslist}
         setOpen={setCourseopen}
         setValue={setCourse}
         setItems={setCourselist}
@@ -168,7 +220,7 @@ const [staff, setStaff] = useState(null);
           color: "#003f5c",
           marginLeft: 10,
         }}
-      />}
+      />
       <DropDownPicker
         placeholder="Select Staff"
         open={staffopen}
