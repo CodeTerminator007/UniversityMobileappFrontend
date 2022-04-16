@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Alert } from 'react-native';
+
 import axios from "axios";
 import {
   StyleSheet,
@@ -36,9 +38,14 @@ function AdminPostNotificationScreen() {
         option
       )
       .then((res) => {
-        console.log("response ", res.data);
+        if(res.status==201){
+          Alert.alert("Notification","The Notification has been Posted.")
+        }
       })
       .catch((err) => {
+        if(err=400){
+          Alert.alert("Error","Empty Fields fill all the fields")
+        }
         console.log("error", err);
       });
   };

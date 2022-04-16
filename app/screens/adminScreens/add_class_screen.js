@@ -90,7 +90,10 @@ function AddClassScreen() {
         }
       })
       .catch((err) => {
-        console.log("error", err);
+        if(err=400){
+        Alert.alert("Error","Empty Fields fill all the fields")
+      }
+      console.log("error", err);
       });
 
 

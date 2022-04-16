@@ -180,6 +180,9 @@ function AddSubjectScreen() {
         }
       })
       .catch((err) => {
+        if(err=400){
+          Alert.alert("Error","Empty Fields fill all the fields")
+        }
         console.log("error", err);
       });
 

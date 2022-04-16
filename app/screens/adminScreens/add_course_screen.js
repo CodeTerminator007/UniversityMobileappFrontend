@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect  } from "react";
-import { BackHandler,Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -40,6 +40,9 @@ function AddCourseScreen() {
         }
       })
       .catch((err) => {
+        if(err=400){
+          Alert.alert("Error","Empty Fields fill all the fields")
+        }
         console.log("error", err);
       });
   };
