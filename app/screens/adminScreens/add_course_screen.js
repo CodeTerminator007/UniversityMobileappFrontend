@@ -1,6 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect  } from "react";
+import { BackHandler,Alert } from 'react-native';
 import { useSelector } from "react-redux";
 import axios from "axios";
+
 import {
   StyleSheet,
   Text,
@@ -13,8 +15,34 @@ import {
 
 function AddCourseScreen() {
   const [coursename, setCoursename] = useState(null);
+  const state = useSelector((state) => state);
 
-  const handleSubmit = () => {};
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const ID = stateData.userReducer.id;
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    const AuthStr = "Bearer ".concat(Token);
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    axios
+      .post(
+        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course/`,
+        {
+          course_name: coursename,
+        },
+        option
+      )
+      .then((res) => {
+        if(res.status==201){
+          Alert.alert("Course","The Course has been created.")
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Add Course</Text>
