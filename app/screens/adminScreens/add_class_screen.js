@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Alert } from 'react-native';
+
 import DropDownPicker from "react-native-dropdown-picker";
 import {
   StyleSheet,
@@ -24,8 +26,75 @@ function AddClassScreen() {
     { label: "C", value: "c" },
     { label: "D", value: "d" },
   ]);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
+  const [isFetchingcourse,setIssFethincourse]=useState(false)
+// const [isFetchingstaff,setIssFethinstaff]=useState(false)
 
-  const handleSubmit = () => {};
+
+
+  const AuthStr = "Bearer ".concat(Token);
+  const getCourses =()=>{
+    axios
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      setIssFethincourse(false)
+      const d = response.data;
+      const g = d.map((item) => {
+        return {
+          label: item.course_name,
+          value: item.id.toString(),
+        };
+      });
+      setdata(g);
+      setCourselist(g)
+    })
+
+    .catch((error) => {
+      console.log("error " + error);
+    });  
+  }
+  useEffect(()=>{
+    if(!isFetchingcourse){
+      getCourses()
+    }
+  
+  },[isFetchingcourse])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    axios
+      .post(
+        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Class/`,
+        {
+          class_name: classname,
+          sec:classsection ,
+          semaster: semester,
+          course_id:course ,
+        },
+        option
+      )
+      .then((res) => {
+        if(res.status==201){
+          Alert.alert("Class","The Class has been created.")
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+
+
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Add Class</Text>
