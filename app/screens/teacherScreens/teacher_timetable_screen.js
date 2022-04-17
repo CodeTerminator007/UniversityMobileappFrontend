@@ -25,7 +25,7 @@ function TeacherTimetableScreen() {
       const g = d.map((item)=>{
         return ({
           day:item.day,
-          location:item.room.toString(),
+          location:`Room: ${item.room.toString()}`,
           endTime: item.subhoursend.toString(),
           startTime: item.subhoursstart.toString(),
           // section: item.id.toString(),
