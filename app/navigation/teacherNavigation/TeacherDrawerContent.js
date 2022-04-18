@@ -20,7 +20,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 export function TeacherDrawerContent(props) {
   const state = useSelector((state) => state);
   const stateData = { ...state };
-  const profile_image = `http://127.0.0.1:8000${stateData.userReducer.profile_image}`;
+  const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
   const name = stateData.userReducer.userData.username;
   const paperTheme = useTheme();
 
@@ -34,7 +34,7 @@ export function TeacherDrawerContent(props) {
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
                 source={{
-                  uri: "https://bootdey.com/img/Content/avatar/avatar7.png",
+                  uri: profile_image,
                 }}
                 size={50}
               />

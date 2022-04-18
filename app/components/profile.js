@@ -6,14 +6,14 @@ import { useSelector } from "react-redux";
 function Profile() {
   const state = useSelector((state) => state);
   const stateData = { ...state };
-  const profile_image = `http://127.0.0.1:8000${stateData.userReducer.profile_image}`;
+  const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
   const name = stateData.userReducer.userData.username;
   
   
   console.log(stateData.userReducer.userData)
   return (
     <View style={styles.container}>
-        <Image style={styles.image} source={{uri:"https://bootdey.com/img/Content/avatar/avatar7.png"}}/>
+        <Image style={styles.image} source={{uri:profile_image}}/>
         <Text style={styles.text}>{stateData.userReducer.userData.first_name} {stateData.userReducer.userData.last_name}</Text>
         <Text style={styles.text}>{stateData.userReducer.userData.email}</Text>
         <Text style={styles.text}>{stateData.userReducer.userData.last_education_degree}</Text>
