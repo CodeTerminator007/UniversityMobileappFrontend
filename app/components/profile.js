@@ -1,15 +1,22 @@
-import React from "react";
 import { View, StyleSheet, Image, TouchableHighlight, Text } from "react-native";
 //import { MaterialCommunityIcons } from "@expo/vector-icons";
 //import Swipeable from "react-native-gesture-handler/Swipeable";
-
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 function Profile() {
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const profile_image = `http://127.0.0.1:8000${stateData.userReducer.profile_image}`;
+  const name = stateData.userReducer.userData.username;
+  
+  
+  console.log(stateData.userReducer.userData)
   return (
     <View style={styles.container}>
         <Image style={styles.image} source={{uri:"https://bootdey.com/img/Content/avatar/avatar7.png"}}/>
-        <Text style={styles.text}>Ali</Text>
-        <Text style={styles.text}>10545</Text>
-        <Text style={styles.text}>BS Computer Science</Text>
+        <Text style={styles.text}>{stateData.userReducer.userData.first_name} {stateData.userReducer.userData.last_name}</Text>
+        <Text style={styles.text}>{stateData.userReducer.userData.email}</Text>
+        <Text style={styles.text}>{stateData.userReducer.userData.last_education_degree}</Text>
     </View>
     );
 }

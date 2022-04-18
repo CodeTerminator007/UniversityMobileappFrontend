@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { View, StyleSheet } from "react-native";
 import {
   useTheme,
@@ -17,6 +18,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // import { AuthContext } from "../context/Context";
 
 export function StudentDrawerContent(props) {
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const profile_image = `http://127.0.0.1:8000${stateData.userReducer.profile_image}`;
+  const name = stateData.userReducer.userData.username;  
   const paperTheme = useTheme();
 
   // const { signOut } = React.useContext(AuthContext);
@@ -34,8 +39,8 @@ export function StudentDrawerContent(props) {
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Ali</Title>
-                <Caption style={styles.caption}>abc@gmail.com</Caption>
+                <Title style={styles.title}>{`${stateData.userReducer.userData.first_name} ${stateData.userReducer.userData.last_name}`}</Title>
+                <Caption style={styles.caption}>{stateData.userReducer.userData.email}</Caption>
               </View>
             </View>
           </View>

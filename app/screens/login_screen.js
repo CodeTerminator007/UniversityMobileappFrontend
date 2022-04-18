@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { setToken, setName, setUserData, setId } from "../redux/actions";
+import { setToken, setName, setUserData, setId ,setProfile_image} from "../redux/actions";
 import { useNavigation } from "@react-navigation/native";
 
 export default loginScreen = () => {
@@ -35,10 +35,13 @@ export default loginScreen = () => {
         }
       )
       .then((res) => {
-        console.log("response ", res.data);
         dispatch(setUserData(res.data.user));
         dispatch(setId(res.data.user.id));
         dispatch(setToken(res.data.jwt.access));
+        dispatch(setProfile_image(res.data.user.profile_image));
+
+        console.log("response ", res.data);
+        
         const userData = res.data.user;
         const { is_admin, is_faculty, is_student } = userData;
 

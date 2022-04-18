@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   View,
@@ -13,6 +14,11 @@ import Constants from "expo-constants";
 import Separator from "../../components/separator";
 
 function StudentProfileScreen() {
+
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const profile_image = `http://127.0.0.1:8000${stateData.userReducer.profile_image}`;
+  const name = stateData.userReducer.userData.username;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.profileStyle}>
@@ -20,7 +26,7 @@ function StudentProfileScreen() {
           style={styles.image}
           source={{ uri: "https://bootdey.com/img/Content/avatar/avatar7.png" }}
         ></Image>
-        <Text style={styles.namestyle}>Student</Text>
+        <Text style={styles.namestyle}>{stateData.userReducer.userData.first_name} {stateData.userReducer.userData.last_name}</Text>
       </View>
 
       <Separator />
@@ -33,8 +39,8 @@ function StudentProfileScreen() {
           <Ionicons name="location-outline" size={24} color="grey" />
         </View>
         <View style={styles.LocationEmailTextContainer}>
-          <Text style={styles.LocationEmailHeading}>Roll No:</Text>
-          <Text style={styles.detailText}>0000</Text>
+          <Text style={styles.LocationEmailHeading}>CNIC:</Text>
+          <Text style={styles.detailText}>{stateData.userReducer.userData.cnic}</Text>
         </View>
       </View>
       <Separator />
@@ -44,10 +50,50 @@ function StudentProfileScreen() {
         </View>
         <View style={styles.LocationEmailTextContainer}>
           <Text style={styles.LocationEmailHeading}>Email</Text>
-          <Text style={styles.detailText}>abc@gmail.com</Text>
+          <Text style={styles.detailText}>{stateData.userReducer.userData.email}</Text>
         </View>
       </View>
       <Separator />
+      <View style={styles.LocationEmailContainer}>
+        <View style={styles.icon}>
+          <Fontisto name="email" size={24} color="grey" />
+        </View>
+        <View style={styles.LocationEmailTextContainer}>
+          <Text style={styles.LocationEmailHeading}>Gender</Text>
+          <Text style={styles.detailText}>{stateData.userReducer.userData.gender}</Text>
+        </View>
+      </View>
+      <Separator />
+      <View style={styles.LocationEmailContainer}>
+        <View style={styles.icon}>
+          <Fontisto name="email" size={24} color="grey" />
+        </View>
+        <View style={styles.LocationEmailTextContainer}>
+          <Text style={styles.LocationEmailHeading}>Username</Text>
+          <Text style={styles.detailText}>{stateData.userReducer.userData.username}</Text>
+        </View>
+      </View>
+      <Separator />     
+      <View style={styles.LocationEmailContainer}>
+        <View style={styles.icon}>
+          <Fontisto name="email" size={24} color="grey" />
+        </View>
+        <View style={styles.LocationEmailTextContainer}>
+          <Text style={styles.LocationEmailHeading}>Contact Number</Text>
+          <Text style={styles.detailText}>{stateData.userReducer.userData.phone_number1}</Text>
+        </View>
+      </View>
+      <Separator /> 
+      <View style={styles.LocationEmailContainer}>
+        <View style={styles.icon}>
+          <Fontisto name="email" size={24} color="grey" />
+        </View>
+        <View style={styles.LocationEmailTextContainer}>
+          <Text style={styles.LocationEmailHeading}>Date of Birth</Text>
+          <Text style={styles.detailText}>{stateData.userReducer.userData.Dob}</Text>
+        </View>
+      </View>
+      <Separator />      
     </SafeAreaView>
   );
 }

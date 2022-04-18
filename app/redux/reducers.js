@@ -13,13 +13,15 @@
 // }
 // export default userReducer;
 
-import { SET_USER_NAME, SET_TOKEN, SET_USERDATA, SET_ID } from "./actions";
+import { SET_USER_NAME, SET_TOKEN, SET_USERDATA, SET_ID ,SET_PROFILE_IMAGE } from "./actions";
 
 const initialState = {
   name: "",
   token: "",
   userData: null,
   id: "",
+  profile_image:"",
+
 };
 
 function userReducer(state = initialState, action) {
@@ -32,6 +34,8 @@ function userReducer(state = initialState, action) {
       return { ...state, userData: action.payload };
     case SET_ID:
       return { ...state, id: action.payload };
+    case SET_PROFILE_IMAGE:
+      return { ...state, profile_image: action.payload };   
     default:
       return state;
   }

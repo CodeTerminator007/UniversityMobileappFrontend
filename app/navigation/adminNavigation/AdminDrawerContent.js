@@ -1,5 +1,6 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   useTheme,
   Avatar,
@@ -11,12 +12,18 @@ import {
   TouchableRipple,
   Switch,
 } from "react-native-paper";
+
+
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // import { AuthContext } from "../context/Context";
 
 export function AdminDrawerContent(props) {
+  const state = useSelector((state) => state);
+const stateData = { ...state };
+const profile_image = `http://127.0.0.1:8000${stateData.userReducer.profile_image}`;
+const name = stateData.userReducer.userData.username;
   const paperTheme = useTheme();
 
   // const { signOut } = React.useContext(AuthContext);
@@ -34,8 +41,8 @@ export function AdminDrawerContent(props) {
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Ali</Title>
-                <Caption style={styles.caption}>abc@gmail.com</Caption>
+                <Title style={styles.title}>{name}</Title>
+                <Caption style={styles.caption}>{stateData.userReducer.userData.email}</Caption>
               </View>
             </View>
           </View>
@@ -63,7 +70,7 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="Add Teacher"
+              label="Teachers"
               onPress={() => {
                 props.navigation.navigate("Add Teacher");
               }}
@@ -72,7 +79,7 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="Add Student"
+              label="Students"
               onPress={() => {
                 props.navigation.navigate("Add Student");
               }}
@@ -81,7 +88,7 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="All Courses"
+              label="Courses"
               onPress={() => {
                 props.navigation.navigate("All Courses");
               }}
@@ -90,7 +97,7 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="All Classes"
+              label="Classes"
               onPress={() => {
                 props.navigation.navigate("All Classes");
               }}
@@ -99,7 +106,7 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="All Subjects"
+              label="Subjects"
               onPress={() => {
                 props.navigation.navigate("All Subjects");
               }}
@@ -108,7 +115,7 @@ export function AdminDrawerContent(props) {
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="Edit Attandance"
+              label="Attandance"
               onPress={() => {
                 props.navigation.navigate("Admin Edit Attandance");
               }}
@@ -121,7 +128,7 @@ export function AdminDrawerContent(props) {
                   size={size}
                 />
               )}
-              label="Mark Result"
+              label="Result"
               onPress={() => {
                 props.navigation.navigate("Admin Mark Result");
               }}
