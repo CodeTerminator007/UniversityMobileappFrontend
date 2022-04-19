@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import Profile from "../../components/profile";
+import AdminProfile from "../../components/admin_profile";
 import {
   AntDesign,
   Fontisto,
@@ -18,7 +18,7 @@ import {
 function AdminDashboardScreen() {
   return (
     <View style={{ flex: 1, padding: 10 }}>
-      <Profile />
+      <AdminProfile />
       <View style={styles.container}>
         <View style={styles.box}>
           <MaterialCommunityIcons

@@ -21,7 +21,7 @@ export function StudentDrawerContent(props) {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
-  const name = stateData.userReducer.userData.username;  
+  const name = stateData.userReducer.userData.username;
   const paperTheme = useTheme();
 
   // const { signOut } = React.useContext(AuthContext);
@@ -39,8 +39,12 @@ export function StudentDrawerContent(props) {
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>{`${stateData.userReducer.userData.first_name} ${stateData.userReducer.userData.last_name}`}</Title>
-                <Caption style={styles.caption}>{stateData.userReducer.userData.email}</Caption>
+                <Title
+                  style={styles.title}
+                >{`${stateData.userReducer.userData.first_name} ${stateData.userReducer.userData.last_name}`}</Title>
+                <Caption style={styles.caption}>
+                  {stateData.userReducer.userData.email}
+                </Caption>
               </View>
             </View>
           </View>
@@ -146,7 +150,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   caption: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 14,
   },
   row: {

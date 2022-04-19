@@ -11,6 +11,7 @@ import {
   AdminCoursesStackNavigator,
   AdminClassesStackNavigator,
   AdminSubjectsStackNavigator,
+  AdminAllAdminsStackNavigator,
 } from "./AdminStackNavigator";
 import AdminTabNavigator from "./AdminTabNavigator";
 import { AdminDrawerContent } from "./AdminDrawerContent";
@@ -27,18 +28,18 @@ const AdminDrawerNavigator = () => {
         component={AdminTabNavigator}
         options={{ headerShown: false }}
       />
-      {/* <Drawer.Screen
-        name="DrawerProfile"
-        component={StudentProfileStackNavigator}
-        options={{ headerShown: false }}
-      /> */}
       <Drawer.Screen
-        name="Add Teacher"
+        name="All Admins"
+        component={AdminAllAdminsStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="All Teachers"
         component={AdminAddTeacherStackNavigator}
         options={{ headerShown: false }}
       />
       <Drawer.Screen
-        name="Add Student"
+        name="All Students"
         component={AdminAddStudentStackNavigator}
         options={{ headerShown: false }}
       />

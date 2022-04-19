@@ -13,7 +13,6 @@ import {
   Switch,
 } from "react-native-paper";
 
-
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -21,9 +20,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export function AdminDrawerContent(props) {
   const state = useSelector((state) => state);
-const stateData = { ...state };
-const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
-const name = stateData.userReducer.userData.username;
+  const stateData = { ...state };
+  const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
+  const name = stateData.userReducer.userData.username;
   const paperTheme = useTheme();
 
   // const { signOut } = React.useContext(AuthContext);
@@ -42,7 +41,9 @@ const name = stateData.userReducer.userData.username;
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
                 <Title style={styles.title}>{name}</Title>
-                <Caption style={styles.caption}>{stateData.userReducer.userData.email}</Caption>
+                <Caption style={styles.caption}>
+                  {stateData.userReducer.userData.email}
+                </Caption>
               </View>
             </View>
           </View>
@@ -57,22 +58,22 @@ const name = stateData.userReducer.userData.username;
                 props.navigation.navigate("Admin Dashboard");
               }}
             />
-            {/* <DrawerItem
+            <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="account-outline" color={color} size={size} />
+                <Icon name="account-plus-outline" color={color} size={size} />
               )}
-              label="Profile"
+              label="Admins"
               onPress={() => {
-                props.navigation.navigate("Profile");
+                props.navigation.navigate("All Admins");
               }}
-            /> */}
+            />
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
               label="Teachers"
               onPress={() => {
-                props.navigation.navigate("Add Teacher");
+                props.navigation.navigate("All Teachers");
               }}
             />
             <DrawerItem
@@ -81,7 +82,7 @@ const name = stateData.userReducer.userData.username;
               )}
               label="Students"
               onPress={() => {
-                props.navigation.navigate("Add Student");
+                props.navigation.navigate("All Students");
               }}
             />
             <DrawerItem
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   caption: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 14,
   },
   row: {

@@ -15,61 +15,76 @@ import { useSelector } from "react-redux";
 
 import { DrawerItemList } from "@react-navigation/drawer";
 
-
 function StudentAttandanceScreen() {
-const [attandance_data, set_attandance_data] = useState(null);
-const state = useSelector((state) => state);
-const stateData = { ...state };
-const Token = stateData.userReducer.token;
-const AuthStr = "Bearer ".concat(Token);
-const [isFetching, setIssFethin] = useState(false);
-const ID = stateData.userReducer.id;
+  const [attandance_data, set_attandance_data] = useState(null);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
+  const [isFetching, setIssFethin] = useState(false);
+  const ID = stateData.userReducer.id;
 
-
-
-if (!isFetching){
-useEffect(() => {
-    axios
-    .get(
-      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/${ID}/student_attendance_report/`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      const data1 = response.data;
-      console.log(data1)
-      set_attandance_data(data1)
-    .catch((error) => {
-      console.log("error " + error);
-    });
-  })
-
-}, [isFetching]);
-}
+  if (!isFetching) {
+    useEffect(() => {
+      axios
+        .get(
+          `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/${ID}/student_attendance_report/`,
+          {
+            headers: { Authorization: AuthStr },
+          }
+        )
+        .then((response) => {
+          const data1 = response.data;
+          console.log(data1);
+          set_attandance_data(data1).catch((error) => {
+            console.log("error " + error);
+          });
+        });
+    }, [isFetching]);
+  }
 
   return (
     <ScrollView horizontal={true} style={styles.container}>
       <DataTable>
         <DataTable.Header>
-          <DataTable.Title>CourseName</DataTable.Title>
-          <DataTable.Title>TeacherName</DataTable.Title>
-          <DataTable.Title numeric>Lectures</DataTable.Title>
-          <DataTable.Title numeric>Presents</DataTable.Title>
-          <DataTable.Title numeric>Absents</DataTable.Title>
-          <DataTable.Title numeric>Percent</DataTable.Title>
+          <DataTable.Title style={styles.alpha}>CourseName</DataTable.Title>
+          <DataTable.Title style={styles.alpha}>TeacherName</DataTable.Title>
+          <DataTable.Title style={styles.numeric} numeric>
+            Lectures
+          </DataTable.Title>
+          <DataTable.Title style={styles.numeric} numeric>
+            Presents
+          </DataTable.Title>
+          <DataTable.Title style={styles.numeric} numeric>
+            Absents
+          </DataTable.Title>
+          <DataTable.Title style={styles.numeric} numeric>
+            Percent
+          </DataTable.Title>
         </DataTable.Header>
         <FlatList
           data={attandance_data}
           keyExtractor={(data) => data.CourseName.toString()}
           renderItem={({ item }) => (
             <DataTable.Row>
-              <DataTable.Cell>{item.CourseName}</DataTable.Cell>
-              <DataTable.Cell>{item.TeacherName}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Lectures}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.total_present}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.total_absent}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Percentage}</DataTable.Cell>
+              <DataTable.Cell style={styles.alpha}>
+                {item.CourseName}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.alpha}>
+                {item.TeacherName}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.Lectures}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.total_present}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.total_absent}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.Percentage}
+              </DataTable.Cell>
             </DataTable.Row>
           )}
         />
@@ -80,12 +95,24 @@ useEffect(() => {
         renderItem={({ item }) => (
           <DataTable>
             <DataTable.Row>
-              <DataTable.Cell>{item.CourseName}</DataTable.Cell>
-              <DataTable.Cell>{item.TeacherName}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Lectures}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.total_present}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.total_absent}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.Percentage}</DataTable.Cell>
+              <DataTable.Cell style={styles.numeric}>
+                {item.CourseName}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric}>
+                {item.TeacherName}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.Lectures}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.total_present}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.total_absent}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.numeric} numeric>
+                {item.Percentage}
+              </DataTable.Cell>
             </DataTable.Row>
           </DataTable>
         )}
@@ -103,6 +130,12 @@ const styles = StyleSheet.create({
     //alignItems: "center",
     //justifyContent: "center",
     alignSelf: "center",
+  },
+  alpha: {
+    width: 90,
+  },
+  numeric: {
+    width: 40,
   },
 });
 

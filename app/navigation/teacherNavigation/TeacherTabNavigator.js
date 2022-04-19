@@ -6,7 +6,8 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 import {
   TeacherHomeStackNavigator,
-  TeacherTimetableStackNavigator,
+  TeacherNotificationStackNavigator,
+  TeacherProfileStackNavigator,
 } from "./TeacherStackNavigator";
 
 // import FloatingButton from '../components/FloatingButton'
@@ -56,11 +57,21 @@ const TeacherBottomTabNavigator = () => {
        }} 
       /> */}
         <Tab.Screen
-          name="Teacher Timetable"
-          component={TeacherTimetableStackNavigator}
+          name="Teacher Notifications "
+          component={TeacherNotificationStackNavigator}
           options={{
             tabBarIcon: () => (
               <Ionicons name="newspaper-outline" size={24} color="black" />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Teacher Profile "
+          component={TeacherProfileStackNavigator}
+          options={{
+            tabBarIcon: () => (
+              <Ionicons name="person-outline" size={24} color="black" />
             ),
             headerShown: false,
           }}

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 function ImagePickerr() {
@@ -29,38 +30,31 @@ function ImagePickerr() {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={pickImage}>
-        <Text style={styles.buttonText}>Select an image</Text>
-      </TouchableOpacity>
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-    </View>
+    <TouchableOpacity onPress={pickImage}>
+      <View style={styles.container}>
+        {!image && (
+          <MaterialCommunityIcons color="white" name="camera" size={40} />
+        )}
+        {image && <Image source={{ uri: image }} style={styles.image} />}
+      </View>
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
+    backgroundColor: "grey",
+    borderRadius: 15,
+    height: 100,
     justifyContent: "center",
+    marginVertical: 10,
+    marginBottom: 20,
     overflow: "hidden",
+    width: 100,
   },
   image: {
-    width: 200,
-    height: 200,
-    overflow: "hidden",
-  },
-  button: {
-    width: "80%",
-    backgroundColor: "#185079",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: "white",
+    height: "100%",
+    width: "100%",
   },
 });
 export default ImagePickerr;

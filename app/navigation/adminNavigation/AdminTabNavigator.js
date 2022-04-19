@@ -7,6 +7,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import {
   AdminHomeStackNavigator,
   AdminPostNotificationStackNavigator,
+  AdminProfileStackNavigator,
 } from "./AdminStackNavigator";
 
 // import FloatingButton from '../components/FloatingButton'
@@ -61,6 +62,16 @@ const AdminBottomTabNavigator = () => {
           options={{
             tabBarIcon: () => (
               <Ionicons name="newspaper-outline" size={24} color="black" />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Admin Profile"
+          component={AdminProfileStackNavigator}
+          options={{
+            tabBarIcon: () => (
+              <Ionicons name="person-outline" size={24} color="black" />
             ),
             headerShown: false,
           }}

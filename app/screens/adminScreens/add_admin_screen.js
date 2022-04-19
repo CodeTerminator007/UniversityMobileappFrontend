@@ -12,7 +12,7 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
-function AddStudentScreen() {
+function AddAdminScreen() {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [firstname, setFirstname] = useState(null);
@@ -22,7 +22,6 @@ function AddStudentScreen() {
   const [email, setEmail] = useState(null);
   const [phone1, setPhone1] = useState(null);
   const [phone2, setPhone2] = useState(null);
-  const [address, setAddress] = useState(null);
 
   const [genderopen, setGenderopen] = useState(false);
   const [gender, setGender] = useState(null);
@@ -41,52 +40,18 @@ function AddStudentScreen() {
     { label: "Degree 4", value: "d" },
   ]);
 
-  const [courseopen, setCourseopen] = useState(false);
-  const [course, setCourse] = useState(null);
-  const [courseslist, setCourselist] = useState([
-    { label: "Course 1", value: "a" },
-    { label: "Course 2", value: "b" },
-    { label: "Course 3", value: "c" },
-    { label: "Course 4", value: "d" },
-  ]);
-
-  const [classopen, setClassopen] = useState(false);
-  const [classs, setClasss] = useState(null);
-  const [classlist, setClasslist] = useState([
-    { label: "Class 1", value: "a" },
-    { label: "Class 2", value: "b" },
-    { label: "Class 3", value: "c" },
-    { label: "Class 4", value: "d" },
-  ]);
-
   const onGenderOpen = useCallback(() => {
     setLastdegreeopen(false);
-    setClassopen(false);
-    setCourseopen(false);
   }, []);
 
   const onDegreeOpen = useCallback(() => {
-    setGenderopen(false);
-    setClassopen(false);
-    setCourseopen(false);
-  }, []);
-
-  const onCourseOpen = useCallback(() => {
-    setLastdegreeopen(false);
-    setClassopen(false);
-    setGenderopen(false);
-  }, []);
-
-  const onClassOpen = useCallback(() => {
-    setLastdegreeopen(false);
-    setCourseopen(false);
     setGenderopen(false);
   }, []);
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.logoText}>Add Student</Text>
+        <Text style={styles.logoText}>Add Admin</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -214,67 +179,6 @@ function AddStudentScreen() {
         />
         <Text style={styles.text}>Select Profile</Text>
         <ImagePickerr />
-        <View style={styles.inputView}>
-          <TextInput
-            secureTextEntry
-            style={styles.inputText}
-            placeholder="Address"
-            placeholderTextColor="#003f5c"
-            onChangeText={setAddress}
-          />
-        </View>
-        <DropDownPicker
-          placeholder="Select Course"
-          open={courseopen}
-          onOpen={onCourseOpen}
-          value={course}
-          items={courseslist}
-          setOpen={setCourseopen}
-          setValue={setCourse}
-          setItems={setCourselist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: courseopen ? 175 : 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        <DropDownPicker
-          placeholder="Select Class"
-          open={classopen}
-          onOpen={onClassOpen}
-          value={classs}
-          items={classlist}
-          setOpen={setClassopen}
-          setValue={setClasss}
-          setItems={setClasslist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
         <TouchableOpacity style={styles.button}>
           <Text style={styles.loginText}>Add</Text>
         </TouchableOpacity>
@@ -332,4 +236,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddStudentScreen;
+export default AddAdminScreen;

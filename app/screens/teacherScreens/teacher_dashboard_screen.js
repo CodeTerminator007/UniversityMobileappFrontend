@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import Profile from "../../components/profile";
+import TeacherProfile from "../../components/teacher_profile";
 import {
   AntDesign,
   Fontisto,
@@ -18,7 +18,7 @@ import {
 function TeacherDashboardScreen() {
   return (
     <View style={{ flex: 1, padding: 10 }}>
-      <Profile />
+      <TeacherProfile />
       <View style={styles.container}>
         <View style={styles.box}>
           <MaterialCommunityIcons

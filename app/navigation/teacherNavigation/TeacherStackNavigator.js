@@ -11,6 +11,9 @@ import TeacherMarkAttandanceScreen from "../../screens/teacherScreens/teacher_ma
 import TeacherTimetableScreen from "../../screens/teacherScreens/teacher_timetable_screen";
 import TeacherEditTimetableScreen from "../../screens/teacherScreens/teacher_edit_timetable_screen";
 import AllClassesScreen from "../../screens/teacherScreens/all_classes_screen";
+import TeacherNotificationScreen from "../../screens/teacherScreens/teacher_notification_screen";
+import TeacherNotificationDetailScreen from "../../screens/teacherScreens/teacher_notification_detail_screen";
+import TeacherProfileScreen from "../../screens/teacherScreens/teacher_profile_screen";
 
 const Stack = createStackNavigator();
 
@@ -102,10 +105,39 @@ const TeacherTimetableStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+const TeacherNotificationStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="Teacher Notifications"
+        component={TeacherNotificationScreen}
+      />
+      <Stack.Screen
+        name="Teacher Notifications Detail"
+        component={TeacherNotificationDetailScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const TeacherProfileStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="Teacher Profile"
+        component={TeacherProfileScreen}
+        //options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 export {
   TeacherHomeStackNavigator,
   TeacherCreateAssignmentStackNavigator,
   TeacherCreateQuizStackNavigator,
   TeacherMarkAttandanceStackNavigator,
   TeacherTimetableStackNavigator,
+  TeacherNotificationStackNavigator,
+  TeacherProfileStackNavigator,
 };

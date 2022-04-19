@@ -39,8 +39,13 @@ export function TeacherDrawerContent(props) {
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>{stateData.userReducer.userData.first_name} {stateData.userReducer.userData.last_name}</Title>
-                <Caption style={styles.caption}>{stateData.userReducer.userData.email}</Caption>
+                <Title style={styles.title}>
+                  {stateData.userReducer.userData.first_name}{" "}
+                  {stateData.userReducer.userData.last_name}
+                </Title>
+                <Caption style={styles.caption}>
+                  {stateData.userReducer.userData.email}
+                </Caption>
               </View>
             </View>
           </View>
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   caption: {
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 14,
   },
   row: {

@@ -9,7 +9,13 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { setToken, setName, setUserData, setId ,setProfile_image} from "../redux/actions";
+import {
+  setToken,
+  setName,
+  setUserData,
+  setId,
+  setProfile_image,
+} from "../redux/actions";
 import { useNavigation } from "@react-navigation/native";
 
 export default loginScreen = () => {
@@ -41,7 +47,7 @@ export default loginScreen = () => {
         dispatch(setProfile_image(res.data.user.profile_image));
 
         console.log("response ", res.data);
-        
+
         const userData = res.data.user;
         const { is_admin, is_faculty, is_student } = userData;
 
@@ -79,6 +85,7 @@ export default loginScreen = () => {
           onChangeText={setUsername}
         />
       </View>
+      <Text style={styles.error}>Username not correct</Text>
       <View style={styles.inputView}>
         <TextInput
           secureTextEntry
@@ -88,6 +95,7 @@ export default loginScreen = () => {
           onChangeText={setPassword}
         />
       </View>
+      <Text style={styles.error}>Password not correct</Text>
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
@@ -121,7 +129,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#edece8",
     borderRadius: 25,
     height: 50,
-    marginBottom: 20,
+    //marginBottom: 20,
+    marginTop: 15,
     justifyContent: "center",
     padding: 20,
   },
@@ -145,5 +154,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  error: {
+    color: "red",
+    fontSize: 14,
+    //fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "11%",
   },
 });
