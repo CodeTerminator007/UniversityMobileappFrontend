@@ -21,6 +21,12 @@ import { useNavigation } from "@react-navigation/native";
 export default loginScreen = () => {
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
+  const [usernamecheck, setusernamecheck] = useState(null);
+  const [passwordcheck, setpasswordcheck] = useState(null);
+  const [errorcheck, seterrorcheck] = useState(null);
+
+
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigation = useNavigation();
@@ -31,7 +37,19 @@ export default loginScreen = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (!username){
+      setusernamecheck("Username is missing") 
+    }
+    else{
+      setusernamecheck(null)
+    }
+    if (!passwordcheck){
+      setpasswordcheck("Password is missing") 
+    }
+    else{
+      setpasswordcheck(null)
+    }   
+    if(username && password){ 
     axios
       .post(
         `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/auth/login`,
@@ -45,32 +63,28 @@ export default loginScreen = () => {
         dispatch(setId(res.data.user.id));
         dispatch(setToken(res.data.jwt.access));
         dispatch(setProfile_image(res.data.user.profile_image));
-
-        console.log("response ", res.data);
-
         const userData = res.data.user;
         const { is_admin, is_faculty, is_student } = userData;
 
         if (is_admin) {
-          // navigate to admin dashboard
 
           navigation.replace("Admin");
 
           console.log(
             "admin is logged it....................................."
           );
-          // navigation.navigate("Student");
         } else if (is_student) {
           navigation.replace("Student");
-          //navigate to student dashboard
         } else if (is_faculty) {
           navigation.replace("Teacher");
-          //navigate to teacher
         }
       })
       .catch((err) => {
-        console.log("error", err);
+        if(err=401){
+          seterrorcheck("The username password are not correct")
+        }
       });
+    }
   };
   return (
     <View style={styles.container}>
@@ -85,7 +99,7 @@ export default loginScreen = () => {
           onChangeText={setUsername}
         />
       </View>
-      <Text style={styles.error}>Username not correct</Text>
+      <Text style={styles.error}>{usernamecheck}</Text>
       <View style={styles.inputView}>
         <TextInput
           secureTextEntry
@@ -95,10 +109,13 @@ export default loginScreen = () => {
           onChangeText={setPassword}
         />
       </View>
-      <Text style={styles.error}>Password not correct</Text>
+      <Text style={styles.error}>{passwordcheck}</Text>
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
+
+      <Text style={styles.usernamepassword_wrong}>{errorcheck}</Text>
+
       <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
@@ -161,5 +178,12 @@ const styles = StyleSheet.create({
     //fontWeight: "bold",
     alignSelf: "flex-start",
     marginLeft: "11%",
+  },
+  usernamepassword_wrong: {
+    color: "red",
+    fontSize: 14,
+    //fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "19%",
   },
 });
