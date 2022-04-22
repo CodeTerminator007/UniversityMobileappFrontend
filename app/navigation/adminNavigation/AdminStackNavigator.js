@@ -12,17 +12,25 @@ import AdminProfileScreen from "../../screens/adminScreens/admin_profile_screen"
 
 import AdminAllClassesScreen from "../../screens/adminScreens/all_classes_screen";
 import AddClassScreen from "../../screens/adminScreens/add_class_screen";
+import EditClassScreen from "../../screens/adminScreens/edit_class_screen";
+
 import AllCoursesScreen from "../../screens/adminScreens/all_courses_screen";
 import AddCourseScreen from "../../screens/adminScreens/add_course_screen";
+import EditCourseScreen from "../../screens/adminScreens/edit_course_screen";
+
 import AllSubjectsScreen from "../../screens/adminScreens/all_subjects_screen";
 import AddSubjectScreen from "../../screens/adminScreens/add_subject_screen";
+import EditSubjectScreen from "../../screens/adminScreens/edit_subject_screen";
 
 import AllAdminsScreen from "../../screens/adminScreens/all_admins_screen";
 import AddAdmintScreen from "../../screens/adminScreens/add_admin_screen";
+import EditAdmintScreen from "../../screens/adminScreens/edit_admin_screen";
 import AllTeachersScreen from "../../screens/adminScreens/all_teachers_screen";
 import AddTeacherScreen from "../../screens/adminScreens/add_teacher_screen";
+import EditTeacherScreen from "../../screens/adminScreens/edit_teacher_screen";
 import AllStudentsScreen from "../../screens/adminScreens/all_students_screen";
 import AddStudentScreen from "../../screens/adminScreens/add_student_screen";
+import EditStudentScreen from "../../screens/adminScreens/edit_student_screen";
 
 const Stack = createStackNavigator();
 
@@ -117,6 +125,11 @@ const AdminCoursesStackNavigator = () => {
         component={AddCourseScreen}
         //options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="Edit Course"
+        component={EditCourseScreen}
+        //options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -144,6 +157,11 @@ const AdminClassesStackNavigator = () => {
       <Stack.Screen
         name="Add Class"
         component={AddClassScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Class"
+        component={EditClassScreen}
         //options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -175,6 +193,11 @@ const AdminSubjectsStackNavigator = () => {
         component={AddSubjectScreen}
         //options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="Edit Subject"
+        component={EditSubjectScreen}
+        //options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -202,6 +225,11 @@ const AdminAllAdminsStackNavigator = () => {
       <Stack.Screen
         name="Add Admin"
         component={AddAdmintScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Admin"
+        component={EditAdmintScreen}
         //options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -234,6 +262,11 @@ const AdminAddStudentStackNavigator = () => {
         component={AddStudentScreen}
         //options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="Edit Student"
+        component={EditStudentScreen}
+        //options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -262,6 +295,11 @@ const AdminAddTeacherStackNavigator = () => {
       <Stack.Screen
         name="Add Teacher"
         component={AddTeacherScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Teacher"
+        component={EditTeacherScreen}
         //options={{ headerShown: false }}
       />
     </Stack.Navigator>

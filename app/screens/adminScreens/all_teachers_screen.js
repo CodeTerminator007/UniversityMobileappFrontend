@@ -11,7 +11,7 @@ import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-function AllTeachersScreen() {
+function AllTeachersScreen({ navigation }) {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -19,9 +19,12 @@ function AllTeachersScreen() {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/`, {
-      headers: { Authorization: AuthStr },
-    })
+    .get(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
     .then((response) => {
       // If request is good...
       const d = response.data;
@@ -43,7 +46,16 @@ function AllTeachersScreen() {
       <FlatList
         data={data}
         keyExtractor={(data) => data.id.toString()}
-        renderItem={({ item }) => <ClassListItem title={item.title} />}
+        renderItem={({ item }) => (
+          <ClassListItem
+            title={item.title}
+            onPress={() =>
+              navigation.navigate("Edit Teacher", {
+                id: item.id,
+              })
+            }
+          />
+        )}
       />
     </SafeAreaView>
   );
