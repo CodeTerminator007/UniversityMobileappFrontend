@@ -19,7 +19,7 @@ function AllTeachersScreen() {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Class/`, {
+    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/`, {
       headers: { Authorization: AuthStr },
     })
     .then((response) => {
@@ -28,8 +28,8 @@ function AllTeachersScreen() {
       // // console.log("this is data")
       const g = d.map((item) => {
         return {
-          id: item.id,
-          title: `${item.course_name} ${item.class_name} ${item.semaster} ${item.sec}`,
+          id: item.user,
+          title: `${item.first_name} ${item.last_name}`,
         };
       });
       setdata(g);

@@ -22,27 +22,18 @@ function AddSubjectScreen() {
   const [course, setCourse] = useState(null);
   const [courseslist, setCourselist] = useState([
     { label: "Course 1", value: "a" },
-    { label: "Course 2", value: "b" },
-    { label: "Course 3", value: "c" },
-    { label: "Course 4", value: "d" },
   ]);
 
   const [staffopen, setStaffopen] = useState(false);
   const [staff, setStaff] = useState(null);
   const [stafflist, setStafflist] = useState([
     { label: "Staff 1", value: "a" },
-    { label: "Staff 2", value: "b" },
-    { label: "Staff 3", value: "c" },
-    { label: "Staff 4", value: "d" },
   ]);
 
   const [classopen, setClassopen] = useState(false);
   const [classs, setClasss] = useState(null);
   const [classlist, setClasslist] = useState([
     { label: "Class 1", value: "a" },
-    { label: "Class 2", value: "b" },
-    { label: "Class 3", value: "c" },
-    { label: "Class 4", value: "d" },
   ]);
 
   const onCourseOpen = useCallback(() => {

@@ -11,21 +11,22 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
-function ImagePickerr() {
-  const [image, setImage] = useState(null);
+function ImagePickerr({image,setImage}) {
+  // const [image, setImage] = useState(null);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      //aspect: [4, 3],
       quality: 0.5,
+      exif:true,
+      base64:true
     });
 
-    console.log(result);
+    console.log(result.uri);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result);
     }
   };
 
@@ -35,7 +36,7 @@ function ImagePickerr() {
         {!image && (
           <MaterialCommunityIcons color="white" name="camera" size={40} />
         )}
-        {image && <Image source={{ uri: image }} style={styles.image} />}
+        {image && <Image source={{ uri: image.uri }} style={styles.image} />}
       </View>
     </TouchableOpacity>
   );

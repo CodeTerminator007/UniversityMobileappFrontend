@@ -27,18 +27,33 @@ function AddStudentScreen() {
   const [genderopen, setGenderopen] = useState(false);
   const [gender, setGender] = useState(null);
   const [genderlist, setGenderlist] = useState([
-    { label: "Male", value: "m" },
-    { label: "Female", value: "f" },
-    { label: "Neuter", value: "n" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ]);
 
   const [lastdegreeopen, setLastdegreeopen] = useState(false);
   const [lastdegree, setLastdegree] = useState(null);
   const [lastdegreelist, setLastdegreelist] = useState([
-    { label: "Degree 1", value: "a" },
-    { label: "Degree 2", value: "b" },
-    { label: "Degree 3", value: "c" },
-    { label: "Degree 4", value: "d" },
+    {label: 'Matric/O level',value:'Matric/O level'},
+    {label:'Intermediate/DAE/A level',value:'Intermediate/DAE/A level'},
+    {label:'B.Sc English literature',value:'B.Sc English literature'},
+    {label:'B.Sc Accounting and Finance',value:'B.Sc Accounting and Finance'},
+    {label:'B.Sc Physics',value:'B.Sc Physics'},
+    {label:'B.Sc Electronics',value:'B.Sc Electronics'},
+    {label:'B.Sc Mathematics',value:'B.Sc Mathematics'},
+    {label:'B.Sc Electrical   ',value:'B.Sc Electrical'},
+    {label:'B.Sc Urdu',value:'B.Sc Urdu'},
+    {label:'B.Sc Compueter Science',value:'B.Sc Compueter Science'},
+    {label:'B.Sc Commerce',value:'Commerce'},
+    {label:'B.Sc Mechanical Engineering',value:'B.Sc Mechanical Engineering'}, 
+    {label:'MS Computer Science',value:'MS Computer Science'}, 
+    {label:'MS Electronics',value:'MS Electronics'}, 
+    {label:'MS English literature',value:'MS English literature'}, 
+    {label:'MS Accounting and Finance',value:'MS Accounting and Finance'}, 
+    {label:'MS Physics',value:'MS Physics'}, 
+    {label:'MS Electrical',value:'MS Electrical'}, 
+    {label:'MS Mathematics',value:'MS Mathematics'}, 
+    {label:'MS Urdu',value:'MS Urdu'}, 
   ]);
 
   const [courseopen, setCourseopen] = useState(false);
@@ -83,6 +98,62 @@ function AddStudentScreen() {
     setGenderopen(false);
   }, []);
 
+
+  const state = useSelector((state) => state);
+const stateData = { ...state };
+const Token = stateData.userReducer.token;
+
+
+
+const AuthStr = "Bearer ".concat(Token);
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const option = {
+    headers: {
+    Authorization: AuthStr ,
+    'Content-Type': 'multipart/form-data' ,},
+    
+  };
+  let formdata = new FormData();
+  formdata.append('username',username);
+  formdata.append('email',email);
+  formdata.append('password',password);
+  formdata.append('first_name',firstname);
+  formdata.append('last_name',lastname);
+  formdata.append('is_admin',true);
+  formdata.append('is_student',false);
+  formdata.append('is_faculty',false);
+  formdata.append('phone_number1',phone1);
+  formdata.append('phone_number2',phone2);
+  formdata.append('gender',gender);
+  formdata.append('last_education_degree',lastdegree);
+  formdata.append('Dob',dobirth);
+  formdata.append('cnic',cnic);
+  formdata.append('profile_image',{uri:image.uri,type:"image/jpeg",name:`${username}profilepic.${image.uri.split('.').pop()}`});
+  console.log(formdata)
+
+  axios
+    .post(
+      `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/users/`,
+      formdata,
+      option
+    )
+    .then((res) => {
+      if(res.status==201){
+        Alert.alert("Admin","The Admin has been created.")
+      }
+    })
+    .catch((err) => {
+      if(err=400){
+      Alert.alert("Error","Empty Fields fill all the fields")
+    }
+    console.log("error", err);
+    });
+
+
+};
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -97,6 +168,7 @@ function AddStudentScreen() {
         </View>
         <View style={styles.inputView}>
           <TextInput
+            secureTextEntry
             style={styles.inputText}
             placeholder="Password"
             placeholderTextColor="#003f5c"
@@ -105,7 +177,6 @@ function AddStudentScreen() {
         </View>
         <View style={styles.inputView}>
           <TextInput
-            secureTextEntry
             style={styles.inputText}
             placeholder="First Name"
             placeholderTextColor="#003f5c"

@@ -22,16 +22,12 @@ function AddClassScreen() {
   const [course, setCourse] = useState(null);
   const [courseslist, setCourselist] = useState([
     { label: "A", value: "a" },
-    { label: "B", value: "b" },
-    { label: "C", value: "c" },
-    { label: "D", value: "d" },
   ]);
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
   const [isFetchingcourse,setIssFethincourse]=useState(false)
-// const [isFetchingstaff,setIssFethinstaff]=useState(false)
 
 
 
