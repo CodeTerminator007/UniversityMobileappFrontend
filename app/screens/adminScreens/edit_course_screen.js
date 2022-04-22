@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Alert } from "react-native";
-
+import { useSelector } from "react-redux";
 import axios from "axios";
+
 import {
   StyleSheet,
   Text,
@@ -10,12 +10,14 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
-import ImagePickerr from "../../components/image_picker";
 
-function AdminPostNotificationScreen() {
-  const [title, setTitle] = useState(null);
-  const [detail, setDetail] = useState(null);
+function EditCourseScreen({ route }) {
+  const { id } = route.params;
+  console.log(id);
+
+  const [coursename, setCoursename] = useState(null);
   const state = useSelector((state) => state);
 
   const stateData = { ...state };
@@ -27,20 +29,17 @@ function AdminPostNotificationScreen() {
     const option = {
       headers: { Authorization: AuthStr },
     };
-    console.log(AuthStr);
     axios
       .post(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/announcement/`,
+        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course/`,
         {
-          title: title,
-          detail: detail,
-          Arthur: ID,
+          course_name: coursename,
         },
         option
       )
       .then((res) => {
         if (res.status == 201) {
-          Alert.alert("Notification", "The Notification has been Posted.");
+          Alert.alert("Course", "The Course has been created.");
         }
       })
       .catch((err) => {
@@ -50,33 +49,19 @@ function AdminPostNotificationScreen() {
         console.log("error", err);
       });
   };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>Post Notification</Text>
-      <View style={styles.titleinputView}>
+      <Text style={styles.logoText}>Edit Course</Text>
+      <View style={styles.inputView}>
         <TextInput
-          style={styles.titleinputText}
-          placeholder="Title"
+          style={styles.inputText}
+          placeholder="Course Name"
           placeholderTextColor="#003f5c"
-          onChangeText={setTitle}
+          onChangeText={setCoursename}
         />
       </View>
-      <View style={styles.detailinputView}>
-        <TextInput
-          style={styles.detailinputText}
-          placeholder="Details"
-          placeholderTextColor="#003f5c"
-          multiline={true}
-          textAlignVertical="top"
-          onChangeText={setDetail}
-        />
-      </View>
-      <Text style={styles.text}>Select Profile</Text>
-      <ImagePickerr />
-
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>POST</Text>
+        <Text style={styles.loginText}>Edit</Text>
       </TouchableOpacity>
     </View>
   );
@@ -89,14 +74,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  headingText: {
+  logoText: {
     fontWeight: "bold",
     fontSize: 30,
     color: "#185079",
     marginTop: 10,
     marginBottom: 40,
   },
-  titleinputView: {
+  inputView: {
     width: "80%",
     backgroundColor: "#edece8",
     borderRadius: 25,
@@ -105,22 +90,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
-  titleinputText: {
+  inputText: {
     height: 50,
     color: "black",
   },
-  detailinputView: {
-    width: "80%",
-    backgroundColor: "#edece8",
-    borderRadius: 25,
-    height: 200,
-    marginBottom: 20,
-    //justifyContent: "center",
-    padding: 20,
-  },
-  detailinputText: {
-    height: 180,
+  forgot: {
     color: "black",
+    fontSize: 11,
   },
   button: {
     width: "80%",
@@ -132,11 +108,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 10,
   },
-  buttonText: {
+  loginText: {
     color: "white",
   },
-  text: {
-    color: "#003f5c",
-  },
 });
-export default AdminPostNotificationScreen;
+
+export default EditCourseScreen;
