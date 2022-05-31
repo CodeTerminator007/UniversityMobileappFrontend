@@ -15,7 +15,7 @@ function TeacherTimetableScreen() {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Timetable/${ID}`, {
+    .get(`http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Timetable/${ID}`, {
       headers: { Authorization: AuthStr },
     })
     .then((response) => {

@@ -31,7 +31,7 @@ function TeacherMarkAttandanceScreen({ route }) {
       headers: { Authorization: AuthStr },
     }
     axios
-      .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Attendance/`, {
+      .post(`http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Attendance/`, {
         attendance_date: date,
         subject_id: paasedData.subject_id,
         class_id: paasedData.id,
@@ -52,7 +52,7 @@ function TeacherMarkAttandanceScreen({ route }) {
             set_attandance_data(s);
 
             axios
-            .post(`https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/BulkAttendance/`, 
+            .post(`http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/BulkAttendance/`, 
             s,
               option
               )
@@ -81,7 +81,7 @@ function TeacherMarkAttandanceScreen({ route }) {
   const getStudents = () => {
     axios
       .get(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/student/${paasedData.id}`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/student/${paasedData.id}`,
         {
           headers: { Authorization: AuthStr },
         }

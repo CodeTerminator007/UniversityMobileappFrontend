@@ -40,7 +40,7 @@ function EditClassScreen({ route }) {
   const getCourses = () => {
     axios
       .get(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course`,
         {
           headers: { Authorization: AuthStr },
         }
@@ -75,7 +75,7 @@ function EditClassScreen({ route }) {
     };
     axios
       .post(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Class/`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Class/`,
         {
           class_name: classname,
           sec: classsection,
