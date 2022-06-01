@@ -74,7 +74,7 @@ function EditSubjectScreen({ route }) {
   const getCourses = () => {
     axios
       .get(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/course`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course`,
         {
           headers: { Authorization: AuthStr },
         }
@@ -99,7 +99,7 @@ function EditSubjectScreen({ route }) {
   const getstaff = () => {
     axios
       .get(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/user/faculty/`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/faculty/`,
         {
           headers: { Authorization: AuthStr },
         }
@@ -123,7 +123,7 @@ function EditSubjectScreen({ route }) {
   const getclasses = () => {
     axios
       .get(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Class/`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Class/`,
         {
           headers: { Authorization: AuthStr },
         }
@@ -164,7 +164,7 @@ function EditSubjectScreen({ route }) {
     };
     axios
       .post(
-        `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io/Subject/`,
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Subject/`,
         {
           subject_name: subjectname,
           course_id: course,
