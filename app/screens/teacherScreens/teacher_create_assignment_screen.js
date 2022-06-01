@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import DatePickerr from "../../components/date_picker";
 import FilePicker from "../../components/file_picker";
+import DateAndTimePicker from "../../components/date_and_time_picker";
 
 function TeacherCreateAssignmentScreen() {
   const [title, setTitle] = useState(null);
@@ -25,48 +26,62 @@ function TeacherCreateAssignmentScreen() {
   const handleSubmit = () => {};
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Create Assignment</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Title"
-          placeholderTextColor="#003f5c"
-          onChangeText={setTitle}
-        />
-      </View>
-      <View style={styles.detailinputView}>
-        <TextInput
-          style={styles.detailinputText}
-          placeholder="Details"
-          placeholderTextColor="#003f5c"
-          multiline={true}
-          textAlignVertical="top"
-          onChangeText={setDetail}
-        />
-      </View>
-      <FilePicker />
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Marks"
-          placeholderTextColor="#003f5c"
-          onChangeText={setMarks}
-        />
-      </View>
-      <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
-      <DatePickerr date={date} setDate={setDate} />
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.headingText}>Create Assignment</Text>
+        <View style={styles.titleinputView}>
+          <TextInput
+            style={styles.titleinputText}
+            placeholder="Title"
+            placeholderTextColor="#003f5c"
+            onChangeText={setTitle}
+          />
+        </View>
+        <View style={styles.detailinputView}>
+          <TextInput
+            style={styles.detailinputText}
+            placeholder="Details"
+            placeholderTextColor="#003f5c"
+            multiline={true}
+            textAlignVertical="top"
+            onChangeText={setDetail}
+          />
+        </View>
+        <View style={styles.marksnswitch}>
+          <View style={styles.marksinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Marks"
+              placeholderTextColor="#003f5c"
+              onChangeText={setMarks}
+            />
+          </View>
+          <View style={styles.switch}>
+            {isEnabled ? (
+              <Text style={styles.text}>OPEN</Text>
+            ) : (
+              <Text style={styles.text}>CLOSED</Text>
+            )}
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Create</Text>
-      </TouchableOpacity>
-    </View>
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
+        </View>
+
+        <DateAndTimePicker />
+
+        <FilePicker />
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Create</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -76,6 +91,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+  },
+  marksnswitch: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "60%",
   },
   headingText: {
     fontWeight: "bold",
@@ -106,6 +126,16 @@ const styles = StyleSheet.create({
     //justifyContent: "center",
     padding: 20,
   },
+  marksinputView: {
+    width: "35%",
+    backgroundColor: "#edece8",
+    borderRadius: 25,
+    height: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
   detailinputText: {
     height: 180,
     color: "black",
@@ -125,6 +155,11 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+  },
+  switch: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
