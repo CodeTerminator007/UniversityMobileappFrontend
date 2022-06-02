@@ -35,7 +35,7 @@ function AllAssignmentsScreen({ navigation, route }) {
           <ClassListItem
             title={item.title}
             onPress={() =>
-              navigation.navigate("Assignment Detail", {
+              navigation.navigate("Submitted Assignments", {
                 id: item.id,
               })
             }

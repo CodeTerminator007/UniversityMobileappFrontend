@@ -86,23 +86,23 @@ const TeacherCreateAssignmentStackNavigator = () => {
       <Stack.Screen
         name="Assignment Detail"
         component={AssignmentDetailScreen}
+      />
+      <Stack.Screen
+        name="Submitted Assignments"
+        component={SubmittedAssignmentsScreen}
         options={{
           headerStyle: {
             //padding: 20
           },
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Submitted Assignments")}
+              onPress={() => navigation.navigate("Assignment Detail")}
               style={{ marginLeft: 9 }}
             >
               <Ionicons name="create" size={24} color="black" />
             </TouchableOpacity>
           ),
         }}
-      />
-      <Stack.Screen
-        name="Submitted Assignments"
-        component={SubmittedAssignmentsScreen}
       />
     </Stack.Navigator>
   );
