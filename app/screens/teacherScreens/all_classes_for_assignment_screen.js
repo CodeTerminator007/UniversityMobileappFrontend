@@ -30,7 +30,7 @@ function AllClassesForAssignmentScreen({ navigation }) {
       const d = response.data;
       const g = d.map((item) => {
         return {
-          // id: item.class_id.toString(),
+          class_id: item.class_id,
           subject_id: item.id,
           title: `${item.course_name} ${item.class_name} ${item.class_semaster} Section ${item.class_sec} ${item.subject_name} `,
         };
@@ -53,6 +53,7 @@ function AllClassesForAssignmentScreen({ navigation }) {
             onPress={() =>
               navigation.navigate("All Assignments", {
                 id: item.subject_id,
+                class_id: item.class_id,
               })
             }
           />
