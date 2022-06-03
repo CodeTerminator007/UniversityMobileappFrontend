@@ -19,10 +19,6 @@ import { Alert } from "react-native";
 function TeacherCreateAssignmentScreen({ route }) {
   const { subject_id } = route.params;
   const { class_id } = route.params;
-
-  console.log("ssssssssssssssssss" + subject_id);
-  console.log("cccccccccccccccccc" + class_id);
-
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
   const [marks, setMarks] = useState(null);
@@ -53,10 +49,10 @@ function TeacherCreateAssignmentScreen({ route }) {
       type: "application/pdf",
       name: `${title}document.${file.uri.split(".").pop()}`,
     });
-    formdata.append("subject ", 3);
+    formdata.append("subject ", subject_id);
     formdata.append("status", isEnabled);
     formdata.append("marks ", marks);
-    formdata.append("class_id ", 1);
+    formdata.append("class_id ", class_id);
     console.log(formdata);
 
     axios
