@@ -30,7 +30,7 @@ function AllClassesForAssignmentScreen({ navigation }) {
       const d = response.data;
       const g = d.map((item) => {
         return {
-          id: item.class_id.toString(),
+          // id: item.class_id.toString(),
           subject_id: item.id,
           title: `${item.course_name} ${item.class_name} ${item.class_semaster} Section ${item.class_sec} ${item.subject_name} `,
         };
@@ -46,13 +46,13 @@ function AllClassesForAssignmentScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
-        keyExtractor={(data) => data.id.toString()}
+        keyExtractor={(data) => data.subject_id.toString()}
         renderItem={({ item }) => (
           <ClassListItem
             title={item.title}
             onPress={() =>
               navigation.navigate("All Assignments", {
-                id: item.id,
+                id: item.subject_id,
               })
             }
           />
