@@ -14,9 +14,15 @@ import DatePickerr from "../../components/date_picker";
 import FilePicker from "../../components/file_picker";
 import DateAndTimePicker from "../../components/date_and_time_picker";
 import { useSelector } from "react-redux";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 
-function TeacherCreateAssignmentScreen() {
+function TeacherCreateAssignmentScreen({ route }) {
+  const { subject_id } = route.params;
+  const { class_id } = route.params;
+
+  console.log("ssssssssssssssssss" + subject_id);
+  console.log("cccccccccccccccccc" + class_id);
+
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
   const [marks, setMarks] = useState(null);
@@ -33,22 +39,26 @@ function TeacherCreateAssignmentScreen() {
   const handleSubmit = () => {
     const option = {
       headers: {
-      Authorization: AuthStr ,
-      'Content-Type': 'multipart/form-data' ,},
-      
+        Authorization: AuthStr,
+        "Content-Type": "multipart/form-data",
+      },
     };
     let formdata = new FormData();
-    formdata.append('faculty',stateData.userReducer.id);
-    formdata.append('Title',title);
-    formdata.append('detail',detail);
-    formdata.append('submission_datetime',date);
-    formdata.append('document',{uri:file.uri,type:"application/pdf",name:`${title}document.${file.uri.split('.').pop()}`});
-    formdata.append('subject ',3);
-    formdata.append('status',isEnabled);
-    formdata.append('marks ',marks);
-    formdata.append('class_id ',1);
-    console.log(formdata)
-  
+    formdata.append("faculty", stateData.userReducer.id);
+    formdata.append("Title", title);
+    formdata.append("detail", detail);
+    formdata.append("submission_datetime", date);
+    formdata.append("document", {
+      uri: file.uri,
+      type: "application/pdf",
+      name: `${title}document.${file.uri.split(".").pop()}`,
+    });
+    formdata.append("subject ", 3);
+    formdata.append("status", isEnabled);
+    formdata.append("marks ", marks);
+    formdata.append("class_id ", 1);
+    console.log(formdata);
+
     axios
       .post(
         `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/`,
@@ -56,17 +66,16 @@ function TeacherCreateAssignmentScreen() {
         option
       )
       .then((res) => {
-        if(res.status==201){
-          Alert.alert("User","The Assignment is created.")
+        if (res.status == 201) {
+          Alert.alert("User", "The Assignment is created.");
         }
       })
       .catch((err) => {
-        if(err=400){
-        Alert.alert("Error","Empty Fields fill all the fields")
-      }
-      console.log("error", err);
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
       });
-  
   };
 
   return (
@@ -119,7 +128,7 @@ function TeacherCreateAssignmentScreen() {
 
         <DateAndTimePicker />
 
-        <FilePicker file={file} setFile={setFile}/>
+        <FilePicker file={file} setFile={setFile} />
 
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Create</Text>

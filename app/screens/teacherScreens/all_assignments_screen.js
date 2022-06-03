@@ -10,6 +10,7 @@ import {
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
 
 function AllAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
@@ -20,7 +21,7 @@ function AllAssignmentsScreen({ navigation, route }) {
   const Token = stateData.userReducer.token;
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
-  console.log(id)
+  console.log(id);
   axios
     .get(
       `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${id}`,
@@ -34,7 +35,7 @@ function AllAssignmentsScreen({ navigation, route }) {
         return {
           id: item.id,
           title: item.Title,
-          class_id:class_id,
+          class_id: class_id,
         };
       });
       setdata(g);
@@ -42,25 +43,42 @@ function AllAssignmentsScreen({ navigation, route }) {
 
     .catch((error) => {
       console.log("error " + error);
-    });  
+    });
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.id.toString()}
-        renderItem={({ item }) => (
-          <ClassListItem
-            title={item.title}
-            onPress={() =>
-              navigation.navigate("Submitted Assignments", {
-                id: item.id,
-                class_id:item.class_id,
-              })
-            }
-          />
-        )}
-      />
-    </SafeAreaView>
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Create Assignments", {
+              subject_id: id,
+              class_id: class_id,
+            })
+          }
+          style={{ marginLeft: 9 }}
+        >
+          <Ionicons name="create" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    }),
+    (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={data}
+          keyExtractor={(data) => data.id.toString()}
+          renderItem={({ item }) => (
+            <ClassListItem
+              title={item.title}
+              onPress={() =>
+                navigation.navigate("Submitted Assignments", {
+                  id: item.id,
+                  class_id: item.class_id,
+                })
+              }
+            />
+          )}
+        />
+      </SafeAreaView>
+    )
   );
 }
 
