@@ -13,19 +13,36 @@ import axios from "axios";
 
 function AllAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
-  console.log(id);
+  const { class_id } = route.params;
 
-  data = [
-    {
-      id: 1,
-      title: "Assignment 1",
-    },
-    {
-      id: 2,
-      title: "Assignment 2",
-    },
-  ];
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
+  const [data, setdata] = useState(null);
+  console.log(id)
+  axios
+    .get(
+      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${id}`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      const d = response.data;
+      const g = d.map((item) => {
+        return {
+          id: item.id,
+          title: item.Title,
+          class_id:class_id,
+        };
+      });
+      setdata(g);
+    })
 
+    .catch((error) => {
+      console.log("error " + error);
+    });  
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -37,6 +54,7 @@ function AllAssignmentsScreen({ navigation, route }) {
             onPress={() =>
               navigation.navigate("Submitted Assignments", {
                 id: item.id,
+                class_id:item.class_id,
               })
             }
           />
