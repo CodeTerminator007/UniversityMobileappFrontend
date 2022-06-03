@@ -18,6 +18,7 @@ import AllClassesForAssignmentScreen from "../../screens/teacherScreens/all_clas
 import AllAssignmentsScreen from "../../screens/teacherScreens/all_assignments_screen";
 import AssignmentDetailScreen from "../../screens/teacherScreens/assignment_detail_screen";
 import SubmittedAssignmentsScreen from "../../screens/teacherScreens/submitted_assignments_screen";
+import StudentAssignmentDetailScreen from "../../screens/teacherScreens/student_assignment_detail_screen";
 
 const Stack = createStackNavigator();
 
@@ -103,6 +104,10 @@ const TeacherCreateAssignmentStackNavigator = () => {
             </TouchableOpacity>
           ),
         }}
+      />
+      <Stack.Screen
+        name="Student Assignment Detail"
+        component={StudentAssignmentDetailScreen}
       />
     </Stack.Navigator>
   );

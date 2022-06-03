@@ -11,8 +11,6 @@ import AssignmentListItem from "../../components/assignment_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-
-
 function SubmittedAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
   const { class_id } = route.params;
@@ -20,7 +18,7 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const AuthStr = "Bearer ".concat(Token);
-  const [data, setdata] = useState(null);  
+  const [data, setdata] = useState(null);
 
   axios
     .get(
@@ -35,8 +33,8 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
         return {
           id: item.id,
           title: `${item.first_name} ${item.last_name}`,
-          class_id:class_id,
-          assignemt_id:id,
+          class_id: class_id,
+          assignemt_id: id,
         };
       });
       setdata(g);
@@ -44,7 +42,7 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
 
     .catch((error) => {
       console.log("error " + error);
-    });  
+    });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,7 +50,15 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
         data={data}
         keyExtractor={(data) => data.id}
         renderItem={({ item }) => (
-          <AssignmentListItem title={item.title} statuss={item.statuss} />
+          <AssignmentListItem
+            title={item.title}
+            statuss={item.statuss}
+            onPress={() =>
+              navigation.navigate("Student Assignment Detail", {
+                ...item,
+              })
+            }
+          />
         )}
       />
     </SafeAreaView>
