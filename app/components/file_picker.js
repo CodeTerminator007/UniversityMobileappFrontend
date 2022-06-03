@@ -9,9 +9,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
+function FilePicker({file, setFile}) {
 
-const FilePicker = () => {
-  const [file, setFile] = useState(null);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -47,8 +46,7 @@ const FilePicker = () => {
       </View>
     </View>
   );
-};
-
+}
 const styles = StyleSheet.create({
   container: {
     //marginTop: 200,

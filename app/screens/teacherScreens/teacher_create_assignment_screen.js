@@ -13,6 +13,8 @@ import {
 import DatePickerr from "../../components/date_picker";
 import FilePicker from "../../components/file_picker";
 import DateAndTimePicker from "../../components/date_and_time_picker";
+import { useSelector } from "react-redux";
+import { Alert } from 'react-native';
 
 function TeacherCreateAssignmentScreen() {
   const [title, setTitle] = useState(null);
@@ -20,10 +22,52 @@ function TeacherCreateAssignmentScreen() {
   const [marks, setMarks] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [date, setDate] = useState("2022-01-01");
+  const [file, setFile] = useState(null);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const option = {
+      headers: {
+      Authorization: AuthStr ,
+      'Content-Type': 'multipart/form-data' ,},
+      
+    };
+    let formdata = new FormData();
+    formdata.append('faculty',stateData.userReducer.id);
+    formdata.append('Title',title);
+    formdata.append('detail',detail);
+    formdata.append('submission_datetime',date);
+    formdata.append('document',{uri:file.uri,type:"application/pdf",name:`${title}document.${file.uri.split('.').pop()}`});
+    formdata.append('subject ',3);
+    formdata.append('status',isEnabled);
+    formdata.append('marks ',marks);
+    formdata.append('class_id ',1);
+    console.log(formdata)
+  
+    axios
+      .post(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/`,
+        formdata,
+        option
+      )
+      .then((res) => {
+        if(res.status==201){
+          Alert.alert("User","The Assignment is created.")
+        }
+      })
+      .catch((err) => {
+        if(err=400){
+        Alert.alert("Error","Empty Fields fill all the fields")
+      }
+      console.log("error", err);
+      });
+  
+  };
 
   return (
     <ScrollView>
@@ -75,7 +119,7 @@ function TeacherCreateAssignmentScreen() {
 
         <DateAndTimePicker />
 
-        <FilePicker />
+        <FilePicker file={file} setFile={setFile}/>
 
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Create</Text>
