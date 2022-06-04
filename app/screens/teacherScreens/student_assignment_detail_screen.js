@@ -11,13 +11,56 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
-function StudentAssignmentDetailScreen() {
+function StudentAssignmentDetailScreen({route}) {
+  const { student_id } = route.params; 
+  const { assignemt } = route.params;
+  const [data, setdata] = useState(null);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
   const [name, setName] = useState("Ali");
-  const [rollno, setRollno] = useState("1111");
-  const [marks, setMarks] = useState(null);
-  const [comment, setComment] = useState("I submitted the assignment");
-  const [date, setDate] = useState("2022-01-01");
+  const [rollno, setRollno] = useState("1231");
+  const [marks, setMarks] = useState("12");
+  const [comment, setComment] = useState("default");
+  const [date, setDate] = useState("12");
+  const [isFetching, setIssFethin] = useState(false);
+
+  const getassignmentdetail = () => {
+  axios
+  .get(
+    `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
+    {
+      headers: { Authorization: AuthStr },
+    }
+  )
+  .then((response) => {    
+    const d = response.data;
+    setdata(d)
+    console.log(data)
+    setIssFethin(true)
+    
+  })
+
+  .catch((error) => {
+    console.log("error " + error);
+  });
+
+};
+
+useEffect(() => {
+  if (!isFetching) {
+    getassignmentdetail();
+  }
+}, [isFetching]);
+if (data != null){
+  console.log(data)
+  setComment(data[0].comment)
+  setDate(data[0].submission_datetime)
+  setdata(null)
+}
 
   return (
     <ScrollView>

@@ -31,7 +31,7 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
       const d = response.data;
       const g = d.map((item) => {
         return {
-          id: item.id,
+          id: item.user,
           title: `${item.first_name} ${item.last_name}`,
           class_id: class_id,
           assignemt_id: id,
@@ -55,7 +55,8 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
             statuss={item.statuss}
             onPress={() =>
               navigation.navigate("Student Assignment Detail", {
-                ...item,
+                student_id: item.id,
+                assignemt: item.assignemt_id,
               })
             }
           />
