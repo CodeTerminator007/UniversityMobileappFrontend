@@ -10,11 +10,12 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import FileReader from "../../components/file_reader";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
-function StudentAssignmentDetailScreen({route}) {
-  const { student_id } = route.params; 
+function StudentAssignmentDetailScreen({ navigation, route }) {
+  const { student_id } = route.params;
   const { assignemt } = route.params;
   const [data, setdata] = useState(null);
   const state = useSelector((state) => state);
@@ -29,38 +30,36 @@ function StudentAssignmentDetailScreen({route}) {
   const [isFetching, setIssFethin] = useState(false);
 
   const getassignmentdetail = () => {
-  axios
-  .get(
-    `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
-    {
-      headers: { Authorization: AuthStr },
+    axios
+      .get(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
+        {
+          headers: { Authorization: AuthStr },
+        }
+      )
+      .then((response) => {
+        const d = response.data;
+        setdata(d);
+        console.log(data);
+        setIssFethin(true);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+
+  useEffect(() => {
+    if (!isFetching) {
+      getassignmentdetail();
     }
-  )
-  .then((response) => {    
-    const d = response.data;
-    setdata(d)
-    console.log(data)
-    setIssFethin(true)
-    
-  })
-
-  .catch((error) => {
-    console.log("error " + error);
-  });
-
-};
-
-useEffect(() => {
-  if (!isFetching) {
-    getassignmentdetail();
+  }, [isFetching]);
+  if (data != null) {
+    console.log(data);
+    setComment(data[0].comment);
+    setDate(data[0].submission_datetime);
+    setdata(null);
   }
-}, [isFetching]);
-if (data != null){
-  console.log(data)
-  setComment(data[0].comment)
-  setDate(data[0].submission_datetime)
-  setdata(null)
-}
 
   return (
     <ScrollView>
@@ -124,8 +123,22 @@ if (data != null){
         {/* </View> */}
 
         <Text style={styles.text}>Assignment File</Text>
-        <View style={styles.file}>
-          <Ionicons name="cloud-done-outline" size={40} color="#003f5c" />
+
+        <View style={styles.fileButtonsView}>
+          <TouchableOpacity
+            style={styles.fileView}
+            onPress={() =>
+              navigation.navigate("File Reader", {
+                uri: `http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf`,
+              })
+            }
+          >
+            <Text style={styles.buttonText}>View</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.fileDownload}>
+            <Text style={styles.buttonText}>Download</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -139,18 +152,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  file: {
+  fileView: {
     alignItems: "center",
-    backgroundColor: "#edece8",
+    justifyContent: "space-evenly",
+    height: 50,
+    width: "32%",
+    backgroundColor: "green",
     borderRadius: 15,
-    borderColor: "grey",
-    borderWidth: 5,
-    height: 70,
+  },
+  fileDownload: {
+    alignItems: "center",
     justifyContent: "center",
-    marginVertical: 10,
-    marginBottom: 10,
-    overflow: "hidden",
-    width: 70,
+    height: 50,
+    width: "32%",
+    backgroundColor: "red",
+    borderRadius: 15,
+  },
+  fileButtonsView: {
+    marginTop: 5,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
   },
 
   headingText: {
@@ -198,6 +220,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 17,
   },
   text: {
     color: "#003f5c",

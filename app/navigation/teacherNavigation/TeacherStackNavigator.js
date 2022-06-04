@@ -19,7 +19,7 @@ import AllAssignmentsScreen from "../../screens/teacherScreens/all_assignments_s
 import AssignmentDetailScreen from "../../screens/teacherScreens/assignment_detail_screen";
 import SubmittedAssignmentsScreen from "../../screens/teacherScreens/submitted_assignments_screen";
 import StudentAssignmentDetailScreen from "../../screens/teacherScreens/student_assignment_detail_screen";
-
+import FileReader from "../../components/file_reader";
 const Stack = createStackNavigator();
 
 const screenOptionStyle = {
@@ -93,6 +93,7 @@ const TeacherCreateAssignmentStackNavigator = () => {
         name="Student Assignment Detail"
         component={StudentAssignmentDetailScreen}
       />
+      <Stack.Screen name="File Reader" component={FileReader} />
     </Stack.Navigator>
   );
 };
