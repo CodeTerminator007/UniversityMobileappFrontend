@@ -16,7 +16,6 @@ import {
 
 function EditSubjectScreen({ route }) {
   const { id } = route.params;
-  console.log(id);
 
   const [subjectname, setSubjectname] = useState(null);
 

@@ -14,8 +14,6 @@ function FilePicker({file, setFile}) {
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    console.log(result.uri);
-    console.log(result);
     if (!result.cancelled) {
       setFile(result);
     }

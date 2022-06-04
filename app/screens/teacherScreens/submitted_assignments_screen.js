@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -19,7 +19,9 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   const Token = stateData.userReducer.token;
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
+  const [isFetching, setIssFethin] = useState(false);
 
+  const getsubmittedassignmentdetail = () => {
   axios
     .get(
       `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/student/${class_id}`,
@@ -38,11 +40,18 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
         };
       });
       setdata(g);
+      setIssFethin(true)
     })
 
     .catch((error) => {
       console.log("error " + error);
     });
+  }
+  useEffect(() => {
+    if (!isFetching) {
+      getsubmittedassignmentdetail();
+    }
+  }, [isFetching]);
 
   return (
     <SafeAreaView style={styles.container}>

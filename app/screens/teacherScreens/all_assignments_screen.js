@@ -23,7 +23,6 @@ function AllAssignmentsScreen({ navigation, route }) {
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
 
-  console.log(id);
   const getallAssignment = () => {
 
   axios

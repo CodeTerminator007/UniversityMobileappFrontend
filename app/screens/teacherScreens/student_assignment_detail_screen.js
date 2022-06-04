@@ -22,12 +22,13 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const AuthStr = "Bearer ".concat(Token);
-  const [name, setName] = useState("Ali");
-  const [rollno, setRollno] = useState("1231");
-  const [marks, setMarks] = useState("12");
-  const [comment, setComment] = useState("default");
+  const [name, setName] = useState("Default");
+  const [rollno, setRollno] = useState();
+  const [marks, setMarks] = useState("0");
+  const [comment, setComment] = useState("Default");
   const [date, setDate] = useState("12");
   const [isFetching, setIssFethin] = useState(false);
+  const [document, setDocument] = useState("Default");
 
   const getassignmentdetail = () => {
     axios
@@ -40,7 +41,6 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
       .then((response) => {
         const d = response.data;
         setdata(d);
-        console.log(data);
         setIssFethin(true);
       })
 
@@ -54,11 +54,22 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
       getassignmentdetail();
     }
   }, [isFetching]);
-  if (data != null) {
-    console.log(data);
+  if (data != null ) {
+    if(data.length !=0){
     setComment(data[0].comment);
-    setDate(data[0].submission_datetime);
+    const d = data[0].submission_datetime
+    const z  = d.toString().replace('T','  ')
+    const g = z.replace('Z',' ').toString()
+    setDate(g);
+    setDocument(data[0].document);
+    setMarks(data[0].marks);
+    setName(`${data[0].first_name} ${data[0].last_name}`)
+    setRollno(data[0].roll_no)
+    console.log("roll " + data[0].roll_no)
+
+
     setdata(null);
+  }
   }
 
   return (
@@ -82,9 +93,8 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
             style={styles.inputText}
             value={rollno}
             editable={false}
-            placeholder="Roll No"
+            placeholder="Default"
             placeholderTextColor="#003f5c"
-            onChangeText={setRollno}
           />
         </View>
         <Text style={styles.text}>Comment</Text>
@@ -104,6 +114,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
         <View style={styles.textinputView}>
           <TextInput
             style={styles.inputText}
+            value={marks}
             placeholder="Marks"
             placeholderTextColor="#003f5c"
             onChangeText={setMarks}
@@ -129,7 +140,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
             style={styles.fileView}
             onPress={() =>
               navigation.navigate("File Reader", {
-                uri: `http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf`,
+                uri: document,
               })
             }
           >

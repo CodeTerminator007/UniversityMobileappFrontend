@@ -70,9 +70,6 @@ export default loginScreen = () => {
 
           navigation.replace("Admin");
 
-          console.log(
-            "admin is logged it....................................."
-          );
         } else if (is_student) {
           navigation.replace("Student");
         } else if (is_faculty) {

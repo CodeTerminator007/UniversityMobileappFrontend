@@ -131,7 +131,6 @@ const handleSubmit = async (event) => {
   formdata.append('Dob',dobirth);
   formdata.append('cnic',cnic);
   formdata.append('profile_image',{uri:image.uri,type:"image/jpeg",name:`${username}profilepic.${image.uri.split('.').pop()}`});
-  console.log(formdata)
 
   axios
     .post(

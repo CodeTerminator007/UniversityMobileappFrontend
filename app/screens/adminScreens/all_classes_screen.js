@@ -25,7 +25,6 @@ function AdminAllClassesScreen({ navigation }) {
     .then((response) => {
       // If request is good...
       const d = response.data;
-      // // console.log("this is data")
       const g = d.map((item) => {
         return {
           id: item.id,

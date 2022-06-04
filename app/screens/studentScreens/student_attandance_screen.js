@@ -35,7 +35,6 @@ function StudentAttandanceScreen() {
         )
         .then((response) => {
           const data1 = response.data;
-          console.log(data1);
           set_attandance_data(data1).catch((error) => {
             console.log("error " + error);
           });

@@ -89,7 +89,6 @@ function TeacherMarkAttandanceScreen({ route }) {
       .then((response) => {
         setIssFethin(true);
         const d = response.data;
-        console.log(d)
         const g = d.map((item) => {
           return {
             name: item.username,

@@ -58,7 +58,6 @@ function StudentUploadAssignmentScreen({ route }) {
   //   }
   // }, [isFetching]);
   // if (data != null) {
-  //   console.log(data);
   //   setComment(data[0].comment);
   //   setDate(data[0].submission_datetime);
   //   setdata(null);

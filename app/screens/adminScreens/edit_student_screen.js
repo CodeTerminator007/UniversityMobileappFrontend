@@ -14,7 +14,6 @@ import ImagePickerr from "../../components/image_picker";
 
 function EditStudentScreen({ route }) {
   const { id } = route.params;
-  console.log(id);
 
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);

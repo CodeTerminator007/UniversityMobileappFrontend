@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -17,8 +17,11 @@ function AllClassesForAssignmentScreen({ navigation }) {
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
   const ID = stateData.userReducer.id;
+  const [isFetching, setIssFethin] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
+  const getallClasses= () => {
+
   axios
     .get(
       `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Subject/${ID}`,
@@ -41,6 +44,12 @@ function AllClassesForAssignmentScreen({ navigation }) {
     .catch((error) => {
       console.log("error " + error);
     });
+  }
+  useEffect(() => {
+    if (!isFetching) {
+      getallClasses();
+    }
+  }, [isFetching]);
 
   return (
     <SafeAreaView style={styles.container}>

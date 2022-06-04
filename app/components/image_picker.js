@@ -23,7 +23,6 @@ function ImagePickerr({image,setImage}) {
       base64:true
     });
 
-    console.log(result.uri);
 
     if (!result.cancelled) {
       setImage(result);

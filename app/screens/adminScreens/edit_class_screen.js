@@ -16,7 +16,6 @@ import {
 
 function EditClassScreen({ route }) {
   const { id } = route.params;
-  console.log(id);
 
   const [classname, setClassname] = useState(null);
   const [classsection, setClasssection] = useState(null);

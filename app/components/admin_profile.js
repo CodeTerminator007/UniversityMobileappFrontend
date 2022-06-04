@@ -15,7 +15,6 @@ function AdminProfile() {
   const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
   const name = stateData.userReducer.userData.username;
 
-  console.log(stateData.userReducer.userData);
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: profile_image }} />

@@ -53,7 +53,6 @@ function TeacherCreateAssignmentScreen({ route }) {
     formdata.append("status", isEnabled);
     formdata.append("marks ", marks);
     formdata.append("class_id ", class_id);
-    console.log(formdata);
 
     axios
       .post(

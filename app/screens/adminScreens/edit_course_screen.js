@@ -15,7 +15,6 @@ import {
 
 function EditCourseScreen({ route }) {
   const { id } = route.params;
-  console.log(id);
 
   const [coursename, setCoursename] = useState(null);
   const state = useSelector((state) => state);

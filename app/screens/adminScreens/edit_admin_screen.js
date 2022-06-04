@@ -14,7 +14,6 @@ import ImagePickerr from "../../components/image_picker";
 
 function EditAdminScreen({ route }) {
   const { id } = route.params;
-  console.log(id);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [firstname, setFirstname] = useState(null);
