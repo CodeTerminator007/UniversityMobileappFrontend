@@ -54,22 +54,20 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
       getassignmentdetail();
     }
   }, [isFetching]);
-  if (data != null ) {
-    if(data.length !=0){
-    setComment(data[0].comment);
-    const d = data[0].submission_datetime
-    const z  = d.toString().replace('T','  ')
-    const g = z.replace('Z',' ').toString()
-    setDate(g);
-    setDocument(data[0].document);
-    setMarks(data[0].marks);
-    setName(`${data[0].first_name} ${data[0].last_name}`)
-    setRollno(data[0].roll_no)
-    console.log("roll " + data[0].roll_no)
+  if (data != null) {
+    if (data.length != 0) {
+      setComment(data[0].comment);
+      const d = data[0].submission_datetime;
+      const z = d.toString().replace("T", "  ");
+      const g = z.replace("Z", " ").toString();
+      setDate(g);
+      setDocument(data[0].document);
+      setMarks(data[0].marks.toString());
+      setName(`${data[0].first_name} ${data[0].last_name}`);
+      setRollno(data[0].roll_no.toString());
 
-
-    setdata(null);
-  }
+      setdata(null);
+    }
   }
 
   return (
@@ -93,8 +91,9 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
             style={styles.inputText}
             value={rollno}
             editable={false}
-            placeholder="Default"
+            placeholder="Roll No"
             placeholderTextColor="#003f5c"
+            onChange={setRollno}
           />
         </View>
         <Text style={styles.text}>Comment</Text>
