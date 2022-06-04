@@ -13,6 +13,9 @@ import StudentUploadAssignmentScreen from "../../screens/studentScreens/student_
 import StudentQuizScreen from "../../screens/studentScreens/student_quiz_screen";
 import StudentAttandanceScreen from "../../screens/studentScreens/student_attandance_screen";
 import StudentResultScreen from "../../screens/studentScreens/student_result_screen";
+import AllSubjectsForAssignmentScreen from "../../screens/studentScreens/all_subjects_for_assignment";
+import StudentAllAssignmentsScreen from "../../screens/studentScreens/student_all_assignment_screen";
+import StudentViewAssignmentScreen from "../../screens/studentScreens/student_view_assignment_screen";
 
 const Stack = createStackNavigator();
 
@@ -91,9 +94,20 @@ const StudentUploadAssignmentStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen
-        name="Assignment"
+        name="All Subjects For Assignment"
+        component={AllSubjectsForAssignmentScreen}
+      />
+      <Stack.Screen
+        name="Student All Assignment"
+        component={StudentAllAssignmentsScreen}
+      />
+      <Stack.Screen
+        name="View Assignment Screen"
+        component={StudentViewAssignmentScreen}
+      />
+      <Stack.Screen
+        name="Upload Assignment"
         component={StudentUploadAssignmentScreen}
-        //options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
