@@ -10,6 +10,8 @@ import {
 import AssignmentListItem from "../../components/assignment_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
+
 
 function SubmittedAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
@@ -54,6 +56,21 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   }, [isFetching]);
 
   return (
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Assignment Detail", {
+              assignment_id: id,
+            })
+          }
+          style={{ marginLeft: 9 }}
+        >
+          <Ionicons name="create" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    }),
+
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}

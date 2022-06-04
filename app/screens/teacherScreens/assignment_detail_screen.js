@@ -12,9 +12,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateAndTimePicker from "../../components/date_and_time_picker";
+import { useSelector } from "react-redux";
 
-function AssignmentDetailScreen() {
-  const [title, setTitle] = useState(null);
+
+function AssignmentDetailScreen({navigation , route}) {
+  
+  const { assignment_id } = route.params;
+
+  const [title, setTitle] = useState("default");
   const [detail, setDetail] = useState(null);
   const [marks, setMarks] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
@@ -22,16 +27,56 @@ function AssignmentDetailScreen() {
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-  const fetchData = () => {};
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
+  const [data, setdata] = useState();
+  const [isFetching, setIssFethin] = useState(false);
+
+  const getassignmentdetail= () => {
+  axios
+    .get(
+      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SecondAssignmentViewSet/${assignment_id}`,
+      {
+        headers: { Authorization: AuthStr },
+      }
+    )
+    .then((response) => {
+      const d = response.data;
+      setdata(d)
+      console.log(data)
+
+    })
+   
+    .catch((error) => {
+      console.log("error " + error);
+    });
+  }
+  useEffect(() => {
+    if (!isFetching) {
+      getassignmentdetail();
+      if (data){
+      setIsEnabled(data.status)
+
+      setIssFethin(true)
+    }
+    }
+  }, [isFetching]);
 
   return (
+    
     <ScrollView>
+      {data &&
       <View style={styles.container}>
+        
         <Text style={styles.headingText}>Assignment Details</Text>
+        
         <View style={styles.titleinputView}>
           <TextInput
             style={styles.titleinputText}
             placeholder="Title"
+            value={data.Title}
             placeholderTextColor="#003f5c"
             onChangeText={setTitle}
           />
@@ -41,6 +86,7 @@ function AssignmentDetailScreen() {
             style={styles.detailinputText}
             placeholder="Details"
             placeholderTextColor="#003f5c"
+            value={data.detail}
             multiline={true}
             textAlignVertical="top"
             onChangeText={setDetail}
@@ -51,6 +97,7 @@ function AssignmentDetailScreen() {
             <TextInput
               style={styles.titleinputText}
               placeholder="Marks"
+              value={data.marks.toString()}
               placeholderTextColor="#003f5c"
               onChangeText={setMarks}
             />
@@ -78,6 +125,7 @@ function AssignmentDetailScreen() {
           <Ionicons name="cloud-done-outline" size={40} color="#003f5c" />
         </View>
       </View>
+      }
     </ScrollView>
   );
 }
