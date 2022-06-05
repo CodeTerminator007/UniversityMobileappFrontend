@@ -22,20 +22,21 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
-
+console.log("the assignment id = " + id)
   const getsubmittedassignmentdetail = () => {
   axios
     .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/student/${class_id}`,
+      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SecondAssignmentSubmissionViewSet/${id}`,
       {
         headers: { Authorization: AuthStr },
       }
     )
     .then((response) => {
       const d = response.data;
+      console.log(d)
       const g = d.map((item) => {
         return {
-          id: item.user,
+          id: item.student,
           title: `${item.first_name} ${item.last_name}`,
           class_id: class_id,
           assignemt_id: id,
@@ -78,7 +79,7 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
         renderItem={({ item }) => (
           <AssignmentListItem
             title={item.title}
-            statuss={item.statuss}
+            statuss={true}
             onPress={() =>
               navigation.navigate("Student Assignment Detail", {
                 student_id: item.id,

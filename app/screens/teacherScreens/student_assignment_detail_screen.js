@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { Alert } from 'react-native';
+
 import {
   StyleSheet,
   Text,
@@ -27,6 +29,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
   const [marks, setMarks] = useState("0");
   const [comment, setComment] = useState("Default");
   const [date, setDate] = useState("12");
+  const [iid, setiid] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
   const [document, setDocument] = useState("Default");
 
@@ -41,18 +44,23 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
       .then((response) => {
         const d = response.data;
         setdata(d);
+        if(data){
+        setiid(data[0].id)
+        console.log(data[0].id)
         setIssFethin(true);
+      }
       })
 
       .catch((error) => {
         console.log("error " + error);
       });
   };
-
+  if (!isFetching) {
+    getassignmentdetail();
+  }
   useEffect(() => {
-    if (!isFetching) {
       getassignmentdetail();
-    }
+ 
   }, [isFetching]);
   if (data != null) {
     if (data.length != 0) {
@@ -69,8 +77,38 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
       setdata(null);
     }
   }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const option = {
+      headers: {
+        Authorization: AuthStr,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    let formdata = new FormData();
+    formdata.append("assignment", assignemt);
+    formdata.append("student", student_id);
+    formdata.append("marks", marks);
+    formdata.append("id", iid);
+    axios
+      .put(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/${iid}/`,
+        formdata,
+        option
+      )
+      .then((res) => {
+        if(res.status==200){
+          Alert.alert("Marks","The Marks has been updated.")
+        }
+      })
+      .catch((err) => {
+        if(err=400){
+        Alert.alert("Error","Empty Fields fill all the fields")
+      }
+      console.log("error", err);
+      });
 
-  const markGrade = () => {};
+  }
 
   return (
     <ScrollView>
@@ -152,7 +190,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
             <Text style={styles.buttonText}>Download</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.markGrade} onPress={markGrade}>
+        <TouchableOpacity style={styles.markGrade} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Mark Grade</Text>
         </TouchableOpacity>
       </View>
