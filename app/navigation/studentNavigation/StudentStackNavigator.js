@@ -16,6 +16,7 @@ import StudentResultScreen from "../../screens/studentScreens/student_result_scr
 import AllSubjectsForAssignmentScreen from "../../screens/studentScreens/all_subjects_for_assignment";
 import StudentAllAssignmentsScreen from "../../screens/studentScreens/student_all_assignment_screen";
 import StudentViewAssignmentScreen from "../../screens/studentScreens/student_view_assignment_screen";
+import FileReader from "../../components/file_reader";
 
 const Stack = createStackNavigator();
 
@@ -109,6 +110,7 @@ const StudentUploadAssignmentStackNavigator = () => {
         name="Upload Assignment"
         component={StudentUploadAssignmentScreen}
       />
+      <Stack.Screen name="File Reader" component={FileReader} />
     </Stack.Navigator>
   );
 };
