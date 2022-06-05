@@ -70,6 +70,8 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
     }
   }
 
+  const markGrade = () => {};
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -150,6 +152,9 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
             <Text style={styles.buttonText}>Download</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.markGrade} onPress={markGrade}>
+          <Text style={styles.buttonText}>Mark Grade</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -184,7 +189,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
   },
-
+  markGrade: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    width: "64%",
+    backgroundColor: "#185079",
+    borderRadius: 15,
+    marginBottom: 10,
+    marginTop: 10,
+  },
   headingText: {
     fontWeight: "bold",
     fontSize: 30,
