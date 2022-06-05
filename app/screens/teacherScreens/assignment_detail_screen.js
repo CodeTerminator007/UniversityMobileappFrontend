@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import moment from 'moment';
 import {
   StyleSheet,
   Text,
@@ -13,6 +14,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import DateAndTimePicker from "../../components/date_and_time_picker";
 import { useSelector } from "react-redux";
+import { Alert } from 'react-native';
 
 function AssignmentDetailScreen({ navigation, route }) {
   const { assignment_id } = route.params;
@@ -31,7 +33,6 @@ function AssignmentDetailScreen({ navigation, route }) {
   const [faculty, setFaculty] = useState(3);
   const [subject, setSubject] = useState(2);
   const [class_id, setClassID] = useState(1);
-
   const [marks, setMarks] = useState(12);
   const [isEnabled, setIsEnabled] = useState(false);
 
@@ -43,6 +44,7 @@ function AssignmentDetailScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState();
   const [isFetching, setIssFethin] = useState(false);
+  const ID = stateData.userReducer.id
 
   const getassignmentdetail = () => {
     axios
@@ -78,10 +80,47 @@ function AssignmentDetailScreen({ navigation, route }) {
       });
   };
   if (!isFetching) {
-    console.log("someee ");
     getassignmentdetail();
   }
   useEffect(() => {}, [isFetching]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const option = {
+      headers: {
+        Authorization: AuthStr,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    console.log(option)
+    let formdata = new FormData();
+    formdata.append("faculty", ID);
+    formdata.append("Title", title);
+    formdata.append("detail", detail);
+    formdata.append("submission_datetime", time.toISOString());
+    formdata.append("subject", subject);
+    formdata.append("status", isEnabled);
+    formdata.append("marks", marks);
+    formdata.append("class_id", class_id);
+    console.log(formdata)
+    axios
+      .put(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${assignment_id}/`,
+        formdata,
+        option
+      )
+      .then((res) => {
+        if(res.status==200){
+          Alert.alert("Assignment","The Assignment has been updated.")
+        }
+      })
+      .catch((err) => {
+        if(err=400){
+        Alert.alert("Error","Empty Fields fill all the fields")
+      }
+      console.log("error", err);
+      });
+
+  }
 
   return (
     <ScrollView>
@@ -157,13 +196,13 @@ function AssignmentDetailScreen({ navigation, route }) {
             style={styles.fileView}
             onPress={() =>
               navigation.navigate("File Reader", {
-                uri: "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf",
+                uri: document,
               })
             }
           >
             <Text style={styles.buttonText}>View PDF</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fileUpload}>
+          <TouchableOpacity style={styles.fileUpload} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Upload Changes</Text>
           </TouchableOpacity>
         </View>
