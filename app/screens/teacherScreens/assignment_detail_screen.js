@@ -63,9 +63,18 @@ function AssignmentDetailScreen({ navigation, route }) {
           setTitle(data.Title);
           setDetail(data.detail);
           setMarks(data.marks);
-          var datetimeobj = data.submission_datetime;
-          setDate(new Date(datetimeobj));
-          setTime(new Date(datetimeobj));
+          // var datetimeobj = data.submission_datetime;
+          // setDate(new Date(datetimeobj));
+          // setTime(new Date(datetimeobj));
+          // setDate(new Date(data.submission_date))
+          // console.log(new Date(data.submission_date))
+          // setTime(data.submission_time)
+          // console.log(data.submission_time)
+
+          const dateTime = moment(`${data.submission_date} ${data.submission_time}`, 'YYYY-MM-DD HH:mm:ss').format();
+          setDate(new Date(dateTime));
+          setTime(new Date(dateTime));
+
           setDocument(data.document);
           setID(data.id);
           setClassID(data.class_id);
@@ -91,17 +100,32 @@ function AssignmentDetailScreen({ navigation, route }) {
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(option)
+    // console.log(option)
     let formdata = new FormData();
     formdata.append("faculty", ID);
     formdata.append("Title", title);
     formdata.append("detail", detail);
-    formdata.append("submission_datetime", time.toISOString());
+    var d = date.toISOString()    
+    var da = d.split('T')[0];
+    // console.log(da)
+    formdata.append("submission_date",da);
+
+    // const year = date.getFullYear()
+    // const month = date.getMonth()
+    // const day = date.getDay()
+    // const d = new Date(year , month ,day )
+    // console.log(d)
+    // console.log(time.getTime())
+    var f = time.toTimeString()
+    var ti = d.split('T')[1];
+    var si = ti.split('.')[0];
+    console.log(si)
+    formdata.append("submission_time", si);
     formdata.append("subject", subject);
     formdata.append("status", isEnabled);
     formdata.append("marks", marks);
     formdata.append("class_id", class_id);
-    console.log(formdata)
+    // console.log(formdata)
     axios
       .put(
         `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${assignment_id}/`,

@@ -50,9 +50,10 @@ const DateAndTimePicker = ({date,setDate , datePicker, setDatePicker , timePicke
           value={time}
           mode={"time"}
           display={Platform.OS === "ios" ? "spinner" : "default"}
-          is24Hour={false}
+          is24Hour={true}
           onChange={onTimeSelected}
         />
+        
       )}
 
       {!datePicker && (
