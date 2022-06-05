@@ -18,12 +18,23 @@ import { useSelector } from "react-redux";
 function AssignmentDetailScreen({navigation , route}) {
   
   const { assignment_id } = route.params;
+  const [datePicker, setDatePicker] = useState(false);
 
+  const [date, setDate] = useState(new Date());
+
+  const [timePicker, setTimePicker] = useState(false);
+
+  const [time, setTime] = useState(new Date(Date.now()));
   const [title, setTitle] = useState("default");
-  const [detail, setDetail] = useState(null);
-  const [marks, setMarks] = useState(null);
+  const [detail, setDetail] = useState("default");
+  const [document, setDocument] = useState("default");
+  const [id, setID] = useState(4);
+  const [faculty, setFaculty] = useState(3);
+  const [subject, setSubject] = useState(2);
+  const [class_id, setClassID] = useState(1);
+
+  const [marks, setMarks] = useState(12);
   const [isEnabled, setIsEnabled] = useState(false);
-  const [date, setDate] = useState("2022-01-01");
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
@@ -43,9 +54,24 @@ function AssignmentDetailScreen({navigation , route}) {
       }
     )
     .then((response) => {
-      const d = response.data;
+      const d = response.data;      
       setdata(d)
-      console.log(data)
+
+      if (data){
+        setIsEnabled(data.status)
+        setTitle(data.Title)
+        setDetail(data.detail)
+        setMarks(data.marks)
+        var datetimeobj = data.submission_datetime
+        setDate(new Date(datetimeobj))
+        setTime(new Date(datetimeobj))
+        setDocument(data.document)
+        setID(data.id)
+        setClassID(data.class_id)
+        setFaculty(data.faculty)
+        setSubject(data.subject)        
+        setIssFethin(true)
+      }
 
     })
    
@@ -53,15 +79,12 @@ function AssignmentDetailScreen({navigation , route}) {
       console.log("error " + error);
     });
   }
+  if (!isFetching) {
+    console.log("someee ")
+    getassignmentdetail();
+  }
   useEffect(() => {
-    if (!isFetching) {
-      getassignmentdetail();
-      if (data){
-      setIsEnabled(data.status)
 
-      setIssFethin(true)
-    }
-    }
   }, [isFetching]);
 
   return (
@@ -76,7 +99,7 @@ function AssignmentDetailScreen({navigation , route}) {
           <TextInput
             style={styles.titleinputText}
             placeholder="Title"
-            value={data.Title}
+            value={title}
             placeholderTextColor="#003f5c"
             onChangeText={setTitle}
           />
@@ -86,7 +109,7 @@ function AssignmentDetailScreen({navigation , route}) {
             style={styles.detailinputText}
             placeholder="Details"
             placeholderTextColor="#003f5c"
-            value={data.detail}
+            value={detail}
             multiline={true}
             textAlignVertical="top"
             onChangeText={setDetail}
@@ -97,7 +120,7 @@ function AssignmentDetailScreen({navigation , route}) {
             <TextInput
               style={styles.titleinputText}
               placeholder="Marks"
-              value={data.marks.toString()}
+              value={marks.toString()}
               placeholderTextColor="#003f5c"
               onChangeText={setMarks}
             />
@@ -119,7 +142,7 @@ function AssignmentDetailScreen({navigation , route}) {
           </View>
         </View>
 
-        <DateAndTimePicker />
+        <DateAndTimePicker datePicker={datePicker} setDatePicker={setDatePicker} date={date} setDate={setDate} setTimePicker={setTimePicker} timePicker={timePicker} time={time} setTime={setTime}/>
 
         <View style={styles.file}>
           <Ionicons name="cloud-done-outline" size={40} color="#003f5c" />

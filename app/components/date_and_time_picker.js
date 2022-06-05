@@ -12,14 +12,8 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialIcons } from "@expo/vector-icons";
 
-function DateAndTimePicker() {
-  const [datePicker, setDatePicker] = useState(false);
+const DateAndTimePicker = ({date,setDate , datePicker, setDatePicker , timePicker, setTimePicker , time, setTime})=> {
 
-  const [date, setDate] = useState(new Date());
-
-  const [timePicker, setTimePicker] = useState(false);
-
-  const [time, setTime] = useState(new Date(Date.now()));
 
   function showDatePicker() {
     setDatePicker(true);
