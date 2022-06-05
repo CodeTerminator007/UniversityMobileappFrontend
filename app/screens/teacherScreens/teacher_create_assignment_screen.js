@@ -23,7 +23,10 @@ function TeacherCreateAssignmentScreen({ route }) {
   const [detail, setDetail] = useState(null);
   const [marks, setMarks] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
-  const [date, setDate] = useState("2022-01-01");
+  const [datePicker, setDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [timePicker, setTimePicker] = useState(false);
+  const [time, setTime] = useState(new Date(Date.now()));
   const [file, setFile] = useState(null);
   const state = useSelector((state) => state);
   const stateData = { ...state };
@@ -121,7 +124,16 @@ function TeacherCreateAssignmentScreen({ route }) {
           </View>
         </View>
 
-        <DateAndTimePicker />
+        <DateAndTimePicker
+          datePicker={datePicker}
+          setDatePicker={setDatePicker}
+          date={date}
+          setDate={setDate}
+          setTimePicker={setTimePicker}
+          timePicker={timePicker}
+          time={time}
+          setTime={setTime}
+        />
 
         <FilePicker file={file} setFile={setFile} />
 

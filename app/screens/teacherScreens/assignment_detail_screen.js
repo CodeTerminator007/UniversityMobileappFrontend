@@ -14,9 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import DateAndTimePicker from "../../components/date_and_time_picker";
 import { useSelector } from "react-redux";
 
-
-function AssignmentDetailScreen({navigation , route}) {
-  
+function AssignmentDetailScreen({ navigation, route }) {
   const { assignment_id } = route.params;
   const [datePicker, setDatePicker] = useState(false);
 
@@ -28,6 +26,7 @@ function AssignmentDetailScreen({navigation , route}) {
   const [title, setTitle] = useState("default");
   const [detail, setDetail] = useState("default");
   const [document, setDocument] = useState("default");
+  const [file, setFile] = useState(null);
   const [id, setID] = useState(4);
   const [faculty, setFaculty] = useState(3);
   const [subject, setSubject] = useState(2);
@@ -45,110 +44,130 @@ function AssignmentDetailScreen({navigation , route}) {
   const [data, setdata] = useState();
   const [isFetching, setIssFethin] = useState(false);
 
-  const getassignmentdetail= () => {
-  axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SecondAssignmentViewSet/${assignment_id}`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      const d = response.data;      
-      setdata(d)
+  const getassignmentdetail = () => {
+    axios
+      .get(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SecondAssignmentViewSet/${assignment_id}`,
+        {
+          headers: { Authorization: AuthStr },
+        }
+      )
+      .then((response) => {
+        const d = response.data;
+        setdata(d);
 
-      if (data){
-        setIsEnabled(data.status)
-        setTitle(data.Title)
-        setDetail(data.detail)
-        setMarks(data.marks)
-        var datetimeobj = data.submission_datetime
-        setDate(new Date(datetimeobj))
-        setTime(new Date(datetimeobj))
-        setDocument(data.document)
-        setID(data.id)
-        setClassID(data.class_id)
-        setFaculty(data.faculty)
-        setSubject(data.subject)        
-        setIssFethin(true)
-      }
+        if (data) {
+          setIsEnabled(data.status);
+          setTitle(data.Title);
+          setDetail(data.detail);
+          setMarks(data.marks);
+          var datetimeobj = data.submission_datetime;
+          setDate(new Date(datetimeobj));
+          setTime(new Date(datetimeobj));
+          setDocument(data.document);
+          setID(data.id);
+          setClassID(data.class_id);
+          setFaculty(data.faculty);
+          setSubject(data.subject);
+          setIssFethin(true);
+        }
+      })
 
-    })
-   
-    .catch((error) => {
-      console.log("error " + error);
-    });
-  }
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
   if (!isFetching) {
-    console.log("someee ")
+    console.log("someee ");
     getassignmentdetail();
   }
-  useEffect(() => {
-
-  }, [isFetching]);
+  useEffect(() => {}, [isFetching]);
 
   return (
-    
     <ScrollView>
-      {data &&
-      <View style={styles.container}>
-        
-        <Text style={styles.headingText}>Assignment Details</Text>
-        
-        <View style={styles.titleinputView}>
-          <TextInput
-            style={styles.titleinputText}
-            placeholder="Title"
-            value={title}
-            placeholderTextColor="#003f5c"
-            onChangeText={setTitle}
-          />
-        </View>
-        <View style={styles.detailinputView}>
-          <TextInput
-            style={styles.detailinputText}
-            placeholder="Details"
-            placeholderTextColor="#003f5c"
-            value={detail}
-            multiline={true}
-            textAlignVertical="top"
-            onChangeText={setDetail}
-          />
-        </View>
-        <View style={styles.marksnswitch}>
-          <View style={styles.marksinputView}>
+      {data && (
+        <View style={styles.container}>
+          <Text style={styles.headingText}>Assignment Details</Text>
+          <Text style={styles.text}>Title</Text>
+          <View style={styles.titleinputView}>
             <TextInput
               style={styles.titleinputText}
-              placeholder="Marks"
-              value={marks.toString()}
+              placeholder="Title"
+              value={title}
               placeholderTextColor="#003f5c"
-              onChangeText={setMarks}
+              onChangeText={setTitle}
             />
           </View>
-          <View style={styles.switch}>
-            {isEnabled ? (
-              <Text style={styles.text}>OPEN</Text>
-            ) : (
-              <Text style={styles.text}>CLOSED</Text>
-            )}
-
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
+          <Text style={styles.text}>Detail</Text>
+          <View style={styles.detailinputView}>
+            <TextInput
+              style={styles.detailinputText}
+              placeholder="Details"
+              placeholderTextColor="#003f5c"
+              value={detail}
+              multiline={true}
+              textAlignVertical="top"
+              onChangeText={setDetail}
             />
           </View>
-        </View>
+          <Text style={styles.text}>Marks & Status</Text>
 
-        <DateAndTimePicker datePicker={datePicker} setDatePicker={setDatePicker} date={date} setDate={setDate} setTimePicker={setTimePicker} timePicker={timePicker} time={time} setTime={setTime}/>
+          <View style={styles.marksnswitch}>
+            <View style={styles.marksinputView}>
+              <TextInput
+                style={styles.titleinputText}
+                placeholder="Marks"
+                value={marks.toString()}
+                placeholderTextColor="#003f5c"
+                onChangeText={setMarks}
+              />
+            </View>
+            <View style={styles.switch}>
+              {isEnabled ? (
+                <Text style={styles.switchtext}>OPEN</Text>
+              ) : (
+                <Text style={styles.switchtext}>CLOSED</Text>
+              )}
 
-        <View style={styles.file}>
-          <Ionicons name="cloud-done-outline" size={40} color="#003f5c" />
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
+          </View>
+          <Text style={styles.text}>Submit Date & Time</Text>
+
+          <DateAndTimePicker
+            datePicker={datePicker}
+            setDatePicker={setDatePicker}
+            date={date}
+            setDate={setDate}
+            setTimePicker={setTimePicker}
+            timePicker={timePicker}
+            time={time}
+            setTime={setTime}
+          />
+
+          <Text style={styles.text}>Assignment File</Text>
+
+          <TouchableOpacity
+            style={styles.fileView}
+            onPress={() =>
+              navigation.navigate("File Reader", {
+                uri: "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf",
+              })
+            }
+          >
+            <Text style={styles.buttonText}>View PDF</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.fileUpload}>
+            <Text style={styles.buttonText}>Upload Changes</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-      }
+      )}
     </ScrollView>
   );
 }
@@ -160,23 +179,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  file: {
-    alignItems: "center",
-    backgroundColor: "#edece8",
-    borderRadius: 15,
-    borderColor: "grey",
-    borderWidth: 5,
-    height: 70,
-    justifyContent: "center",
-    marginVertical: 10,
-    marginBottom: 10,
-    overflow: "hidden",
-    width: 70,
-  },
   marksnswitch: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "60%",
+    marginTop: 10,
+  },
+  fileView: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    width: "64%",
+    backgroundColor: "green",
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  fileUpload: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    width: "64%",
+    backgroundColor: "#185079",
+    borderRadius: 15,
+    marginBottom: 10,
+    marginTop: 10,
   },
   headingText: {
     fontWeight: "bold",
@@ -233,10 +259,18 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+  switchtext: {
+    color: "#003f5c",
+    fontWeight: "bold",
   },
   text: {
     color: "#003f5c",
     fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
   switch: {
     justifyContent: "center",
