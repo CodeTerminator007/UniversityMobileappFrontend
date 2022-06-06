@@ -15,11 +15,11 @@ import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 import axios from "axios";
 
-function StudentUploadAssignmentScreen({ navigation , route }) {
+function StudentUploadAssignmentScreen({ navigation, route }) {
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
-  console.log(stateData)
+  console.log(stateData);
   const AuthStr = "Bearer ".concat(Token);
   const [comment, setComment] = useState(null);
   const { assignment_id } = route.params;
@@ -67,35 +67,11 @@ function StudentUploadAssignmentScreen({ navigation , route }) {
       });
   };
 
-
-
-
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.headingText}>Upload Assignment </Text>
-        <Text style={styles.text}>Name</Text>
-        <View style={styles.textinputView}>
-          <TextInput
-            style={styles.inputText}
-            value={name}
-            editable={true}
-            placeholder="Name"
-            placeholderTextColor="#003f5c"
-            onChangeText={setName}
-          />
-        </View>
-        <Text style={styles.text}>Roll No</Text>
-        <View style={styles.textinputView}>
-          <TextInput
-            style={styles.inputText}
-            value={rollno}
-            editable={true}
-            placeholder="Roll No"
-            placeholderTextColor="#003f5c"
-            onChangeText={setRollno}
-          />
-        </View>
+
         <Text style={styles.text}>Comment</Text>
         <View style={styles.commentinputView}>
           <TextInput
@@ -113,7 +89,7 @@ function StudentUploadAssignmentScreen({ navigation , route }) {
         <Text style={styles.text}>Assignment File</Text>
         <FilePicker file={file} setFile={setFile} />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Create</Text>
+          <Text style={styles.buttonText}>Upload</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
