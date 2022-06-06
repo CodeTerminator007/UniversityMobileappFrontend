@@ -23,6 +23,7 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
   const [isFetching, setIssFethin] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
+  console.log("in assignment page")
   if (!classid){
   axios
     .get(
@@ -33,15 +34,9 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
     )
     .then((response) => {
       const d = response.data;
-      setClassId(d.class_id)
-      // const g = d.map((item) => {
-      //   return {
-      //     class_id: item.class_id,
-      //     subject_id: item.id,
-      //     title: `${item.course_name} ${item.class_name} ${item.class_semaster} Section ${item.class_sec} ${item.subject_name} `,
-      //   };
-      // });
-      // setdata(g);
+      setClassId(d.the_class)
+      console.log(d)
+
     })
 
     .catch((error) => {
@@ -63,7 +58,7 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
         return {
           subject_id: item.id.toString(),
           class_id : item.class_id,
-          title: `${item.course_name} ${item.class_name} ${item.class_semaster} Section ${item.class_sec} ${item.subject_name} `,
+          title: `${item.subject_name} `,
         };
       });
       setdata(g);
@@ -74,18 +69,14 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
       console.log("error " + error);
     });
   }
-  useEffect(() => {
-    if (classid){
+  if (classid){
     if (!isFetching) {   
       getallsubjects();
     }
   }
-  }, [isFetching]);
+  useEffect(() => {
 
-  const data1 = [
-    { title: "math", subject_id: 1, class_id: 2 },
-    { title: "english", subject_id: 4, class_id: 3 },
-  ];
+  }, [isFetching]);
 
   return (
     <SafeAreaView style={styles.container}>

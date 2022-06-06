@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,55 +12,63 @@ import {
 import FilePicker from "../../components/file_picker";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { Alert } from "react-native";
+import axios from "axios";
 
-function StudentUploadAssignmentScreen({ route }) {
-  // const { student_id } = route.params;
-  // const { assignemt } = route.params;
-  // const [data, setdata] = useState(null);
-  // const state = useSelector((state) => state);
-  // const stateData = { ...state };
-  // const Token = stateData.userReducer.token;
-  // const AuthStr = "Bearer ".concat(Token);
-  const [name, setName] = useState(null);
-  const [rollno, setRollno] = useState(null);
+function StudentUploadAssignmentScreen({ navigation , route }) {
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  console.log(stateData)
+  const AuthStr = "Bearer ".concat(Token);
   const [comment, setComment] = useState(null);
-  const [date, setDate] = useState("12.1.22");
+  const { assignment_id } = route.params;
+  const [marks, setMarks] = useState(0);
+  const [name, setName] = useState("Default");
+  const [rollno, setRollno] = useState("Default");
+
+  const [isEnabled, setIsEnabled] = useState(false);
   const [file, setFile] = useState(null);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const option = {
+      headers: {
+        Authorization: AuthStr,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    let formdata = new FormData();
+    formdata.append("student", stateData.userReducer.id);
+    formdata.append("assignment", assignment_id);
+    formdata.append("document", {
+      uri: file.uri,
+      type: "application/pdf",
+      name: `${stateData.userReducer.id}document.${file.uri.split(".").pop()}`,
+    });
+    formdata.append("comment", comment);
+    formdata.append("marks ", marks);
 
-  // const [isFetching, setIssFethin] = useState(false);
+    axios
+      .post(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/`,
+        formdata,
+        option
+      )
+      .then((res) => {
+        if (res.status == 201) {
+          Alert.alert("User", "The Assignment was Submitted.");
+        }
+      })
+      .catch((err) => {
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+  };
 
-  // const getassignmentdetail = () => {
-  //   axios
-  //     .get(
-  //       `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
-  //       {
-  //         headers: { Authorization: AuthStr },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       const d = response.data;
-  //       setdata(d);
-  //       console.log(data);
-  //       setIssFethin(true);
-  //     })
 
-  //     .catch((error) => {
-  //       console.log("error " + error);
-  //     });
-  // };
 
-  // useEffect(() => {
-  //   if (!isFetching) {
-  //     getassignmentdetail();
-  //   }
-  // }, [isFetching]);
-  // if (data != null) {
-  //   setComment(data[0].comment);
-  //   setDate(data[0].submission_datetime);
-  //   setdata(null);
-  // }
 
   return (
     <ScrollView>
