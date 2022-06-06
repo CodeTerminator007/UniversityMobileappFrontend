@@ -20,6 +20,8 @@ function StudentViewAssignmentScreen({ navigation, route }) {
 
   const { class_id } = route.params;
   const { id } = route.params;
+  const { Status } = route.params;
+
   const { Marks } = route.params;
   const { subject_id } = route.params;
   const { document } = route.params;
@@ -52,28 +54,19 @@ function StudentViewAssignmentScreen({ navigation, route }) {
   };
   const getDateandTime = () => {
     var countDownDate = new Date(submission_date).getTime();
-
-    // Update the count down every 1 second
     var x = setInterval(function () {
-      // Get today's date and time
       var now = new Date().getTime();
-
-      // Find the distance between now and the count down date
       var distance = countDownDate - now;
-
-      // Time calculations for days, hours, minutes and seconds
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
       var hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
       setDate(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
       if (distance < 0) {
         clearInterval(x);
         setDate("Submission Time Over");
-        setTimestatus(true);
       }
     }, 1000);
 
@@ -83,7 +76,14 @@ function StudentViewAssignmentScreen({ navigation, route }) {
     console.log(document);
     setDocument(document);
   };
-
+  const geStatus = () => {
+    if (Status==false){
+      setStatus("Assignemt is Closed");
+    }
+    if(Status==true){
+      setStatus("Can be Submitted");
+    }
+  };
   if (Title == "default") {
     getitle();
   }
@@ -97,7 +97,9 @@ function StudentViewAssignmentScreen({ navigation, route }) {
   if (date == "default") {
     getDateandTime();
   }
-
+  if (status == "default") {
+    geStatus();
+  }
   if (
     documenturi ==
     "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
