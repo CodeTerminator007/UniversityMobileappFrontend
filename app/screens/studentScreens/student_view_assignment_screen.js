@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import axios from "axios";
+import { Alert } from 'react-native';
 import {
   StyleSheet,
   Text,
@@ -13,14 +13,17 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import moment from 'moment';
 
 function StudentViewAssignmentScreen({ navigation, route }) {
-  const stateData = { ...state };
   const state = useSelector((state) => state);
-
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
   const { class_id } = route.params;
   const { id } = route.params;
   const { Status } = route.params;
+  const ID = stateData.userReducer.id;
 
   const { Marks } = route.params;
   const { subject_id } = route.params;
@@ -29,11 +32,14 @@ function StudentViewAssignmentScreen({ navigation, route }) {
   const { submission_date } = route.params;
   const { details } = route.params;
   const { title } = route.params;
+  const [isFetching, setIssFethin] = useState(false);
 
   const { faculty } = route.params;
   const [Title, setTitle] = useState("default");
   const [detail, setDetail] = useState("default");
   const [marks, setMarks] = useState("default");
+  const [allow, setAllow] = useState(true);
+
   const [date, setDate] = useState("default");
   const [status, setStatus] = useState("default");
   const [submissionStatus, setSubmissionStatus] = useState("default");
@@ -41,7 +47,38 @@ function StudentViewAssignmentScreen({ navigation, route }) {
     "http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
   );
   const [timestatus, setTimestatus] = useState(false);
+  const getassignmentdetail = () => {
+    axios
+      .get(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${ID}&assignment=${id}`,
+        {
+          headers: { Authorization: AuthStr },
+        }
+      )
+      .then((response) => {
+        const d = response.data;
+        var g = d.length
+        if(g==1){
+          var s= d[0].submission_datetime
+          const dateTime = moment(`${s}`, 'YYYY-MM-DD HH:mm:ss').format();
+          setAllow(false)
+          setSubmissionStatus("Submitted on "+ dateTime)
+          setIssFethin(true);
+      }
+      if(g==0){
+        setSubmissionStatus("Not Submitted ")
+        setAllow(true)
+        setIssFethin(true);
+      }
+      })
 
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  if (!isFetching) {
+    getassignmentdetail();
+  }
   const getitle = () => {
     setTitle(title);
   };
@@ -49,7 +86,6 @@ function StudentViewAssignmentScreen({ navigation, route }) {
     setDetail(details);
   };
   const getMarks = () => {
-    console.log(Marks);
     setMarks(Marks.toString());
   };
   const getDateandTime = () => {
@@ -70,10 +106,8 @@ function StudentViewAssignmentScreen({ navigation, route }) {
       }
     }, 1000);
 
-    console.log(submission_date + " " + submission_time);
   };
   const getDocument = () => {
-    console.log(document);
     setDocument(document);
   };
   const geStatus = () => {
@@ -109,7 +143,8 @@ function StudentViewAssignmentScreen({ navigation, route }) {
 
   return (
     navigation.setOptions({
-      headerRight: () => (
+      headerRight: () =>
+       (
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("Upload Assignment", {
@@ -120,7 +155,8 @@ function StudentViewAssignmentScreen({ navigation, route }) {
         >
           <Ionicons name="create" size={24} color="black" />
         </TouchableOpacity>
-      ),
+      )
+    
     }),
     (
       <ScrollView>
