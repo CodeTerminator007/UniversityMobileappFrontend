@@ -18,6 +18,7 @@ function AdminPostEventScreen() {
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
   const state = useSelector((state) => state);
+  const [image, setImage] = useState(null);
 
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -25,22 +26,31 @@ function AdminPostEventScreen() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const AuthStr = "Bearer ".concat(Token);
+    event.preventDefault();
     const option = {
-      headers: { Authorization: AuthStr },
+      headers: {
+        Authorization: AuthStr,
+        "Content-Type": "multipart/form-data",
+      },
     };
+    let formdata = new FormData();
+    formdata.append("title", title);
+    formdata.append("detail", detail);
+    formdata.append("Arthur", ID);
+    formdata.append("image", {
+      uri: image.uri,
+      type: "image/jpeg",
+      name: `${title}profilepic.${image.uri.split(".").pop()}`,
+    });
+    console.log(formdata);
     axios
       .post(
         `${URI.uri}/announcement/`,
-        {
-          title: title,
-          detail: detail,
-          Arthur: ID,
-        },
-        option
+        formdata, option
       )
       .then((res) => {
         if (res.status == 201) {
-          Alert.alert("Notification", "The Notification has been Posted.");
+          Alert.alert("Announcement", "The Announcement has been Posted.");
         }
       })
       .catch((err) => {
@@ -73,7 +83,7 @@ function AdminPostEventScreen() {
         />
       </View>
       <Text style={styles.text}>Select Profile</Text>
-      <ImagePickerr />
+      <ImagePickerr image={image} setImage={setImage}/>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>POST</Text>
