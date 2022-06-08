@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   notifiContainer: {
     //flexDirection: "row",
     padding: 20,
-    backgroundColor: "#185079",
+    backgroundColor: "#87CEEB",
     marginBottom: 6,
     borderRadius: 10,
   },

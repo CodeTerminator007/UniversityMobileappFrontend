@@ -17,15 +17,20 @@ function StudentProfile() {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: profile_image }} />
-      <Text style={styles.text}>
-        {stateData.userReducer.userData.first_name}{" "}
-        {stateData.userReducer.userData.last_name}
-      </Text>
-      <Text style={styles.text}>{stateData.userReducer.userData.email}</Text>
-      <Text style={styles.text}>
-        {stateData.userReducer.userData.last_education_degree}
-      </Text>
+      <View style={{ flex: 2 }}>
+        <Image style={styles.image} source={{ uri: profile_image }} />
+        <Text style={styles.text}>
+          {stateData.userReducer.userData.first_name}{" "}
+          {stateData.userReducer.userData.last_name}
+        </Text>
+        <Text style={styles.text}>{stateData.userReducer.userData.email}</Text>
+        <Text style={styles.text}>
+          {stateData.userReducer.userData.last_education_degree}
+        </Text>
+      </View>
+      <View style={styles.logoContainer}>
+        <Image style={styles.logo} source={require("../assets/RipLogo.png")} />
+      </View>
     </View>
   );
 }
@@ -33,9 +38,10 @@ function StudentProfile() {
 const styles = StyleSheet.create({
   container: {
     //alignItems: "center",
-    //flexDirection: "row",
+    flexDirection: "row",
     padding: "10%",
-    backgroundColor: "#185079",
+    backgroundColor: "white",
+    //backgroundColor: "#185079",
     //borderColor: "black",
     //borderWidth: 1,
     borderRadius: 20,
@@ -47,6 +53,11 @@ const styles = StyleSheet.create({
     //elevation: 15,
     //marginBottom: 30
   },
+  logoContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   image: {
     width: 60,
     height: 60,
@@ -55,7 +66,8 @@ const styles = StyleSheet.create({
     //backgroundColor: '#7367af',
   },
   text: {
-    color: "#b6bdc7",
+    //color: "#b6bdc7",
+    color: "black",
     fontSize: 17,
     fontWeight: "bold",
   },

@@ -11,16 +11,48 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import ImagePickerr from "../../components/image_picker";
 
-function AdminPostNotificationScreen() {
+function AdminPostEventScreen() {
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
+  const state = useSelector((state) => state);
 
-  const handleSubmit = () => {};
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const ID = stateData.userReducer.id;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const AuthStr = "Bearer ".concat(Token);
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    axios
+      .post(
+        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/announcement/`,
+        {
+          title: title,
+          detail: detail,
+          Arthur: ID,
+        },
+        option
+      )
+      .then((res) => {
+        if (res.status == 201) {
+          Alert.alert("Notification", "The Notification has been Posted.");
+        }
+      })
+      .catch((err) => {
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>Post Notification</Text>
+      <Text style={styles.headingText}>Post Event</Text>
       <View style={styles.titleinputView}>
         <TextInput
           style={styles.titleinputText}
@@ -39,6 +71,8 @@ function AdminPostNotificationScreen() {
           onChangeText={setDetail}
         />
       </View>
+      <Text style={styles.text}>Select Profile</Text>
+      <ImagePickerr />
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>POST</Text>
@@ -104,4 +138,4 @@ const styles = StyleSheet.create({
     color: "#003f5c",
   },
 });
-export default AdminPostNotificationScreen;
+export default AdminPostEventScreen;

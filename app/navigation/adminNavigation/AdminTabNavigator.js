@@ -9,6 +9,7 @@ import {
   AdminPostNotificationStackNavigator,
   AdminProfileStackNavigator,
 } from "./AdminStackNavigator";
+import AdminPostEventScreen from "../../screens/adminScreens/admin_post_event_screen";
 
 // import FloatingButton from '../components/FloatingButton'
 
@@ -56,6 +57,16 @@ const AdminBottomTabNavigator = () => {
          tabBarIcon: () => <FloatingButton/>
        }} 
       /> */}
+        <Tab.Screen
+          name="Admin Post Event"
+          component={AdminPostEventScreen}
+          options={{
+            tabBarIcon: () => (
+              <Ionicons name="newspaper-outline" size={24} color="black" />
+            ),
+            headerShown: false,
+          }}
+        />
         <Tab.Screen
           name="Admin Post Notification"
           component={AdminPostNotificationStackNavigator}

@@ -14,69 +14,75 @@ import {
   MaterialCommunityIcons,
   Foundation,
 } from "@expo/vector-icons";
+import ImageBackground from "react-native/Libraries/Image/ImageBackground";
 
 function StudentDashboardScreen() {
   return (
     <View style={{ flex: 1, padding: 10 }}>
-      <StudentProfile />
-      <View style={styles.container}>
-        <View style={styles.box}>
-          <MaterialCommunityIcons
-            name="cash-register"
-            size={35}
-            color="white"
-          />
-          <Text style={styles.text}>Registered Courses</Text>
+      <ImageBackground
+        style={{ flex: 1 }}
+        source={require("../../assets/background.jpeg")}
+      >
+        <StudentProfile />
+        <View style={styles.container}>
+          <View style={styles.box}>
+            <MaterialCommunityIcons
+              name="cash-register"
+              size={35}
+              color="white"
+            />
+            <Text style={styles.text}>Registered Courses</Text>
+          </View>
+          <View style={styles.box}>
+            <AntDesign name="clockcircleo" size={35} color="white" />
+            <Text style={styles.text}>Lecture Schedule</Text>
+          </View>
+          <View style={styles.box}>
+            <MaterialCommunityIcons
+              name="source-branch"
+              size={35}
+              color="white"
+            />
+            <Text style={styles.text}>Scheme of Study</Text>
+          </View>
         </View>
-        <View style={styles.box}>
-          <AntDesign name="clockcircleo" size={35} color="white" />
-          <Text style={styles.text}>Lecture Schedule</Text>
+        <View style={styles.container}>
+          <View style={styles.box}>
+            <MaterialCommunityIcons
+              name="notebook-outline"
+              size={35}
+              color="white"
+            />
+            <Text style={styles.text}>Account Book</Text>
+          </View>
+          <View style={styles.box}>
+            <AntDesign name="calendar" size={35} color="white" />
+            <Text style={styles.text}>Academic Calender</Text>
+          </View>
+          <View style={styles.box}>
+            <AntDesign name="book" size={35} color="white" />
+            <Text style={styles.text}>Grade Book</Text>
+          </View>
         </View>
-        <View style={styles.box}>
-          <MaterialCommunityIcons
-            name="source-branch"
-            size={35}
-            color="white"
-          />
-          <Text style={styles.text}>Scheme of Study</Text>
+        <View style={styles.container}>
+          <View style={styles.box}>
+            <Foundation name="page-copy" size={35} color="white" />
+            <Text style={styles.text}>Student DateSheet</Text>
+          </View>
+          <View style={styles.box}>
+            <AntDesign name="setting" size={35} color="white" />
+            <Text style={styles.text}>Student Servicesr</Text>
+          </View>
+          <View style={styles.box}>
+            <MaterialCommunityIcons
+              name="lightbulb-on-outline"
+              size={35}
+              color="white"
+            />
+            <Text style={styles.text}>Event News</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.box}>
-          <MaterialCommunityIcons
-            name="notebook-outline"
-            size={35}
-            color="white"
-          />
-          <Text style={styles.text}>Account Book</Text>
-        </View>
-        <View style={styles.box}>
-          <AntDesign name="calendar" size={35} color="white" />
-          <Text style={styles.text}>Academic Calender</Text>
-        </View>
-        <View style={styles.box}>
-          <AntDesign name="book" size={35} color="white" />
-          <Text style={styles.text}>Grade Book</Text>
-        </View>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.box}>
-          <Foundation name="page-copy" size={35} color="white" />
-          <Text style={styles.text}>Student DateSheet</Text>
-        </View>
-        <View style={styles.box}>
-          <AntDesign name="setting" size={35} color="white" />
-          <Text style={styles.text}>Student Servicesr</Text>
-        </View>
-        <View style={styles.box}>
-          <MaterialCommunityIcons
-            name="lightbulb-on-outline"
-            size={35}
-            color="white"
-          />
-          <Text style={styles.text}>Event News</Text>
-        </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
