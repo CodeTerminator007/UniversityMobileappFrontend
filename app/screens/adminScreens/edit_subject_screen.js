@@ -13,6 +13,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 
 function EditSubjectScreen({ route }) {
   const { id } = route.params;
@@ -72,12 +73,9 @@ function EditSubjectScreen({ route }) {
   const AuthStr = "Bearer ".concat(Token);
   const getCourses = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/course`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         setIssFethincourse(false);
         const d = response.data;
@@ -97,12 +95,9 @@ function EditSubjectScreen({ route }) {
   };
   const getstaff = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/faculty/`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/user/faculty/`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         setIssFethinstaff(false);
         const e = response.data;
@@ -121,12 +116,9 @@ function EditSubjectScreen({ route }) {
   };
   const getclasses = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Class/`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/Class/`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         setisFetchingclasses(false);
         const l = response.data;
@@ -163,7 +155,7 @@ function EditSubjectScreen({ route }) {
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Subject/`,
+        `${URI.uri}/Subject/`,
         {
           subject_name: subjectname,
           course_id: course,

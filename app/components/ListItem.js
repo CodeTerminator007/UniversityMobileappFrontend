@@ -8,7 +8,9 @@ function ListItem({ title, description, url, onPress }) {
         <Image style={styles.image} source={{ uri: url }}></Image>
         <View style={styles.textContainer}>
           <Text style={styles.heading}>{title}</Text>
-          <Text style={styles.detailText}>{description}</Text>
+          <Text numberOfLines={1} style={styles.detailText}>
+            {description}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -18,7 +20,7 @@ function ListItem({ title, description, url, onPress }) {
 const styles = StyleSheet.create({
   notifiContainer: {
     flexDirection: "row",
-    padding: 10,
+    padding: 15,
     backgroundColor: "#185079",
     marginBottom: 6,
   },
@@ -33,6 +35,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     color: "white",
+    marginTop: 4,
   },
   heading: {
     fontSize: 18,

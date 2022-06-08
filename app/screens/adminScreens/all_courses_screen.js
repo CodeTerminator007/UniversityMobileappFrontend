@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import URI from "../../context/uri";
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -19,12 +20,9 @@ function AllCoursesScreen({ navigation }) {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course/`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
+    .get(`${URI.uri}/course/`, {
+      headers: { Authorization: AuthStr },
+    })
     .then((response) => {
       // If request is good...
       const d = response.data;

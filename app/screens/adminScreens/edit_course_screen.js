@@ -12,6 +12,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 
 function EditCourseScreen({ route }) {
   const { id } = route.params;
@@ -30,7 +31,7 @@ function EditCourseScreen({ route }) {
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course/`,
+        `${URI.uri}/course/`,
         {
           course_name: coursename,
         },

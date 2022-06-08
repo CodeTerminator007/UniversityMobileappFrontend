@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 
 import {
   StyleSheet,
@@ -12,6 +12,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 import FileReader from "../../components/file_reader";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -36,7 +37,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
   const getassignmentdetail = () => {
     axios
       .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
+        `${URI.uri}/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
         {
           headers: { Authorization: AuthStr },
         }
@@ -44,11 +45,11 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
       .then((response) => {
         const d = response.data;
         setdata(d);
-        if(data){
-        setiid(data[0].id)
-        console.log(data[0].id)
-        setIssFethin(true);
-      }
+        if (data) {
+          setiid(data[0].id);
+          console.log(data[0].id);
+          setIssFethin(true);
+        }
       })
 
       .catch((error) => {
@@ -59,8 +60,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
     getassignmentdetail();
   }
   useEffect(() => {
-      getassignmentdetail();
- 
+    getassignmentdetail();
   }, [isFetching]);
   if (data != null) {
     if (data.length != 0) {
@@ -91,24 +91,19 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
     formdata.append("marks", marks);
     formdata.append("id", iid);
     axios
-      .put(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/${iid}/`,
-        formdata,
-        option
-      )
+      .put(`${URI.uri}/AssignmentSubmissionViewSet/${iid}/`, formdata, option)
       .then((res) => {
-        if(res.status==200){
-          Alert.alert("Marks","The Marks has been updated.")
+        if (res.status == 200) {
+          Alert.alert("Marks", "The Marks has been updated.");
         }
       })
       .catch((err) => {
-        if(err=400){
-        Alert.alert("Error","Empty Fields fill all the fields")
-      }
-      console.log("error", err);
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
       });
-
-  }
+  };
 
   return (
     <ScrollView>

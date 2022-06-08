@@ -11,6 +11,8 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
+
 // import { useSelector, useDispatch } from "react-redux";
 // import { setToken, setName, setUserData } from "../redux/actions";
 // import { useNavigation } from "@react-navigation/native";
@@ -30,26 +32,31 @@ function TeacherEditTimetableScreen() {
     const AuthStr = "Bearer ".concat(Token);
     const option = {
       headers: { Authorization: AuthStr },
-    }
+    };
     axios
-      .post(`http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Timetable/`, {
+      .post(
+        `${URI.uri}/Timetable/`,
+        {
           sub: subject,
           subhoursstart: subjectHourStart,
           subhoursend: subjectHourEnd,
           day: day,
           room: room,
-          person:ID,
+          person: ID,
         },
         option
-        )
+      )
       .then((res) => {
-        if(res.status==201){
-          Alert.alert("Timetable","New Schedual Has been added in your Timetable.")
+        if (res.status == 201) {
+          Alert.alert(
+            "Timetable",
+            "New Schedual Has been added in your Timetable."
+          );
         }
       })
       .catch((err) => {
-        if(err=400){
-          Alert.alert("Error","Empty Fields fill all the fields")
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
         }
         console.log("error", err);
       });

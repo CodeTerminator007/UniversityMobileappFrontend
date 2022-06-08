@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 
 import {
   StyleSheet,
@@ -13,9 +13,9 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 
 function AddSubjectScreen() {
-
   const [subjectname, setSubjectname] = useState(null);
 
   const [courseopen, setCourseopen] = useState(false);
@@ -55,128 +55,115 @@ function AddSubjectScreen() {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
-  const [isFetchingcourse,setIssFethincourse]=useState(false)
-  const [isFetchingstaff,setIssFethinstaff]=useState(false)
-  const [isFetchingclasses,setisFetchingclasses]=useState(false)
+  const [isFetchingcourse, setIssFethincourse] = useState(false);
+  const [isFetchingstaff, setIssFethinstaff] = useState(false);
+  const [isFetchingclasses, setisFetchingclasses] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
-  const getCourses =()=>{
+  const getCourses = () => {
     axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course`,
-      {
+      .get(`${URI.uri}/course`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      setIssFethincourse(false)
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          label: item.course_name,
-          value: item.id.toString(),
-        };
-      });
-      setdata(g);
-      setCourselist(g)
-    })
+      })
+      .then((response) => {
+        setIssFethincourse(false);
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            label: item.course_name,
+            value: item.id.toString(),
+          };
+        });
+        setdata(g);
+        setCourselist(g);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    });  
-  }
-  const getstaff =()=>{
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  const getstaff = () => {
     axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/faculty/`,
-      {
+      .get(`${URI.uri}/user/faculty/`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      setIssFethinstaff(false)
-      const e = response.data;
-      const f = e.map((item) => {
-        return {
-          label: item.username,
-          value: item.user.toString(),
-        };
-      });
-      setStafflist(f)
-    })
+      })
+      .then((response) => {
+        setIssFethinstaff(false);
+        const e = response.data;
+        const f = e.map((item) => {
+          return {
+            label: item.username,
+            value: item.user.toString(),
+          };
+        });
+        setStafflist(f);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    });  
-  }
-  const getclasses =()=>{
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  const getclasses = () => {
     axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Class/`,
-      {
+      .get(`${URI.uri}/Class/`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      setisFetchingclasses(false)
-      const l = response.data;
-      const s = l.map((item) => {
-        return {
-          label: `${item.class_name} ${item.semaster} sec ${item.sec}`,
-          value: item.id.toString(),
-        };
+      })
+      .then((response) => {
+        setisFetchingclasses(false);
+        const l = response.data;
+        const s = l.map((item) => {
+          return {
+            label: `${item.class_name} ${item.semaster} sec ${item.sec}`,
+            value: item.id.toString(),
+          };
+        });
+        setClasslist(s);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
       });
-      setClasslist(s)
-    })
+  };
 
-    .catch((error) => {
-      console.log("error " + error);
-    });  
-  }
-
-
-  useEffect(()=>{
-    if(!isFetchingcourse){
-      getCourses()
+  useEffect(() => {
+    if (!isFetchingcourse) {
+      getCourses();
     }
-    if(!isFetchingstaff){
-      getstaff()
+    if (!isFetchingstaff) {
+      getstaff();
     }
-    if(!isFetchingclasses){
-      getclasses()
+    if (!isFetchingclasses) {
+      getclasses();
     }
-  
-  },[isFetchingcourse,isFetchingstaff,isFetchingclasses])
+  }, [isFetchingcourse, isFetchingstaff, isFetchingclasses]);
 
-
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Subject/`,
+        `${URI.uri}/Subject/`,
         {
           subject_name: subjectname,
-          course_id:course ,
+          course_id: course,
           staff_id: staff,
-          class_id:classs ,
+          class_id: classs,
         },
         option
       )
       .then((res) => {
-        if(res.status==201){
-          Alert.alert("Subject","The Subject has been created.")
+        if (res.status == 201) {
+          Alert.alert("Subject", "The Subject has been created.");
         }
       })
       .catch((err) => {
-        if(err=400){
-          Alert.alert("Error","Empty Fields fill all the fields")
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
         }
         console.log("error", err);
       });
-
   };
   return (
     <View style={styles.container}>

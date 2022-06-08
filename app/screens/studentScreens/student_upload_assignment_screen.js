@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 import FilePicker from "../../components/file_picker";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -49,11 +50,7 @@ function StudentUploadAssignmentScreen({ navigation, route }) {
     formdata.append("marks ", marks);
 
     axios
-      .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/`,
-        formdata,
-        option
-      )
+      .post(`${URI.uri}/AssignmentSubmissionViewSet/`, formdata, option)
       .then((res) => {
         if (res.status == 201) {
           Alert.alert("User", "The Assignment was Submitted.");

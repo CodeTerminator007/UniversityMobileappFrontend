@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
+import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
 function AllSubjectsForAssignmentScreen({ navigation }) {
-  
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -23,60 +23,51 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
   const [isFetching, setIssFethin] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
-  console.log("in assignment page")
-  if (!classid){
-  axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SimpleStudentViewSet/${ID}`,
-      {
+  console.log("in assignment page");
+  if (!classid) {
+    axios
+      .get(`${URI.uri}/SimpleStudentViewSet/${ID}`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      const d = response.data;
-      setClassId(d.the_class)
-      console.log(d)
+      })
+      .then((response) => {
+        const d = response.data;
+        setClassId(d.the_class);
+        console.log(d);
+      })
 
-    })
-
-    .catch((error) => {
-      console.log("error " + error);
-    });
-  }
-
-  const getallsubjects= () => {
-  axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Subjectfilterclass/${classid}`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          subject_id: item.id.toString(),
-          class_id : item.class_id,
-          title: `${item.subject_name} `,
-        };
+      .catch((error) => {
+        console.log("error " + error);
       });
-      setdata(g);
-      setIssFethin(true)
-    })
-
-    .catch((error) => {
-      console.log("error " + error);
-    });
   }
-  if (classid){
-    if (!isFetching) {   
+
+  const getallsubjects = () => {
+    axios
+      .get(`${URI.uri}/Subjectfilterclass/${classid}`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            subject_id: item.id.toString(),
+            class_id: item.class_id,
+            title: `${item.subject_name} `,
+          };
+        });
+        setdata(g);
+        setIssFethin(true);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  if (classid) {
+    if (!isFetching) {
       getallsubjects();
     }
   }
-  useEffect(() => {
-
-  }, [isFetching]);
+  useEffect(() => {}, [isFetching]);
 
   return (
     <SafeAreaView style={styles.container}>

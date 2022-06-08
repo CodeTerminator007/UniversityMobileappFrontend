@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import URI from "../../context/uri";
 import ImagePickerr from "../../components/image_picker";
 
 function AdminPostEventScreen() {
@@ -29,7 +30,7 @@ function AdminPostEventScreen() {
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/announcement/`,
+        `${URI.uri}/announcement/`,
         {
           title: title,
           detail: detail,

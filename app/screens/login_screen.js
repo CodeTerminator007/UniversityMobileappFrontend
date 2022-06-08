@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import URI from "../../app/context/uri";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setToken,
@@ -25,8 +26,6 @@ export default loginScreen = () => {
   const [passwordcheck, setpasswordcheck] = useState(null);
   const [errorcheck, seterrorcheck] = useState(null);
 
-
-
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const navigation = useNavigation();
@@ -37,50 +36,43 @@ export default loginScreen = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!username){
-      setusernamecheck("Username is missing") 
+    if (!username) {
+      setusernamecheck("Username is missing");
+    } else {
+      setusernamecheck(null);
     }
-    else{
-      setusernamecheck(null)
+    if (!passwordcheck) {
+      setpasswordcheck("Password is missing");
+    } else {
+      setpasswordcheck(null);
     }
-    if (!passwordcheck){
-      setpasswordcheck("Password is missing") 
-    }
-    else{
-      setpasswordcheck(null)
-    }   
-    if(username && password){ 
-    axios
-      .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/auth/login`,
-        {
+    if (username && password) {
+      axios
+        .post(`${URI.uri}/auth/login`, {
           username: username,
           password: password,
-        }
-      )
-      .then((res) => {
-        dispatch(setUserData(res.data.user));
-        dispatch(setId(res.data.user.id));
-        dispatch(setToken(res.data.jwt.access));
-        dispatch(setProfile_image(res.data.user.profile_image));
-        const userData = res.data.user;
-        const { is_admin, is_faculty, is_student } = userData;
+        })
+        .then((res) => {
+          dispatch(setUserData(res.data.user));
+          dispatch(setId(res.data.user.id));
+          dispatch(setToken(res.data.jwt.access));
+          dispatch(setProfile_image(res.data.user.profile_image));
+          const userData = res.data.user;
+          const { is_admin, is_faculty, is_student } = userData;
 
-        if (is_admin) {
-
-          navigation.replace("Admin");
-
-        } else if (is_student) {
-          navigation.replace("Student");
-        } else if (is_faculty) {
-          navigation.replace("Teacher");
-        }
-      })
-      .catch((err) => {
-        if(err=401){
-          seterrorcheck("The username password are not correct")
-        }
-      });
+          if (is_admin) {
+            navigation.replace("Admin");
+          } else if (is_student) {
+            navigation.replace("Student");
+          } else if (is_faculty) {
+            navigation.replace("Teacher");
+          }
+        })
+        .catch((err) => {
+          if ((err = 401)) {
+            seterrorcheck("The username password are not correct");
+          }
+        });
     }
   };
   return (

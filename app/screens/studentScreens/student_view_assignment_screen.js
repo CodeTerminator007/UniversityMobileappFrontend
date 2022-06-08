@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,9 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 import { Ionicons } from "@expo/vector-icons";
-import moment from 'moment';
+import moment from "moment";
 
 function StudentViewAssignmentScreen({ navigation, route }) {
   const state = useSelector((state) => state);
@@ -50,26 +51,26 @@ function StudentViewAssignmentScreen({ navigation, route }) {
   const getassignmentdetail = () => {
     axios
       .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentSubmissionViewSet/?student_id=${ID}&assignment=${id}`,
+        `${URI.uri}/AssignmentSubmissionViewSet/?student_id=${ID}&assignment=${id}`,
         {
           headers: { Authorization: AuthStr },
         }
       )
       .then((response) => {
         const d = response.data;
-        var g = d.length
-        if(g==1){
-          var s= d[0].submission_datetime
-          const dateTime = moment(`${s}`, 'YYYY-MM-DD HH:mm:ss').format();
-          setAllow(false)
-          setSubmissionStatus("Submitted on "+ dateTime)
+        var g = d.length;
+        if (g == 1) {
+          var s = d[0].submission_datetime;
+          const dateTime = moment(`${s}`, "YYYY-MM-DD HH:mm:ss").format();
+          setAllow(false);
+          setSubmissionStatus("Submitted on " + dateTime);
           setIssFethin(true);
-      }
-      if(g==0){
-        setSubmissionStatus("Not Submitted ")
-        setAllow(true)
-        setIssFethin(true);
-      }
+        }
+        if (g == 0) {
+          setSubmissionStatus("Not Submitted ");
+          setAllow(true);
+          setIssFethin(true);
+        }
       })
 
       .catch((error) => {
@@ -105,16 +106,15 @@ function StudentViewAssignmentScreen({ navigation, route }) {
         setDate("Submission Time Over");
       }
     }, 1000);
-
   };
   const getDocument = () => {
     setDocument(document);
   };
   const geStatus = () => {
-    if (Status==false){
+    if (Status == false) {
       setStatus("Assignemt is Closed");
     }
-    if(Status==true){
+    if (Status == true) {
       setStatus("Can be Submitted");
     }
   };
@@ -143,8 +143,7 @@ function StudentViewAssignmentScreen({ navigation, route }) {
 
   return (
     navigation.setOptions({
-      headerRight: () =>
-       (
+      headerRight: () => (
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("Upload Assignment", {
@@ -155,8 +154,7 @@ function StudentViewAssignmentScreen({ navigation, route }) {
         >
           <Ionicons name="create" size={24} color="black" />
         </TouchableOpacity>
-      )
-    
+      ),
     }),
     (
       <ScrollView>
@@ -244,9 +242,7 @@ function StudentViewAssignmentScreen({ navigation, route }) {
                 style={styles.fileView}
                 onPress={() =>
                   navigation.navigate("File Reader", {
-                    uri:
-                      "http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io" +
-                      documenturi,
+                    uri: "${URI.uri}" + documenturi,
                   })
                 }
               >

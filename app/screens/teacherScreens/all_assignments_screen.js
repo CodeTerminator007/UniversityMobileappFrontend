@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import URI from "../../context/uri";
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -24,31 +25,26 @@ function AllAssignmentsScreen({ navigation, route }) {
   const [isFetching, setIssFethin] = useState(false);
 
   const getallAssignment = () => {
-
-  axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${id}`,
-      {
+    axios
+      .get(`${URI.uri}/AssignmentViewSet/${id}`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          id: item.id,
-          title: item.Title,
-          class_id: class_id,
-        };
+      })
+      .then((response) => {
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            id: item.id,
+            title: item.Title,
+            class_id: class_id,
+          };
+        });
+        setdata(g);
+        setIssFethin(true);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
       });
-      setdata(g);
-      setIssFethin(true)
-
-    })
-
-    .catch((error) => {
-      console.log("error " + error);
-    });
   };
   useEffect(() => {
     if (!isFetching) {

@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
+import URI from "../../context/uri";
 import ListItem from "../../components/ListItem";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -20,12 +21,9 @@ function TeacherNotificationScreen({ navigation }) {
 
   const AuthStr = "Bearer ".concat(Token);
   axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/announcement/`,
-      {
-        headers: { Authorization: AuthStr },
-      }
-    )
+    .get(`${URI.uri}/announcement/`, {
+      headers: { Authorization: AuthStr },
+    })
     .then((response) => {
       // If request is good...
       setdata(response.data);

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
+import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,15 +26,12 @@ function StudentAllAssignmentsScreen({ navigation, route }) {
 
   const getallAssignment = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${id}`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/AssignmentViewSet/${id}`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         const d = response.data;
-        console.log(d)
+        console.log(d);
         const g = d.map((item) => {
           return {
             id: item.id,
@@ -49,7 +47,7 @@ function StudentAllAssignmentsScreen({ navigation, route }) {
             faculty: item.faculty,
           };
         });
-        console.log(g)
+        console.log(g);
         setdata(g);
         setIssFethin(true);
       })
@@ -88,7 +86,6 @@ function StudentAllAssignmentsScreen({ navigation, route }) {
                 details: item.details,
                 title: item.title,
                 faculty: item.faculty,
-
               })
             }
           />

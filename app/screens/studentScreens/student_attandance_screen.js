@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
+import URI from "../../context/uri";
 import { DataTable } from "react-native-paper";
 import { useSelector } from "react-redux";
 
@@ -27,12 +28,9 @@ function StudentAttandanceScreen() {
   if (!isFetching) {
     useEffect(() => {
       axios
-        .get(
-          `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Attendance/${ID}/student_attendance_report/`,
-          {
-            headers: { Authorization: AuthStr },
-          }
-        )
+        .get(`${URI.uri}/Attendance/${ID}/student_attendance_report/`, {
+          headers: { Authorization: AuthStr },
+        })
         .then((response) => {
           const data1 = response.data;
           set_attandance_data(data1).catch((error) => {

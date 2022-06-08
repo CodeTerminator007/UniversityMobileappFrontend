@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect  } from "react";
-import { Alert } from 'react-native';
+import React, { useContext, useState, useEffect } from "react";
+import { Alert } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -12,6 +12,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 
 function AddCourseScreen() {
   const [coursename, setCoursename] = useState(null);
@@ -20,7 +21,7 @@ function AddCourseScreen() {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const ID = stateData.userReducer.id;
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const AuthStr = "Bearer ".concat(Token);
     const option = {
@@ -28,20 +29,20 @@ function AddCourseScreen() {
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course/`,
+        `${URI.uri}/course/`,
         {
           course_name: coursename,
         },
         option
       )
       .then((res) => {
-        if(res.status==201){
-          Alert.alert("Course","The Course has been created.")
+        if (res.status == 201) {
+          Alert.alert("Course", "The Course has been created.");
         }
       })
       .catch((err) => {
-        if(err=400){
-          Alert.alert("Error","Empty Fields fill all the fields")
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
         }
         console.log("error", err);
       });

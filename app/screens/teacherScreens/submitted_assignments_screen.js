@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -7,11 +7,11 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import URI from "../../context/uri";
 import AssignmentListItem from "../../components/assignment_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
-
 
 function SubmittedAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
@@ -22,34 +22,31 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
-console.log("the assignment id = " + id)
+  console.log("the assignment id = " + id);
   const getsubmittedassignmentdetail = () => {
-  axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SecondAssignmentSubmissionViewSet/${id}`,
-      {
+    axios
+      .get(`${URI.uri}/SecondAssignmentSubmissionViewSet/${id}`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      const d = response.data;
-      console.log(d)
-      const g = d.map((item) => {
-        return {
-          id: item.student,
-          title: `${item.first_name} ${item.last_name}`,
-          class_id: class_id,
-          assignemt_id: id,
-        };
-      });
-      setdata(g);
-      setIssFethin(true)
-    })
+      })
+      .then((response) => {
+        const d = response.data;
+        console.log(d);
+        const g = d.map((item) => {
+          return {
+            id: item.student,
+            title: `${item.first_name} ${item.last_name}`,
+            class_id: class_id,
+            assignemt_id: id,
+          };
+        });
+        setdata(g);
+        setIssFethin(true);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    });
-  }
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
   useEffect(() => {
     if (!isFetching) {
       getsubmittedassignmentdetail();
@@ -71,25 +68,26 @@ console.log("the assignment id = " + id)
         </TouchableOpacity>
       ),
     }),
-
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.id}
-        renderItem={({ item }) => (
-          <AssignmentListItem
-            title={item.title}
-            statuss={true}
-            onPress={() =>
-              navigation.navigate("Student Assignment Detail", {
-                student_id: item.id,
-                assignemt: item.assignemt_id,
-              })
-            }
-          />
-        )}
-      />
-    </SafeAreaView>
+    (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={data}
+          keyExtractor={(data) => data.id}
+          renderItem={({ item }) => (
+            <AssignmentListItem
+              title={item.title}
+              statuss={true}
+              onPress={() =>
+                navigation.navigate("Student Assignment Detail", {
+                  student_id: item.id,
+                  assignemt: item.assignemt_id,
+                })
+              }
+            />
+          )}
+        />
+      </SafeAreaView>
+    )
   );
 }
 

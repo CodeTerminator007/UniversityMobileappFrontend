@@ -10,6 +10,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 import DatePickerr from "../../components/date_picker";
 import FilePicker from "../../components/file_picker";
 import DateAndTimePicker from "../../components/date_and_time_picker";
@@ -58,11 +59,7 @@ function TeacherCreateAssignmentScreen({ route }) {
     formdata.append("class_id ", class_id);
 
     axios
-      .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/`,
-        formdata,
-        option
-      )
+      .post(`${URI.uri}/AssignmentViewSet/`, formdata, option)
       .then((res) => {
         if (res.status == 201) {
           Alert.alert("User", "The Assignment is created.");

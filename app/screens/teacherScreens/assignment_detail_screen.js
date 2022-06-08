@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import moment from 'moment';
+import moment from "moment";
 import {
   StyleSheet,
   Text,
@@ -11,10 +11,11 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 import { Ionicons } from "@expo/vector-icons";
 import DateAndTimePicker from "../../components/date_and_time_picker";
 import { useSelector } from "react-redux";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 
 function AssignmentDetailScreen({ navigation, route }) {
   const { assignment_id } = route.params;
@@ -44,16 +45,13 @@ function AssignmentDetailScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState();
   const [isFetching, setIssFethin] = useState(false);
-  const ID = stateData.userReducer.id
+  const ID = stateData.userReducer.id;
 
   const getassignmentdetail = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/SecondAssignmentViewSet/${assignment_id}`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/SecondAssignmentViewSet/${assignment_id}`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         const d = response.data;
         setdata(d);
@@ -71,7 +69,10 @@ function AssignmentDetailScreen({ navigation, route }) {
           // setTime(data.submission_time)
           // console.log(data.submission_time)
 
-          const dateTime = moment(`${data.submission_date} ${data.submission_time}`, 'YYYY-MM-DD HH:mm:ss').format();
+          const dateTime = moment(
+            `${data.submission_date} ${data.submission_time}`,
+            "YYYY-MM-DD HH:mm:ss"
+          ).format();
           setDate(new Date(dateTime));
           setTime(new Date(dateTime));
 
@@ -105,10 +106,10 @@ function AssignmentDetailScreen({ navigation, route }) {
     formdata.append("faculty", ID);
     formdata.append("Title", title);
     formdata.append("detail", detail);
-    var d = date.toISOString()    
-    var da = d.split('T')[0];
+    var d = date.toISOString();
+    var da = d.split("T")[0];
     // console.log(da)
-    formdata.append("submission_date",da);
+    formdata.append("submission_date", da);
 
     // const year = date.getFullYear()
     // const month = date.getMonth()
@@ -116,10 +117,10 @@ function AssignmentDetailScreen({ navigation, route }) {
     // const d = new Date(year , month ,day )
     // console.log(d)
     // console.log(time.getTime())
-    var f = time.toTimeString()
-    var ti = d.split('T')[1];
-    var si = ti.split('.')[0];
-    console.log(si)
+    var f = time.toTimeString();
+    var ti = d.split("T")[1];
+    var si = ti.split(".")[0];
+    console.log(si);
     formdata.append("submission_time", si);
     formdata.append("subject", subject);
     formdata.append("status", isEnabled);
@@ -127,24 +128,19 @@ function AssignmentDetailScreen({ navigation, route }) {
     formdata.append("class_id", class_id);
     // console.log(formdata)
     axios
-      .put(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/AssignmentViewSet/${assignment_id}/`,
-        formdata,
-        option
-      )
+      .put(`${URI.uri}/AssignmentViewSet/${assignment_id}/`, formdata, option)
       .then((res) => {
-        if(res.status==200){
-          Alert.alert("Assignment","The Assignment has been updated.")
+        if (res.status == 200) {
+          Alert.alert("Assignment", "The Assignment has been updated.");
         }
       })
       .catch((err) => {
-        if(err=400){
-        Alert.alert("Error","Empty Fields fill all the fields")
-      }
-      console.log("error", err);
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
       });
-
-  }
+  };
 
   return (
     <ScrollView>

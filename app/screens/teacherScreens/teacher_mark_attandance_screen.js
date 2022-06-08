@@ -7,6 +7,7 @@ import {
   Switch,
   TouchableOpacity,
 } from "react-native";
+import URI from "../../context/uri";
 import DatePickerr from "../../components/date_picker";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -29,63 +30,52 @@ function TeacherMarkAttandanceScreen({ route }) {
   const AttandanceReport = () => {
     const option = {
       headers: { Authorization: AuthStr },
-    }
+    };
     axios
-      .post(`http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Attendance/`, {
-        attendance_date: date,
-        subject_id: paasedData.subject_id,
-        class_id: paasedData.id,
+      .post(
+        `${URI.uri}/Attendance/`,
+        {
+          attendance_date: date,
+          subject_id: paasedData.subject_id,
+          class_id: paasedData.id,
         },
         option
-        )
+      )
       .then((res) => {
-        setattandanceID(res.data.id)
+        setattandanceID(res.data.id);
 
         const s = data.map((item) => {
-              return {
-                status: item.switch,
-                student_id: item.id,
-                attendance_id: res.data.id,
-                subject_id: paasedData.subject_id
-              };
-            });
-            set_attandance_data(s);
+          return {
+            status: item.switch,
+            student_id: item.id,
+            attendance_id: res.data.id,
+            subject_id: paasedData.subject_id,
+          };
+        });
+        set_attandance_data(s);
 
-            axios
-            .post(`http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/BulkAttendance/`, 
-            s,
-              option
-              )
-            .then((res2) => {
-            })
-            .catch((err2) => {
-              console.log("error", err2);
-            });
-        
-        
+        axios
+          .post(`${URI.uri}/BulkAttendance/`, s, option)
+          .then((res2) => {})
+          .catch((err2) => {
+            console.log("error", err2);
+          });
       })
       .catch((err) => {
         console.log("error", err);
       });
   };
 
-
-
-
-
   const handleSubmit = async () => {
-    AttandanceReport()
+    AttandanceReport();
   };
 
   const AuthStr = "Bearer ".concat(Token);
   const getStudents = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/user/student/${paasedData.id}`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/user/student/${paasedData.id}`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         setIssFethin(true);
         const d = response.data;
@@ -94,7 +84,7 @@ function TeacherMarkAttandanceScreen({ route }) {
             name: item.username,
             rollno: item.roll_num.toString(),
             switch: false,
-            id:item.user.toString(),
+            id: item.user.toString(),
           };
         });
         setdata(g);
@@ -130,7 +120,7 @@ function TeacherMarkAttandanceScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <DatePickerr date={date} setDate = {setDate} />
+      <DatePickerr date={date} setDate={setDate} />
       <View
         style={{
           //flex: 1,

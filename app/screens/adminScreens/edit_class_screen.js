@@ -13,6 +13,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 
 function EditClassScreen({ route }) {
   const { id } = route.params;
@@ -38,12 +39,9 @@ function EditClassScreen({ route }) {
   const AuthStr = "Bearer ".concat(Token);
   const getCourses = () => {
     axios
-      .get(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
+      .get(`${URI.uri}/course`, {
+        headers: { Authorization: AuthStr },
+      })
       .then((response) => {
         setIssFethincourse(false);
         const d = response.data;
@@ -74,7 +72,7 @@ function EditClassScreen({ route }) {
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Class/`,
+        `${URI.uri}/Class/`,
         {
           class_name: classname,
           sec: classsection,

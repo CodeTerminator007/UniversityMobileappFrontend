@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 
 import DropDownPicker from "react-native-dropdown-picker";
 import {
@@ -13,6 +13,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import URI from "../../context/uri";
 
 function AddClassScreen() {
   const [classname, setClassname] = useState(null);
@@ -20,49 +21,41 @@ function AddClassScreen() {
   const [semester, setSemester] = useState(null);
   const [open, setOpen] = useState(false);
   const [course, setCourse] = useState(null);
-  const [courseslist, setCourselist] = useState([
-    { label: "A", value: "a" },
-  ]);
+  const [courseslist, setCourselist] = useState([{ label: "A", value: "a" }]);
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
-  const [isFetchingcourse,setIssFethincourse]=useState(false)
-
-
+  const [isFetchingcourse, setIssFethincourse] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
-  const getCourses =()=>{
+  const getCourses = () => {
     axios
-    .get(
-      `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/course`,
-      {
+      .get(`${URI.uri}/course`, {
         headers: { Authorization: AuthStr },
-      }
-    )
-    .then((response) => {
-      setIssFethincourse(false)
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          label: item.course_name,
-          value: item.id.toString(),
-        };
-      });
-      setdata(g);
-      setCourselist(g)
-    })
+      })
+      .then((response) => {
+        setIssFethincourse(false);
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            label: item.course_name,
+            value: item.id.toString(),
+          };
+        });
+        setdata(g);
+        setCourselist(g);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    });  
-  }
-  useEffect(()=>{
-    if(!isFetchingcourse){
-      getCourses()
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  useEffect(() => {
+    if (!isFetchingcourse) {
+      getCourses();
     }
-  
-  },[isFetchingcourse])
+  }, [isFetchingcourse]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -71,28 +64,26 @@ function AddClassScreen() {
     };
     axios
       .post(
-        `http://d468-2400-adc7-13d-5200-aa5e-5479-6c5f-d4ed.ngrok.io/Class/`,
+        `${URI.uri}/Class/`,
         {
           class_name: classname,
-          sec:classsection ,
+          sec: classsection,
           semaster: semester,
-          course_id:course ,
+          course_id: course,
         },
         option
       )
       .then((res) => {
-        if(res.status==201){
-          Alert.alert("Class","The Class has been created.")
+        if (res.status == 201) {
+          Alert.alert("Class", "The Class has been created.");
         }
       })
       .catch((err) => {
-        if(err=400){
-        Alert.alert("Error","Empty Fields fill all the fields")
-      }
-      console.log("error", err);
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
       });
-
-
   };
   return (
     <View style={styles.container}>
