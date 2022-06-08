@@ -16,8 +16,21 @@ function AdminPostNotificationScreen() {
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    axios.post(`https://app.nativenotify.com/api/notification`, {
+      appId: 2899,
+      appToken: "S0A9cKzQJtppEYoM5j6dMo",
+      title: title,
+      body: detail,
+      dateSent: new Date(Date.now()),
+      pushData: { "yourProperty": "yourPropertyValue" }
+  });
 
+  };
+
+
+
+  
   return (
     <View style={styles.container}>
       <Text style={styles.headingText}>Post Notification</Text>
