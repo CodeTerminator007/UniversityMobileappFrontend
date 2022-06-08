@@ -9,10 +9,12 @@ import {
 //import Swipeable from "react-native-gesture-handler/Swipeable";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import URI from "./../context/uri";
+
 function AdminProfile() {
   const state = useSelector((state) => state);
   const stateData = { ...state };
-  const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
+  const profile_image = `${URI.uri}${stateData.userReducer.profile_image}`;
   const name = stateData.userReducer.userData.username;
 
   return (
