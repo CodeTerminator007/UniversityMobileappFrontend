@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Alert } from "react-native";
-
 import {
   StyleSheet,
   Text,
@@ -16,7 +15,8 @@ import URI from "../../context/uri";
 import FileReader from "../../components/file_reader";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-
+import * as FileSystem from 'expo-file-system';
+const { StorageAccessFramework } = FileSystem;
 function StudentAssignmentDetailScreen({ navigation, route }) {
   const { student_id } = route.params;
   const { assignemt } = route.params;
@@ -59,6 +59,11 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
   if (!isFetching) {
     getassignmentdetail();
   }
+
+const download_file = () =>{
+
+}
+  
   useEffect(() => {
     getassignmentdetail();
   }, [isFetching]);
@@ -181,7 +186,9 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
             <Text style={styles.buttonText}>View</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.fileDownload}>
+          <TouchableOpacity style={styles.fileDownload} 
+          onPress={download_file}
+          >
             <Text style={styles.buttonText}>Download</Text>
           </TouchableOpacity>
         </View>

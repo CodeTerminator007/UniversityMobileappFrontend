@@ -2782,6 +2782,13 @@
   "resolved" "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.0.1.tgz"
   "version" "10.0.1"
 
+"expo-media-library@~14.0.0":
+  "integrity" "sha512-a7NGFxZvns81y0fRZJsBROXFWKtyEMaodw+x32IPNhKLUAn+X1ggfBS8FbNpUs3bA4ZvhjFQBn59dxPfcHHxEg=="
+  "resolved" "https://registry.npmjs.org/expo-media-library/-/expo-media-library-14.0.1.tgz"
+  "version" "14.0.1"
+  dependencies:
+    "@expo/config-plugins" "^4.0.2"
+
 "expo-modules-autolinking@0.5.5":
   "integrity" "sha512-bILEG0Fg+ZhIhdEaShHzsEN1WC0hUmXJ5Kcd4cd+8rVk1Ead9vRZxA/yLx1cNBDCOwMe0GAMrhF7TKT+A1P+YA=="
   "resolved" "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-0.5.5.tgz"
@@ -2817,6 +2824,11 @@
     "fs-extra" "^9.1.0"
     "unimodules-task-manager-interface" "~7.1.0"
     "uuid" "^3.4.0"
+
+"expo-permissions@^13.2.0":
+  "integrity" "sha512-fAvutJjlUjlmyR2jjI9uQT0LXQ+A3U8hZnA4twQG8eXEURR3/V5WSGkx5wwX+7OF6qWR68rvs7Xjkd3ghsCm4w=="
+  "resolved" "https://registry.npmjs.org/expo-permissions/-/expo-permissions-13.2.0.tgz"
+  "version" "13.2.0"
 
 "expo-status-bar@~1.2.0":
   "integrity" "sha512-pVZZ/kDCXFK79E4dCtRecs3XLC8aiwlciutSd/fFmUPJSQZ1Txia6hlKajPt0GAYft8/YnT0V3URXzWZOBniYQ=="
