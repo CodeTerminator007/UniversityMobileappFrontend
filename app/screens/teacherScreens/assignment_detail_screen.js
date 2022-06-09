@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#edece8",
     borderRadius: 25,
-    height: 80,
+    height: 130,
     marginBottom: 20,
     //justifyContent: "center",
     padding: 20,
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   detailinputText: {
-    height: 180,
+    height: 130,
     color: "black",
   },
   button: {
