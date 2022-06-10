@@ -17,6 +17,10 @@ import AllSubjectsForAssignmentScreen from "../../screens/studentScreens/all_sub
 import StudentAllAssignmentsScreen from "../../screens/studentScreens/student_all_assignment_screen";
 import StudentViewAssignmentScreen from "../../screens/studentScreens/student_view_assignment_screen";
 import FileReader from "../../components/file_reader";
+import StartQuizScreen from "../../screens/studentScreens/start_quiz_screen";
+import QuizResultScreen from "../../screens/studentScreens/quiz_result_screen";
+import AllSubjectsForQuizScreen from "../../screens/studentScreens/all_subjects_for_quiz";
+import AllQuizScreen from "../../screens/studentScreens/all_quiz_screen";
 
 const Stack = createStackNavigator();
 
@@ -119,8 +123,28 @@ const StudentQuizStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen
+        name="Subjects For Quiz"
+        component={AllSubjectsForQuizScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="All Quiz"
+        component={AllQuizScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Start Quiz"
+        component={StartQuizScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Quiz"
         component={StudentQuizScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Quiz Result"
+        component={QuizResultScreen}
         //options={{ headerShown: false }}
       />
     </Stack.Navigator>
