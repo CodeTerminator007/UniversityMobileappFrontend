@@ -13,7 +13,7 @@ const shuffleArray = (array) => {
   }
 };
 
-const StudentQuizScreen = ({ navigation }) => {
+const StudentQuizScreen = ({ navigation,route }) => {
   const [questions, setQuestions] = useState();
   const [ques, setQues] = useState(0);
   const [options, setOptions] = useState([]);
@@ -24,9 +24,16 @@ const StudentQuizScreen = ({ navigation }) => {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const AuthStr = "Bearer ".concat(Token);
+  const { quiz_id } = route.params;
+  const { quizDate } = route.params;
+  const { time } = route.params;
+  const { title } = route.params;
+  const { subject } = route.params;
+  const { current_date } = route.params;
   // console.log(`${URI.uri}/Quiz`)
 
   const getQuiz = async () => {
+
     setIsLoading(true);
     axios
     .get(`${URI.uri}/Quiz/1`, {
@@ -38,6 +45,7 @@ const StudentQuizScreen = ({ navigation }) => {
     setQuestions(data.allquestions);
     setOptions(generateOptionsAndShuffle(data.allquestions[0]));
     setIsLoading(false);
+
     })
   };
 
@@ -80,6 +88,12 @@ const StudentQuizScreen = ({ navigation }) => {
   const handleShowResult = () => {
     navigation.replace("Quiz Result", {
       score: score,
+      quiz_id:quiz_id,
+      quizDate:quizDate,
+      time:time,
+      title:title,
+      subject:subject,
+      current_date:current_date,
     });
   };
 

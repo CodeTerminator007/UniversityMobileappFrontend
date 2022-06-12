@@ -14,6 +14,7 @@ const StartQuizScreen = ({ navigation, route }) => {
   const { time } = route.params;
   const { title } = route.params;
   const { subject } = route.params;
+  const { current_date } = route.params;
 
   return (
     <View style={styles.container}>
@@ -27,12 +28,32 @@ const StartQuizScreen = ({ navigation, route }) => {
         <Text style={styles.text}>Time:</Text>
         <Text style={styles.detail}>{time}</Text>
       </View>
+    
+      <View style={styles.bannerContainer}></View>
+      {quizDate===current_date &&
       <TouchableOpacity
-        onPress={() => navigation.replace("Quiz")}
+        onPress={() => navigation.replace("Quiz" ,{
+          quiz_id:id,
+          quizDate:quizDate,
+          time:time,
+          title:title,
+          subject:subject,
+          current_date:current_date,
+
+        })}
         style={styles.button}
       >
         <Text style={styles.buttonText}>Start Quiz</Text>
       </TouchableOpacity>
+      }
+      {quizDate!==current_date &&
+              <TouchableOpacity
+              onPress={() => navigation.replace("Student")}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Go Back</Text>
+            </TouchableOpacity>
+      }
     </View>
   );
 };

@@ -32,12 +32,16 @@ function AllQuizScreen({ navigation, route }) {
       .then((response) => {
         const s = response.data;
         const g = s.map((item) => {
+          const dd = new Date()
+          const result = new Date(Date.UTC(dd.getFullYear(),dd.getMonth(),dd.getDate())) 
+          const date = result.toISOString().split('T')[0]
           return {
             id: item.id,
             title:item.title,
             time:item.time,
             quizDate:item.quizDate,
             subject:item.subject,
+            current_date:date
           };
         });
         console.log(g);
@@ -49,6 +53,7 @@ function AllQuizScreen({ navigation, route }) {
         console.log("error " + error);
       });
   };
+  
   useEffect(() => {
     if (!isFetching) {
       getallQuiz();
@@ -58,7 +63,7 @@ function AllQuizScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {data &&  
+      {data &&   
             <FlatList
             data={data}
             keyExtractor={(data) => data.id.toString()}
@@ -71,6 +76,7 @@ function AllQuizScreen({ navigation, route }) {
                   time:item.time,
                   title:item.title,
                   subject:item.subject,
+                  current_date:item.current_date
                 })}
               />
             )}

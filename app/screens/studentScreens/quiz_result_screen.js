@@ -3,14 +3,24 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const QuizResultScreen = ({ navigation, route }) => {
   const { score } = route.params;
+  const { quiz_id } = route.params;
+  const { quizDate } = route.params;
+  const { time } = route.params;
+  const { title } = route.params;
+  const { subject } = route.params;
+  const { current_date } = route.params;
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.result}>RESULTS</Text>
       <View style={styles.scoreValueContainer}>
+      <Text style={styles.scoreValue}>{title}</Text>
+
         <Text style={styles.scoreValue}>{score}</Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.replace("All Quiz")}
+        onPress={() => navigation.replace("Student")}
         style={styles.button}
       >
         <Text style={styles.buttonText}>GO Back</Text>
