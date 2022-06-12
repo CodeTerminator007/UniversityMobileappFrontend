@@ -1,11 +1,20 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const StartQuizScreen = ({ navigation }) => {
+const StartQuizScreen = ({ navigation ,route}) => {
+  const { id } = route.params;
+  const { quizDate } = route.params;
+  const { time } = route.params;
+  const { title } = route.params;
+  const { subject } = route.params;
+
   return (
+    
     <View style={styles.container}>
-      <Text>QUIZ</Text>
+    
+      <Text>{title}</Text>
       <View style={styles.bannerContainer}></View>
+      
       <TouchableOpacity
         onPress={() => navigation.replace("Quiz")}
         style={styles.button}

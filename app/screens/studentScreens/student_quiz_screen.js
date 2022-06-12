@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import URI from "../../context/uri";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -15,17 +18,27 @@ const StudentQuizScreen = ({ navigation }) => {
   const [ques, setQues] = useState(0);
   const [options, setOptions] = useState([]);
   const [score, setScore] = useState(0);
+  const [totalquestions, settotalquestions] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
+  // console.log(`${URI.uri}/Quiz`)
 
   const getQuiz = async () => {
     setIsLoading(true);
-    const url =
-      "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986";
-    const res = await fetch(url);
-    const data = await res.json();
-    setQuestions(data.results);
-    setOptions(generateOptionsAndShuffle(data.results[0]));
+    axios
+    .get(`${URI.uri}/Quiz/1`, {
+      headers: { Authorization: AuthStr },
+    })
+    .then((response) => {
+      const data = response.data;
+    console.log(data.allquestions)
+    setQuestions(data.allquestions);
+    setOptions(generateOptionsAndShuffle(data.allquestions[0]));
     setIsLoading(false);
+    })
   };
 
   useEffect(() => {
@@ -38,7 +51,11 @@ const StudentQuizScreen = ({ navigation }) => {
   };
 
   const generateOptionsAndShuffle = (_question) => {
-    const options = [..._question.incorrect_answers];
+    const arr = [..._question.incorrect_answers]
+    console.log(arr)
+    const g = arr.map(x => x.content);
+    console.log(g)
+    const options = [...g];
     options.push(_question.correct_answer);
 
     shuffleArray(options);
@@ -48,13 +65,14 @@ const StudentQuizScreen = ({ navigation }) => {
 
   const handlSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
-      setScore(score + 10);
-    }
-    if (ques !== 9) {
+      setScore(score + 1);    }
+      const totel =questions.length
+      settotalquestions(totel)
+    if (ques !== totel-1) {
       setQues(ques + 1);
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
-    if (ques === 9) {
+    if (ques === totel-1) {
       handleShowResult();
     }
   };
@@ -125,7 +143,7 @@ const StudentQuizScreen = ({ navigation }) => {
               <Text style={styles.buttonText}>PREV</Text>
             </TouchableOpacity> */}
 
-              {ques !== 9 && (
+              {ques !== totalquestions-1 && (
                 <TouchableOpacity
                   style={styles.button}
                   onPress={handleNextPress}
@@ -134,12 +152,12 @@ const StudentQuizScreen = ({ navigation }) => {
                 </TouchableOpacity>
               )}
 
-              {ques === 9 && (
+              {ques === totalquestions-1 && (
                 <TouchableOpacity
                   style={styles.button}
                   onPress={handleShowResult}
                 >
-                  <Text style={styles.buttonText}>SHOW RESULTS</Text>
+                  <Text style={styles.buttonText}>Submit and view Result</Text>
                 </TouchableOpacity>
               )}
             </View>
