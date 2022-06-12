@@ -1,7 +1,14 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-const StartQuizScreen = ({ navigation ,route}) => {
+const StartQuizScreen = ({ navigation, route }) => {
   const { id } = route.params;
   const { quizDate } = route.params;
   const { time } = route.params;
@@ -9,12 +16,17 @@ const StartQuizScreen = ({ navigation ,route}) => {
   const { subject } = route.params;
 
   return (
-    
     <View style={styles.container}>
-    
-      <Text>{title}</Text>
-      <View style={styles.bannerContainer}></View>
-      
+      <View style={{ flex: 1 }}>
+        <Text style={styles.text}>Title:</Text>
+        <Text style={styles.detail}>{title}</Text>
+
+        <Text style={styles.text}>Date:</Text>
+        <Text style={styles.detail}>{quizDate}</Text>
+
+        <Text style={styles.text}>Time:</Text>
+        <Text style={styles.detail}>{time}</Text>
+      </View>
       <TouchableOpacity
         onPress={() => navigation.replace("Quiz")}
         style={styles.button}
@@ -30,11 +42,6 @@ const styles = StyleSheet.create({
     height: 300,
     width: 300,
   },
-  bannerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
   container: {
     paddingTop: 40,
     paddingHorizontal: 20,
@@ -47,6 +54,30 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: "center",
     marginBottom: 30,
+  },
+  titleinputView: {
+    width: "80%",
+    backgroundColor: "#edece8",
+    borderRadius: 25,
+    height: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    padding: 20,
+  },
+  detail: {
+    //height: 50,
+    padding: 20,
+    fontSize: 18,
+    color: "black",
+    //backgroundColor: "red",
+    alignSelf: "center",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    fontSize: 20,
+    alignSelf: "flex-start",
+    marginLeft: "10%",
   },
   buttonText: {
     fontSize: 24,

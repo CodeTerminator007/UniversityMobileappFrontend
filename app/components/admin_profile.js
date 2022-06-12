@@ -19,15 +19,20 @@ function AdminProfile() {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: profile_image }} />
-      <Text style={styles.text}>
-        {stateData.userReducer.userData.first_name}{" "}
-        {stateData.userReducer.userData.last_name}
-      </Text>
-      <Text style={styles.text}>{stateData.userReducer.userData.email}</Text>
-      <Text style={styles.text}>
-        {stateData.userReducer.userData.last_education_degree}
-      </Text>
+      <View style={{ flex: 4 }}>
+        <Image style={styles.image} source={{ uri: profile_image }} />
+        <Text style={styles.text}>
+          {stateData.userReducer.userData.first_name}{" "}
+          {stateData.userReducer.userData.last_name}
+        </Text>
+        <Text style={styles.text}>{stateData.userReducer.userData.email}</Text>
+        <Text style={styles.text}>
+          {stateData.userReducer.userData.last_education_degree}
+        </Text>
+      </View>
+      <View style={styles.logoContainer}>
+        <Image style={styles.logo} source={require("../assets/RipLogo.png")} />
+      </View>
     </View>
   );
 }
@@ -35,9 +40,9 @@ function AdminProfile() {
 const styles = StyleSheet.create({
   container: {
     //alignItems: "center",
-    //flexDirection: "row",
-    padding: "10%",
-    backgroundColor: "#185079",
+    flexDirection: "row",
+    padding: "5%",
+    backgroundColor: "white",
     //borderColor: "black",
     //borderWidth: 1,
     borderRadius: 20,
@@ -49,6 +54,11 @@ const styles = StyleSheet.create({
     //elevation: 15,
     //marginBottom: 30
   },
+  logoContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   image: {
     width: 60,
     height: 60,
@@ -57,7 +67,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#7367af',
   },
   text: {
-    color: "#b6bdc7",
+    color: "black",
     fontSize: 17,
     fontWeight: "bold",
   },

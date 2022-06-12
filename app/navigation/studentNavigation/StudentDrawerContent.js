@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { View, StyleSheet } from "react-native";
 import {
   useTheme,
@@ -12,6 +11,14 @@ import {
   TouchableRipple,
   Switch,
 } from "react-native-paper";
+import {
+  setToken,
+  setName,
+  setUserData,
+  setId,
+  setProfile_image,
+} from "../../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -23,8 +30,17 @@ export function StudentDrawerContent(props) {
   const profile_image = `https://00c8-2400-adc7-13d-5200-abf-641e-89f1-cfde.ngrok.io${stateData.userReducer.profile_image}`;
   const name = stateData.userReducer.userData.username;
   const paperTheme = useTheme();
+  const dispatch = useDispatch();
 
   // const { signOut } = React.useContext(AuthContext);
+  const signOut = () => {
+    dispatch(setName(""));
+    dispatch(setUserData(""));
+    dispatch(setId(""));
+    dispatch(setToken(""));
+    dispatch(setProfile_image(""));
+    props.navigation.navigate("LoginScreen");
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -130,6 +146,7 @@ export function StudentDrawerContent(props) {
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"
+          onPress={signOut}
           // onPress={() => {signOut()}}
         />
       </Drawer.Section>
