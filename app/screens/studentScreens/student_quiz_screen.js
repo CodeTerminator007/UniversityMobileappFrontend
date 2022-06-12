@@ -62,10 +62,9 @@ const StudentQuizScreen = ({ navigation,route }) => {
     const arr = [..._question.incorrect_answers]
     console.log(arr)
     const g = arr.map(x => x.content);
-    console.log(g)
     const options = [...g];
     options.push(_question.correct_answer);
-
+    console.log(options)
     shuffleArray(options);
 
     return options;
@@ -73,11 +72,11 @@ const StudentQuizScreen = ({ navigation,route }) => {
 
   const handlSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
-      setScore(score + 1);    }
+      setScore(score+1);    }
       const totel =questions.length
       settotalquestions(totel)
     if (ques !== totel-1) {
-      setQues(ques + 1);
+      setQues(ques+1);
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
     if (ques === totel-1) {

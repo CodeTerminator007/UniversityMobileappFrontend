@@ -14,8 +14,8 @@ const QuizResultScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.result}>RESULTS</Text>
-      <View style={styles.scoreValueContainer}>
       <Text style={styles.scoreValue}>{title}</Text>
+      <View style={styles.scoreValueContainer}>
 
         <Text style={styles.scoreValue}>{score}</Text>
       </View>
