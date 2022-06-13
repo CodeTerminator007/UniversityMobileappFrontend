@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Image,
   TextInput,
@@ -7,15 +6,39 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import URI from "../../context/uri";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 const StartQuizScreen = ({ navigation, route }) => {
+
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
   const { id } = route.params;
   const { quizDate } = route.params;
   const { time } = route.params;
   const { title } = route.params;
   const { subject } = route.params;
+  const ID = stateData.userReducer.id;
   const { current_date } = route.params;
+  const AuthStr = "Bearer ".concat(Token);
+  const [exisit, setExsist] = useState(false);
+  const [data, setdata] = useState(null);
 
+  axios
+  .get(`${URI.uri}/quizresult/${id}/?student_id=${ID}`, {
+    headers: { Authorization: AuthStr },
+  })
+  .then((response) => {
+    const s = response.data;
+    setdata(s)
+  })
+
+  .catch((error) => {
+    console.log("error " + error);
+  });
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -30,7 +53,7 @@ const StartQuizScreen = ({ navigation, route }) => {
       </View>
     
       <View style={styles.bannerContainer}></View>
-      {quizDate===current_date &&
+      {quizDate===current_date && 
       <TouchableOpacity
         onPress={() => navigation.replace("Quiz" ,{
           quiz_id:id,
@@ -46,7 +69,8 @@ const StartQuizScreen = ({ navigation, route }) => {
         <Text style={styles.buttonText}>Start Quiz</Text>
       </TouchableOpacity>
       }
-      {quizDate!==current_date &&
+      
+      {quizDate!==current_date && 
               <TouchableOpacity
               onPress={() => navigation.replace("Student")}
               style={styles.button}

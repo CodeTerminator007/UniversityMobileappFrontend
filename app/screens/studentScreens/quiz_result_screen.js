@@ -1,5 +1,9 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { Alert } from "react-native";
+import URI from "../../context/uri";
 
 const QuizResultScreen = ({ navigation, route }) => {
   const { score } = route.params;
@@ -9,6 +13,38 @@ const QuizResultScreen = ({ navigation, route }) => {
   const { title } = route.params;
   const { subject } = route.params;
   const { current_date } = route.params;
+  const state = useSelector((state) => state);
+
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const ID = stateData.userReducer.id;
+
+
+  // const option = {
+  //   headers: { Authorization: AuthStr },
+  // };
+  // axios
+  //   .post(
+  //     `${URI.uri}/Question/`,
+  //     {
+  //       question: ques,
+  //       quiz: id,
+  //       correct_answer: ans,
+  //     },
+  //     option
+  //   )
+  //   .then((res) => {
+  //     if (res.status == 201) {
+  //       Alert.alert("Question ", "The Question has been created.");
+  //       navigation.replace("Add Option" ,{question_id:res.data.id,quiz_id:id});
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     if ((err = 400)) {
+  //       Alert.alert("Error", "Empty Fields fill all the fields");
+  //     }
+  //     console.log("error", err);
+  //   });
 
   return (
     <View style={styles.container}>
