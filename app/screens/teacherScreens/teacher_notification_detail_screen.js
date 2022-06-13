@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,8 +6,10 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
-import { Ionicons, Fontisto } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import Constants from "expo-constants";
 //import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Separator from "../../components/separator";
@@ -15,9 +17,14 @@ import { borderColor } from "react-native/Libraries/Components/View/ReactNativeS
 
 function TeacherNotificationDetailScreen({ navigation, route }) {
   const listings = route.params;
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.image} source={{ uri: listings.image }} />
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Image style={styles.image} source={{ uri: listings.image }} />
+      </TouchableOpacity>
       <View style={styles.textContainer}>
         <Text style={styles.heading}>{listings.title}</Text>
         <View style={styles.dateContainer}>
@@ -25,6 +32,22 @@ function TeacherNotificationDetailScreen({ navigation, route }) {
         </View>
         <Text style={styles.detailText}>{listings.detail}</Text>
       </View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        // onRequestClose={() => {
+        //   Alert.alert("Modal has been closed.");
+        //   setModalVisible(!modalVisible);
+        // }}
+      >
+        <View style={styles.modalView}>
+          <Image style={styles.modalImage} source={{ uri: listings.image }} />
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            <Feather name="x-circle" size={35} color="black" />
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -36,6 +59,18 @@ const styles = StyleSheet.create({
     //paddingTop: Constants.statusBarHeight,
     //padding: 8,
   },
+  modalView: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalImage: {
+    height: 500,
+    width: 300,
+    marginHorizontal: 40,
+    marginVertical: 40,
+    //backgroundColor: "red",
+  },
+
   textContainer: {
     padding: 10,
   },
