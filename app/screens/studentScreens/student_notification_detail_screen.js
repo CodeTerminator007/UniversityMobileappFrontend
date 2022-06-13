@@ -14,18 +14,17 @@ import Separator from "../../components/separator";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 function StudentNotificationDetailScreen({ navigation, route }) {
-  const listings = route.params;  
+  const listings = route.params;
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.image}>{listings.image}</View>
+      {/* <View style={styles.image}>{listings.image}</View> */}
+      <Image style={styles.image} source={{ uri: listings.image }} />
       <View style={styles.textContainer}>
         <Text style={styles.heading}>{listings.title}</Text>
         <View style={styles.dateContainer}>
           <Text style={styles.date}>{listings.created_at}</Text>
         </View>
-        <Text style={styles.detailText}>
-          {listings.detail}
-        </Text>
+        <Text style={styles.detailText}>{listings.detail}</Text>
       </View>
     </SafeAreaView>
   );
@@ -45,8 +44,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#185079",
-    height: 25,
-    width: 75,
+    height: 20,
+    width: 80,
     borderRadius: 20,
     marginBottom: 10,
   },
@@ -67,6 +66,7 @@ const styles = StyleSheet.create({
   },
   date: {
     //marginBottom: 10,
+    color: "white",
   },
 });
 export default StudentNotificationDetailScreen;

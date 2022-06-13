@@ -17,7 +17,7 @@ function TeacherNotificationDetailScreen({ navigation, route }) {
   const listings = route.params;
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.image}>{listings.image}</View>
+      <Image style={styles.image} source={{ uri: listings.image }} />
       <View style={styles.textContainer}>
         <Text style={styles.heading}>{listings.title}</Text>
         <View style={styles.dateContainer}>
@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#185079",
-    height: 25,
-    width: 75,
+    height: 20,
+    width: 80,
     borderRadius: 20,
     marginBottom: 10,
   },
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   },
   date: {
     //marginBottom: 10,
+    color: "white",
   },
 });
 export default TeacherNotificationDetailScreen;

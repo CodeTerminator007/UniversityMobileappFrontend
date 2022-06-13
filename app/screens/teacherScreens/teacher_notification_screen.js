@@ -43,7 +43,7 @@ function TeacherNotificationScreen({ navigation }) {
             description={item.detail}
             url={item.image}
             onPress={() =>
-              navigation.navigate("Student Notifications Detail", {
+              navigation.navigate("Teacher Notifications Detail", {
                 ...item,
               })
             }
