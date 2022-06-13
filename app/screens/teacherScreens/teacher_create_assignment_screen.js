@@ -11,7 +11,6 @@ import {
   ScrollView,
 } from "react-native";
 import URI from "../../context/uri";
-import DatePickerr from "../../components/date_picker";
 import FilePicker from "../../components/file_picker";
 import DateAndTimePicker from "../../components/date_and_time_picker";
 import { useSelector } from "react-redux";

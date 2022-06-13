@@ -10,15 +10,21 @@ const QuizResultScreen = ({ navigation, route }) => {
   const { subject } = route.params;
   const { current_date } = route.params;
 
-
   return (
     <View style={styles.container}>
       <Text style={styles.result}>RESULTS</Text>
-      <Text style={styles.scoreValue}>{title}</Text>
-      <View style={styles.scoreValueContainer}>
+      <Text style={styles.text}>Title:</Text>
+      <Text style={styles.detail}>{title}</Text>
 
-        <Text style={styles.scoreValue}>{score}</Text>
-      </View>
+      <Text style={styles.text}>Date:</Text>
+      <Text style={styles.detail}>{quizDate}</Text>
+
+      <Text style={styles.text}>Time:</Text>
+      <Text style={styles.detail}>{time}</Text>
+
+      <Text style={styles.text}>Score:</Text>
+      <Text style={styles.detail}>{score}</Text>
+
       <TouchableOpacity
         onPress={() => navigation.replace("Student")}
         style={styles.button}
@@ -34,6 +40,21 @@ export default QuizResultScreen;
 const styles = StyleSheet.create({
   result: {
     fontSize: 30,
+  },
+  detail: {
+    //height: 50,
+    padding: 20,
+    fontSize: 18,
+    color: "black",
+    //backgroundColor: "red",
+    alignSelf: "center",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    fontSize: 20,
+    alignSelf: "flex-start",
+    marginLeft: "10%",
   },
   container: {
     paddingTop: 40,

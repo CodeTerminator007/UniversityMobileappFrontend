@@ -20,6 +20,10 @@ import AssignmentDetailScreen from "../../screens/teacherScreens/assignment_deta
 import SubmittedAssignmentsScreen from "../../screens/teacherScreens/submitted_assignments_screen";
 import StudentAssignmentDetailScreen from "../../screens/teacherScreens/student_assignment_detail_screen";
 import FileReader from "../../components/file_reader";
+import AddQuestion from "../../screens/teacherScreens/add_question";
+import AddOptions from "../../screens/teacherScreens/add_options";
+import AllClassesForQuiz from "../../screens/teacherScreens/all_classes_for_quiz";
+
 const Stack = createStackNavigator();
 
 const screenOptionStyle = {
@@ -100,7 +104,10 @@ const TeacherCreateAssignmentStackNavigator = () => {
 const TeacherCreateQuizStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen name="All Classes Quiz" component={AllClassesForQuiz} />
       <Stack.Screen name="Create Quiz" component={TeacherCreateQuizScreen} />
+      <Stack.Screen name="Add Question" component={AddQuestion} />
+      <Stack.Screen name="Add Option" component={AddOptions} />
     </Stack.Navigator>
   );
 };

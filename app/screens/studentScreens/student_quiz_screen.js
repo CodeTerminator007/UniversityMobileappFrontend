@@ -5,6 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import CountDown from "react-native-countdown-component";
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -13,7 +14,7 @@ const shuffleArray = (array) => {
   }
 };
 
-const StudentQuizScreen = ({ navigation,route }) => {
+const StudentQuizScreen = ({ navigation, route }) => {
   const [questions, setQuestions] = useState();
   const [ques, setQues] = useState(0);
   const [options, setOptions] = useState([]);
@@ -33,20 +34,18 @@ const StudentQuizScreen = ({ navigation,route }) => {
   // console.log(`${URI.uri}/Quiz`)
 
   const getQuiz = async () => {
-
     setIsLoading(true);
     axios
-    .get(`${URI.uri}/Quiz/1`, {
-      headers: { Authorization: AuthStr },
-    })
-    .then((response) => {
-      const data = response.data;
-    console.log(data.allquestions)
-    setQuestions(data.allquestions);
-    setOptions(generateOptionsAndShuffle(data.allquestions[0]));
-    setIsLoading(false);
-
-    })
+      .get(`${URI.uri}/Quiz/1`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log(data.allquestions);
+        setQuestions(data.allquestions);
+        setOptions(generateOptionsAndShuffle(data.allquestions[0]));
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -59,12 +58,12 @@ const StudentQuizScreen = ({ navigation,route }) => {
   };
 
   const generateOptionsAndShuffle = (_question) => {
-    const arr = [..._question.incorrect_answers]
-    console.log(arr)
-    const g = arr.map(x => x.content);
+    const arr = [..._question.incorrect_answers];
+    console.log(arr);
+    const g = arr.map((x) => x.content);
     const options = [...g];
     options.push(_question.correct_answer);
-    console.log(options)
+    console.log(options);
     shuffleArray(options);
 
     return options;
@@ -72,14 +71,15 @@ const StudentQuizScreen = ({ navigation,route }) => {
 
   const handlSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
-      setScore(score+1);    }
-      const totel =questions.length
-      settotalquestions(totel)
-    if (ques !== totel-1) {
-      setQues(ques+1);
+      setScore(score + 1);
+    }
+    const totel = questions.length;
+    settotalquestions(totel);
+    if (ques !== totel - 1) {
+      setQues(ques + 1);
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
-    if (ques === totel-1) {
+    if (ques === totel - 1) {
       handleShowResult();
     }
   };
@@ -87,12 +87,12 @@ const StudentQuizScreen = ({ navigation,route }) => {
   const handleShowResult = () => {
     navigation.replace("Quiz Result", {
       score: score,
-      quiz_id:quiz_id,
-      quizDate:quizDate,
-      time:time,
-      title:title,
-      subject:subject,
-      current_date:current_date,
+      quiz_id: quiz_id,
+      quizDate: quizDate,
+      time: time,
+      title: title,
+      subject: subject,
+      current_date: current_date,
     });
   };
 
@@ -112,6 +112,32 @@ const StudentQuizScreen = ({ navigation,route }) => {
       ) : (
         questions && (
           <View style={styles.parent}>
+            <CountDown
+              size={30}
+              until={time}
+              onFinish={() =>
+                navigation.replace("Quiz Result", {
+                  score: score,
+                  quiz_id: quiz_id,
+                  quizDate: quizDate,
+                  time: time,
+                  title: title,
+                  subject: subject,
+                  current_date: current_date,
+                })
+              }
+              digitStyle={{
+                backgroundColor: "#FFF",
+                borderWidth: 2,
+                borderColor: "#1CC625",
+              }}
+              digitTxtStyle={{ color: "#1CC625" }}
+              timeLabelStyle={{ color: "red", fontWeight: "bold" }}
+              separatorStyle={{ color: "#1CC625" }}
+              timeToShow={["H", "M", "S"]}
+              timeLabels={{ m: null, s: null }}
+              showSeparator
+            />
             <View style={styles.top}>
               <Text style={styles.question}>
                 Q. {decodeURIComponent(questions[ques].question)}
@@ -156,7 +182,7 @@ const StudentQuizScreen = ({ navigation,route }) => {
               <Text style={styles.buttonText}>PREV</Text>
             </TouchableOpacity> */}
 
-              {ques !== totalquestions-1 && (
+              {ques !== totalquestions - 1 && (
                 <TouchableOpacity
                   style={styles.button}
                   onPress={handleNextPress}
@@ -165,7 +191,7 @@ const StudentQuizScreen = ({ navigation,route }) => {
                 </TouchableOpacity>
               )}
 
-              {ques === totalquestions-1 && (
+              {ques === totalquestions - 1 && (
                 <TouchableOpacity
                   style={styles.button}
                   onPress={handleShowResult}
