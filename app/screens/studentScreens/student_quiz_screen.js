@@ -36,7 +36,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
   const getQuiz = async () => {
     setIsLoading(true);
     axios
-      .get(`${URI.uri}/Quiz/1`, {
+      .get(`${URI.uri}/Quiz/${quiz_id}`, {
         headers: { Authorization: AuthStr },
       })
       .then((response) => {

@@ -26,6 +26,7 @@ function StudentNotificationScreen({ navigation }) {
     })
     .then((response) => {
       // If request is good...
+      console.log(response.data)
       setdata(response.data);
     })
     .catch((error) => {
@@ -34,6 +35,7 @@ function StudentNotificationScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {data &&
       <FlatList
         data={data}
         keyExtractor={(data) => data.id.toString()}
@@ -50,6 +52,7 @@ function StudentNotificationScreen({ navigation }) {
           />
         )}
       />
+    }
     </SafeAreaView>
   );
 }

@@ -1,5 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Alert } from "react-native";
+import URI from "../../context/uri";
 import {
   StyleSheet,
   Text,
@@ -10,9 +13,44 @@ import {
   ScrollView,
 } from "react-native";
 
-function AddOptions() {
-  const [option, setOption] = useState(null);
+function AddOptions({ navigation, route }) {
+  const [options, setOption] = useState(null);
+  const { question_id } = route.params;
+  const { quiz_id } = route.params;
 
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+
+  const AuthStr = "Bearer ".concat(Token);
+
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    console.log("question_id "+question_id)
+    axios
+      .post(
+        `${URI.uri}/Incorrect_answers/`,
+        {
+          content: options,
+          Question: question_id,
+        },
+        option
+      )
+      .then((res) => {
+        if (res.status == 201) {
+          Alert.alert("Option ", "The Option has been created.");
+        }
+      })
+      .catch((err) => {
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.headingText}>Add Options</Text>
@@ -31,13 +69,15 @@ function AddOptions() {
         <TouchableOpacity
           style={styles.fileView}
           onPress={() => {
-            navigation.replace("Add Question");
+            navigation.replace("Add Question",{id:quiz_id});
           }}
         >
           <Text style={styles.buttonText}>Add Question</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.fileDownload}>
+        {/* {question_id:res.data.id,quiz_id:id} */}
+        <TouchableOpacity style={styles.fileDownload}
+        onPress={handleSubmit}
+        >
           <Text style={styles.buttonText}>Add Option</Text>
         </TouchableOpacity>
       </View>
