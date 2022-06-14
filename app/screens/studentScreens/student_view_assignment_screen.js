@@ -150,21 +150,22 @@ function StudentViewAssignmentScreen({ navigation, route }) {
               assignment_id: id,
             })
           }
-          style={{ marginLeft: 9 }}
+          style={{ marginRight: 10 }}
         >
-          <Ionicons name="create" size={24} color="black" />
+          <Ionicons name="cloud-upload-outline" size={24} color="black" />
         </TouchableOpacity>
       ),
     }),
     (
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+      >
         {Title && (
           <View style={styles.container}>
             <Text style={styles.headingText}>View Assignment </Text>
 
             <Text style={styles.text}>Title</Text>
 
-            {/* <View style={styles.titleinputView}> */}
             <TextInput
               style={styles.titleinputText}
               value={Title}
@@ -173,11 +174,9 @@ function StudentViewAssignmentScreen({ navigation, route }) {
               placeholderTextColor="#003f5c"
               onChangeText={setTitle}
             />
-            {/* </View> */}
 
             <Text style={styles.text}>Detail</Text>
 
-            {/* <View style={styles.detailinputView}> */}
             <TextInput
               style={styles.detailinputText}
               value={detail}
@@ -188,11 +187,9 @@ function StudentViewAssignmentScreen({ navigation, route }) {
               textAlignVertical="top"
               onChangeText={setDetail}
             />
-            {/* </View> */}
 
             <Text style={styles.text}>Marks</Text>
 
-            {/* <View style={styles.titleinputView}> */}
             <TextInput
               style={styles.titleinputText}
               value={marks}
@@ -201,11 +198,9 @@ function StudentViewAssignmentScreen({ navigation, route }) {
               placeholderTextColor="#003f5c"
               onChangeText={setMarks}
             />
-            {/* </View> */}
 
             <Text style={styles.text}>Submit Date & Time</Text>
 
-            {/* <View style={styles.titleinputView}> */}
             <TextInput
               style={styles.titleinputText}
               value={date}
@@ -214,7 +209,6 @@ function StudentViewAssignmentScreen({ navigation, route }) {
               placeholderTextColor="#003f5c"
               onChangeText={setDate}
             />
-            {/* </View> */}
             <Text style={styles.text}>Status</Text>
 
             <TextInput
@@ -265,13 +259,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center",
+    //justifyContent: "center",
+    padding: "10%",
   },
   fileView: {
     alignItems: "center",
     justifyContent: "space-evenly",
     height: 50,
-    width: "32%",
+    width: "35%",
     backgroundColor: "green",
     borderRadius: 15,
   },
@@ -279,8 +274,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 50,
-    width: "32%",
-    backgroundColor: "red",
+    width: "35%",
+    backgroundColor: "#C41E3A",
     borderRadius: 15,
   },
   fileButtonsView: {
@@ -289,11 +284,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
   },
-  marksnswitch: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "60%",
-  },
   headingText: {
     fontWeight: "bold",
     fontSize: 30,
@@ -301,53 +291,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 40,
   },
-  titleinputView: {
-    width: "80%",
-    backgroundColor: "#edece8",
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: "center",
-    padding: 20,
-  },
   titleinputText: {
     fontWeight: "bold",
-    height: 50,
+    //height: 50,
     color: "black",
-  },
-  detailinputView: {
-    width: "80%",
-    backgroundColor: "#edece8",
-    borderRadius: 25,
-    height: 80,
-    marginBottom: 20,
-    //justifyContent: "center",
-    padding: 20,
-  },
-  marksinputView: {
-    width: "35%",
-    backgroundColor: "#edece8",
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+    marginVertical: 10,
   },
   detailinputText: {
+    width: "80%",
+    //height: 80,
+    marginVertical: 20,
+    //marginLeft: "14%",
     fontWeight: "bold",
     height: 50,
     color: "black",
-  },
-  button: {
-    width: "80%",
-    backgroundColor: "#185079",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 10,
+    //backgroundColor: "red",
   },
   buttonText: {
     color: "white",
@@ -358,7 +316,7 @@ const styles = StyleSheet.create({
     color: "#003f5c",
     fontWeight: "bold",
     alignSelf: "flex-start",
-    marginLeft: "14%",
+    //marginLeft: "14%",
   },
 });
 

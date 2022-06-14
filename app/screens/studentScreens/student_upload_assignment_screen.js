@@ -65,31 +65,29 @@ function StudentUploadAssignmentScreen({ navigation, route }) {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.headingText}>Upload Assignment </Text>
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Upload Assignment </Text>
 
-        <Text style={styles.text}>Comment</Text>
-        <View style={styles.commentinputView}>
-          <TextInput
-            style={styles.commentinputText}
-            value={comment}
-            editable={true}
-            placeholder="Comment"
-            placeholderTextColor="#003f5c"
-            multiline={true}
-            textAlignVertical="top"
-            onChangeText={setComment}
-          />
-        </View>
-
-        <Text style={styles.text}>Assignment File</Text>
-        <FilePicker file={file} setFile={setFile} />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Upload</Text>
-        </TouchableOpacity>
+      <Text style={styles.text}>Comment</Text>
+      <View style={styles.commentinputView}>
+        <TextInput
+          style={styles.commentinputText}
+          value={comment}
+          editable={true}
+          placeholder="Comment"
+          placeholderTextColor="#003f5c"
+          multiline={true}
+          textAlignVertical="top"
+          onChangeText={setComment}
+        />
       </View>
-    </ScrollView>
+
+      <Text style={styles.text}>Assignment File</Text>
+      <FilePicker file={file} setFile={setFile} />
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Upload</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center",
+    //justifyContent: "center",
   },
   file: {
     alignItems: "center",
@@ -144,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   commentinputText: {
-    height: 90,
+    height: 60,
     color: "black",
   },
   button: {

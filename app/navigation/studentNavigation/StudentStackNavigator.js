@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import StudentDashboardScreen from "../../screens/studentScreens/student_dashboard_screen";
@@ -9,6 +9,7 @@ import StudentNotificationScreen from "../../screens/studentScreens/student_noti
 import StudentNotificationDetailScreen from "../../screens/studentScreens/student_notification_detail_screen";
 import StudentProfileScreen from "../../screens/studentScreens/student_profile_screen";
 import StudentTimetableScreen from "../../screens/studentScreens/student_timetable_screen";
+import StudentEditTimetableScreen from "../../screens/studentScreens/student_edit_timetable_screen";
 import StudentUploadAssignmentScreen from "../../screens/studentScreens/student_upload_assignment_screen";
 import StudentQuizScreen from "../../screens/studentScreens/student_quiz_screen";
 import StudentAttandanceScreen from "../../screens/studentScreens/student_attandance_screen";
@@ -84,12 +85,30 @@ const StudentProfileStackNavigator = () => {
 };
 
 const StudentTimetableStackNavigator = () => {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen
         name="Student Timetable"
         component={StudentTimetableScreen}
-        //options={{ headerShown: false }}
+        options={{
+          headerStyle: {
+            //padding: 20
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Student Edit Timetable")}
+              style={{ marginRight: 10 }}
+            >
+              <AntDesign name="edit" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Student Edit Timetable"
+        component={StudentEditTimetableScreen}
       />
     </Stack.Navigator>
   );

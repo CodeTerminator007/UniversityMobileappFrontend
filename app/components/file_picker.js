@@ -9,9 +9,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
-function FilePicker({file, setFile}) {
-
-
+function FilePicker({ file, setFile }) {
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
     if (!result.cancelled) {
@@ -20,7 +18,7 @@ function FilePicker({file, setFile}) {
   };
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={pickDocument}>
       <View style={styles.file}>
         {!file && (
           <MaterialCommunityIcons
@@ -34,15 +32,9 @@ function FilePicker({file, setFile}) {
         )}
       </View>
       <View style={styles.button}>
-        <TouchableOpacity>
-          <Button
-            title="upload your file"
-            color="#003f5c"
-            onPress={pickDocument}
-          />
-        </TouchableOpacity>
+        <Button title="upload your file" color="#003f5c" />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({

@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import URI from "../../context/uri";
-import { Ionicons, Fontisto } from "@expo/vector-icons";
+import { Ionicons, Fontisto, AntDesign, Feather } from "@expo/vector-icons";
 import Constants from "expo-constants";
 //import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Separator from "../../components/separator";
@@ -42,7 +42,7 @@ function StudentProfileScreen() {
         <Separator />
         <View style={styles.LocationEmailContainer}>
           <View style={styles.icon}>
-            <Ionicons name="location-outline" size={24} color="grey" />
+            <AntDesign name="idcard" size={24} color="grey" />
           </View>
           <View style={styles.LocationEmailTextContainer}>
             <Text style={styles.LocationEmailHeading}>CNIC:</Text>
@@ -66,7 +66,7 @@ function StudentProfileScreen() {
         <Separator />
         <View style={styles.LocationEmailContainer}>
           <View style={styles.icon}>
-            <Fontisto name="email" size={24} color="grey" />
+            <Ionicons name="male-female-outline" size={24} color="grey" />
           </View>
           <View style={styles.LocationEmailTextContainer}>
             <Text style={styles.LocationEmailHeading}>Gender</Text>
@@ -78,7 +78,7 @@ function StudentProfileScreen() {
         <Separator />
         <View style={styles.LocationEmailContainer}>
           <View style={styles.icon}>
-            <Fontisto name="email" size={24} color="grey" />
+            <Feather name="user" size={24} color="grey" />
           </View>
           <View style={styles.LocationEmailTextContainer}>
             <Text style={styles.LocationEmailHeading}>Username</Text>
@@ -90,7 +90,7 @@ function StudentProfileScreen() {
         <Separator />
         <View style={styles.LocationEmailContainer}>
           <View style={styles.icon}>
-            <Fontisto name="email" size={24} color="grey" />
+            <AntDesign name="contacts" size={24} color="grey" />
           </View>
           <View style={styles.LocationEmailTextContainer}>
             <Text style={styles.LocationEmailHeading}>Contact Number</Text>
@@ -102,7 +102,7 @@ function StudentProfileScreen() {
         <Separator />
         <View style={styles.LocationEmailContainer}>
           <View style={styles.icon}>
-            <Fontisto name="email" size={24} color="grey" />
+            <Fontisto name="date" size={24} color="grey" />
           </View>
           <View style={styles.LocationEmailTextContainer}>
             <Text style={styles.LocationEmailHeading}>Date of Birth</Text>

@@ -18,11 +18,11 @@ import ImageBackground from "react-native/Libraries/Image/ImageBackground";
 
 function StudentDashboardScreen() {
   return (
-    <View style={{ flex: 1, padding: 10 }}>
-      <ImageBackground
-        style={{ flex: 1 }}
-        source={require("../../assets/background.jpeg")}
-      >
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require("../../assets/background.jpeg")}
+    >
+      <View style={{ flex: 1, padding: 10 }}>
         <StudentProfile />
         <View style={styles.container}>
           <View style={styles.box}>
@@ -82,8 +82,8 @@ function StudentDashboardScreen() {
             <Text style={styles.text}>Event News</Text>
           </View>
         </View>
-      </ImageBackground>
-    </View>
+      </View>
+    </ImageBackground>
   );
 }
 
