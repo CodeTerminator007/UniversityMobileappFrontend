@@ -10,6 +10,7 @@ import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { set } from "react-native-reanimated";
 
 const StartQuizScreen = ({ navigation, route }) => {
 
@@ -26,7 +27,9 @@ const StartQuizScreen = ({ navigation, route }) => {
   const AuthStr = "Bearer ".concat(Token);
   const [exisit, setExsist] = useState(false);
   const [data, setdata] = useState(null);
-
+const [showBackButton, setShowBackButton]=useState(false)
+const [showStartButton, setShowStartButton]=useState(true)
+ const getData=()=>{
   axios
   .get(`${URI.uri}/quizresult/${id}/?student_id=${ID}`, {
     headers: { Authorization: AuthStr },
@@ -35,10 +38,30 @@ const StartQuizScreen = ({ navigation, route }) => {
     const s = response.data;
     setdata(s)
   })
-
   .catch((error) => {
     console.log("error " + error);
   });
+ }
+useEffect(()=>{
+getData()
+},[])
+const isButoon=()=>{
+  if (data){
+         if (quizDate===current_date && data.length===0){
+         return true
+       }
+        
+       if (quizDate!==current_date && data.length!==0){
+            return false
+            
+          }
+    
+       }
+    
+}
+const BUTTON = isButoon()
+
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -53,7 +76,7 @@ const StartQuizScreen = ({ navigation, route }) => {
       </View>
     
       <View style={styles.bannerContainer}></View>
-      {quizDate===current_date && 
+      { BUTTON&&
       <TouchableOpacity
         onPress={() => navigation.replace("Quiz" ,{
           quiz_id:id,
@@ -70,7 +93,7 @@ const StartQuizScreen = ({ navigation, route }) => {
       </TouchableOpacity>
       }
       
-      {quizDate!==current_date && 
+      { !BUTTON &&
               <TouchableOpacity
               onPress={() => navigation.replace("Student")}
               style={styles.button}

@@ -21,6 +21,8 @@ const StudentQuizScreen = ({ navigation, route }) => {
   const [score, setScore] = useState(0);
   const [totalquestions, settotalquestions] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
+
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -32,6 +34,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
   const { subject } = route.params;
   const { current_date } = route.params;
 
+
   const getQuiz = async () => {
     setIsLoading(true);
     axios
@@ -41,6 +44,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
       .then((response) => {
         const data = response.data;
         setQuestions(data.allquestions);
+        settotalquestions(data.allquestions.length)
         setOptions(generateOptionsAndShuffle(data.allquestions[0]));
         setIsLoading(false);
       });
@@ -51,11 +55,19 @@ const StudentQuizScreen = ({ navigation, route }) => {
   }, []);
 
   const handleNextPress = () => {
+    const totel = questions.length;
+    settotalquestions(totel)
+    if (ques !== totel - 1) {
     setQues(ques + 1);
     setOptions(generateOptionsAndShuffle(questions[ques + 1]));
+    }
+      if (ques === totel - 1) {
+      handleShowResult();
+    }
   };
 
   const generateOptionsAndShuffle = (_question) => {
+    
     const arr = [..._question.incorrect_answers];
     const g = arr.map((x) => x.content);
     const options = [...g];
@@ -67,25 +79,25 @@ const StudentQuizScreen = ({ navigation, route }) => {
 
   const handlSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
-      console.log("set")
-      setScore(score + 1);
+      setScore(score+1);
     }
     const totel = questions.length;
     settotalquestions(totel);
-    console.log(ques)
     if (ques !== totel - 1) {
       setQues(ques + 1);
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
 
     if (ques === totel - 1) {
-      handleShowResult();
+      console.log(totalquestions)
+      setComplete(true)
     }
-    console.log(ques)
 
   };
 
   const handleShowResult = () => {
+    const totel = questions.length;
+    settotalquestions(totel)
     navigation.replace("Quiz Result", {
       score: score,
       quiz_id: quiz_id,
@@ -94,9 +106,13 @@ const StudentQuizScreen = ({ navigation, route }) => {
       title: title,
       subject: subject,
       current_date: current_date,
+      outofnumber:totalquestions,
+
     });
   };
-
+if (complete){
+  handleShowResult();
+}
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -125,6 +141,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
                   title: title,
                   subject: subject,
                   current_date: current_date,
+                  outofnumber:totalquestions,
                 })
               }
               digitStyle={{

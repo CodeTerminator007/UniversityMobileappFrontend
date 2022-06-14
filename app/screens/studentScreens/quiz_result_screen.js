@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 import URI from "../../context/uri";
+import { useEffect } from "react";
 
 const QuizResultScreen = ({ navigation, route }) => {
   const { score } = route.params;
@@ -13,39 +14,41 @@ const QuizResultScreen = ({ navigation, route }) => {
   const { title } = route.params;
   const { subject } = route.params;
   const { current_date } = route.params;
+  const { outofnumber} = route.params;
+
   const state = useSelector((state) => state);
 
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const ID = stateData.userReducer.id;
-
-
-  // const option = {
-  //   headers: { Authorization: AuthStr },
-  // };
-  // axios
-  //   .post(
-  //     `${URI.uri}/Question/`,
-  //     {
-  //       question: ques,
-  //       quiz: id,
-  //       correct_answer: ans,
-  //     },
-  //     option
-  //   )
-  //   .then((res) => {
-  //     if (res.status == 201) {
-  //       Alert.alert("Question ", "The Question has been created.");
-  //       navigation.replace("Add Option" ,{question_id:res.data.id,quiz_id:id});
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     if ((err = 400)) {
-  //       Alert.alert("Error", "Empty Fields fill all the fields");
-  //     }
-  //     console.log("error", err);
-  //   });
-
+  const AuthStr = "Bearer ".concat(Token);
+console.log("total number here",outofnumber)
+  const postData=()=>{
+  const option = {
+    headers: { Authorization: AuthStr },
+  };
+  axios
+    .post(
+      `${URI.uri}/quizresult/`,
+      {
+        marks: score,
+        quiz: quiz_id,
+        student: ID,
+        subject:subject,
+        outofmarks:outofnumber,
+      },
+      option
+    )
+    .then((res) => {
+      console.log(res.status)
+    })
+    .catch((err) => {
+      console.log("error", err);
+    });
+  }
+    useEffect(()=>{
+      postData()
+      },[])
   return (
     <View style={styles.container}>
       <Text style={styles.result}>RESULTS</Text>
@@ -56,10 +59,10 @@ const QuizResultScreen = ({ navigation, route }) => {
       <Text style={styles.detail}>{quizDate}</Text>
 
       <Text style={styles.text}>Time:</Text>
-      <Text style={styles.detail}>{time}</Text>
+      <Text style={styles.detail}>{time} seconds </Text>
 
       <Text style={styles.text}>Score:</Text>
-      <Text style={styles.detail}>{score}</Text>
+      <Text style={styles.detail}>{score} out of {outofnumber}</Text>
 
       <TouchableOpacity
         onPress={() => navigation.replace("Student")}
