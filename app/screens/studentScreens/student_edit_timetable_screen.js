@@ -75,7 +75,7 @@ function StudentEditTimetableScreen() {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Starting Time"
+          placeholder="Starting Time Format 12:00:00"
           placeholderTextColor="#003f5c"
           onChangeText={setSubjectHourStart}
         />
@@ -83,7 +83,7 @@ function StudentEditTimetableScreen() {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Ending Time"
+          placeholder="Ending Time Time Format 12:00:00"
           placeholderTextColor="#003f5c"
           onChangeText={setSubjectHourEnd}
         />

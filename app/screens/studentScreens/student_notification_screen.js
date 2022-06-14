@@ -26,7 +26,6 @@ function StudentNotificationScreen({ navigation }) {
     })
     .then((response) => {
       // If request is good...
-      console.log(response.data)
       setdata(response.data);
     })
     .catch((error) => {

@@ -235,8 +235,9 @@ function StudentViewAssignmentScreen({ navigation, route }) {
               <TouchableOpacity
                 style={styles.fileView}
                 onPress={() =>
+                  
                   navigation.navigate("File Reader", {
-                    uri: "${URI.uri}" + documenturi,
+                    uri: `${URI.uri}${documenturi}`,
                   })
                 }
               >

@@ -19,7 +19,11 @@ function StudentNotificationDetailScreen({ navigation, route }) {
   const listings = route.params;
 
   const [modalVisible, setModalVisible] = useState(false);
-
+  const datetime = listings.created_at
+  const dd = new Date(datetime)
+  const result = new Date(Date.UTC(dd.getFullYear(),dd.getMonth(),dd.getDate())) 
+  const date = result.toISOString().split('T')[0]
+  console.log(date)
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -28,7 +32,7 @@ function StudentNotificationDetailScreen({ navigation, route }) {
       <View style={styles.textContainer}>
         <Text style={styles.heading}>{listings.title}</Text>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>{listings.created_at}</Text>
+          <Text style={styles.date}>{date}</Text>
         </View>
         <Text style={styles.detailText}>{listings.detail}</Text>
       </View>
