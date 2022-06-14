@@ -31,7 +31,6 @@ const StudentQuizScreen = ({ navigation, route }) => {
   const { title } = route.params;
   const { subject } = route.params;
   const { current_date } = route.params;
-  // console.log(`${URI.uri}/Quiz`)
 
   const getQuiz = async () => {
     setIsLoading(true);
@@ -41,7 +40,6 @@ const StudentQuizScreen = ({ navigation, route }) => {
       })
       .then((response) => {
         const data = response.data;
-        console.log(data.allquestions);
         setQuestions(data.allquestions);
         setOptions(generateOptionsAndShuffle(data.allquestions[0]));
         setIsLoading(false);
@@ -59,11 +57,9 @@ const StudentQuizScreen = ({ navigation, route }) => {
 
   const generateOptionsAndShuffle = (_question) => {
     const arr = [..._question.incorrect_answers];
-    console.log(arr);
     const g = arr.map((x) => x.content);
     const options = [...g];
     options.push(_question.correct_answer);
-    console.log(options);
     shuffleArray(options);
 
     return options;
@@ -71,17 +67,22 @@ const StudentQuizScreen = ({ navigation, route }) => {
 
   const handlSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
+      console.log("set")
       setScore(score + 1);
     }
     const totel = questions.length;
     settotalquestions(totel);
+    console.log(ques)
     if (ques !== totel - 1) {
       setQues(ques + 1);
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
+
     if (ques === totel - 1) {
       handleShowResult();
     }
+    console.log(ques)
+
   };
 
   const handleShowResult = () => {
