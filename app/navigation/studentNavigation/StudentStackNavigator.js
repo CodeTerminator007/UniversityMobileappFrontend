@@ -22,6 +22,8 @@ import StartQuizScreen from "../../screens/studentScreens/start_quiz_screen";
 import QuizResultScreen from "../../screens/studentScreens/quiz_result_screen";
 import AllSubjectsForQuizScreen from "../../screens/studentScreens/all_subjects_for_quiz";
 import AllQuizScreen from "../../screens/studentScreens/all_quiz_screen";
+import AllSubjectsForQuizResultScreen from "../../screens/studentScreens/subjects_for_quiz_result";
+import QuizresultsScreen from "../../screens/studentScreens/quiz_results_screen";
 
 const Stack = createStackNavigator();
 
@@ -52,6 +54,31 @@ const StudentHomeStackNavigator = () => {
             </TouchableOpacity>
           ),
         }}
+      />
+      <Stack.Screen
+        name="S Time Table"
+        component={StudentTimetableStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="S Assignment"
+        component={StudentUploadAssignmentStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="S Quiz"
+        component={StudentQuizStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="S Attandance"
+        component={StudentAttandanceStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="S Result"
+        component={StudentResultStackNavigator}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -159,13 +186,25 @@ const StudentQuizStackNavigator = () => {
       <Stack.Screen
         name="Quiz"
         component={StudentQuizScreen}
-        //options={{ headerShown: false }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Quiz Result"
         component={QuizResultScreen}
         //options={{ headerShown: false }}
       />
+    </Stack.Navigator>
+  );
+};
+
+const StudentQuizResultsStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="Subjects For Quiz Result"
+        component={AllSubjectsForQuizResultScreen}
+      />
+      <Stack.Screen name="Quiz Results Screen" component={QuizresultsScreen} />
     </Stack.Navigator>
   );
 };
@@ -201,6 +240,7 @@ export {
   StudentTimetableStackNavigator,
   StudentUploadAssignmentStackNavigator,
   StudentQuizStackNavigator,
+  StudentQuizResultsStackNavigator,
   StudentAttandanceStackNavigator,
   StudentResultStackNavigator,
 };

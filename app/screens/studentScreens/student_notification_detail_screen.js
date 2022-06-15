@@ -19,11 +19,13 @@ function StudentNotificationDetailScreen({ navigation, route }) {
   const listings = route.params;
 
   const [modalVisible, setModalVisible] = useState(false);
-  const datetime = listings.created_at
-  const dd = new Date(datetime)
-  const result = new Date(Date.UTC(dd.getFullYear(),dd.getMonth(),dd.getDate())) 
-  const date = result.toISOString().split('T')[0]
-  console.log(date)
+  const datetime = listings.created_at;
+  const dd = new Date(datetime);
+  const result = new Date(
+    Date.UTC(dd.getFullYear(), dd.getMonth(), dd.getDate())
+  );
+  const date = result.toISOString().split("T")[0];
+  console.log(date);
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
     //padding: 8,
   },
   modalView: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -72,6 +75,9 @@ const styles = StyleSheet.create({
     width: 300,
     marginHorizontal: 40,
     marginVertical: 40,
+    borderColor: "black",
+    borderWidth: 2,
+    resizeMode: "center",
     //backgroundColor: "red",
   },
 

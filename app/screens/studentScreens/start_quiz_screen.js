@@ -1,19 +1,19 @@
 import {
+  View,
   Image,
   TextInput,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
 } from "react-native";
 import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { set } from "react-native-reanimated";
+import { ActivityIndicator } from "react-native-paper";
 
 const StartQuizScreen = ({ navigation, route }) => {
-
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -27,80 +27,95 @@ const StartQuizScreen = ({ navigation, route }) => {
   const AuthStr = "Bearer ".concat(Token);
   const [exisit, setExsist] = useState(false);
   const [data, setdata] = useState(null);
-const [showBackButton, setShowBackButton]=useState(false)
-const [showStartButton, setShowStartButton]=useState(true)
- const getData=()=>{
-  axios
-  .get(`${URI.uri}/quizresult/${id}/?student_id=${ID}`, {
-    headers: { Authorization: AuthStr },
-  })
-  .then((response) => {
-    const s = response.data;
-    setdata(s)
-  })
-  .catch((error) => {
-    console.log("error " + error);
-  });
- }
-useEffect(()=>{
-getData()
-},[])
-const isButoon=()=>{
-  if (data){
-         if (quizDate===current_date && data.length===0){
-         return true
-       }
-        
-       if (quizDate!==current_date && data.length!==0){
-            return false
-            
-          }
-    
-       }
-    
-}
-const BUTTON = isButoon()
+  const [showBackButton, setShowBackButton] = useState(false);
+  const [showStartButton, setShowStartButton] = useState(true);
+  const [isloading, setIsLoading] = useState(false);
+  const getData = () => {
+    setIsLoading(true);
+    axios
+      .get(`${URI.uri}/quizresult/${id}/?student_id=${ID}`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        const s = response.data;
+        setdata(s);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+  const isButoon = () => {
+    if (data) {
+      if (quizDate === current_date && data.length === 0) {
+        return true;
+      }
 
+      if (quizDate !== current_date && data.length !== 0) {
+        return false;
+      }
+    }
+  };
+  const BUTTON = isButoon();
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.text}>Title:</Text>
-        <Text style={styles.detail}>{title}</Text>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.text}>Title:</Text>
+            <Text style={styles.detail}>{title}</Text>
 
-        <Text style={styles.text}>Date:</Text>
-        <Text style={styles.detail}>{quizDate}</Text>
+            <Text style={styles.text}>Date:</Text>
+            <Text style={styles.detail}>{quizDate}</Text>
 
-        <Text style={styles.text}>Time:</Text>
-        <Text style={styles.detail}>{time}</Text>
-      </View>
-    
-      <View style={styles.bannerContainer}></View>
-      { BUTTON&&
-      <TouchableOpacity
-        onPress={() => navigation.replace("Quiz" ,{
-          quiz_id:id,
-          quizDate:quizDate,
-          time:time,
-          title:title,
-          subject:subject,
-          current_date:current_date,
+            <Text style={styles.text}>Time:</Text>
+            <Text style={styles.detail}>{time}</Text>
+          </View>
 
-        })}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>Start Quiz</Text>
-      </TouchableOpacity>
-      }
-      
-      { !BUTTON &&
-              <TouchableOpacity
+          <View style={styles.bannerContainer}></View>
+          {BUTTON && (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.replace("Quiz", {
+                  quiz_id: id,
+                  quizDate: quizDate,
+                  time: time,
+                  title: title,
+                  subject: subject,
+                  current_date: current_date,
+                })
+              }
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Start Quiz</Text>
+            </TouchableOpacity>
+          )}
+
+          {!BUTTON && (
+            <TouchableOpacity
               onPress={() => navigation.replace("Student")}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
-      }
+          )}
+        </View>
+      )}
     </View>
   );
 };

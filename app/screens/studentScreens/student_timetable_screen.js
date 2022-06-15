@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import URI from "../../context/uri";
 import axios from "axios";
 import { Alert } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 function StudentTimetableScreen() {
   const state = useSelector((state) => state);
@@ -16,75 +17,96 @@ function StudentTimetableScreen() {
   const ID = stateData.userReducer.id;
   const AuthStr = "Bearer ".concat(Token);
   const [isFetching, setIssFethin] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
-  const deletetimetable= (id) =>{
-    console.log(id)
-  axios
-    .delete(`${URI.uri}/Timetable/${id}/`, {
-      headers: { Authorization: AuthStr },
-    })
-    .then((response) => {
-      console.log(response)
-    
-    })
+  const deletetimetable = (id) => {
+    console.log(id);
+    setIsLoading(true);
+    axios
+      .delete(`${URI.uri}/Timetable/${id}/`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        console.log(response);
+        setIsLoading(false);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    }); 
-   }
-  axios
-    .get(`${URI.uri}/Timetable/${ID}`, {
-      headers: { Authorization: AuthStr },
-    })
-    .then((response) => {
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          id:item.id,
-          day: item.day,
-          location: `Room: ${item.room.toString()}`,
-          endTime: item.subhoursend.toString(),
-          startTime: item.subhoursstart.toString(),
-          courseId: item.sub,
-        };
+      .catch((error) => {
+        console.log("error " + error);
       });
-      console.log(g)
-      setdata(g);
-    })
+  };
+  const getTimetable = () => {
+    setIsLoading(true);
+    axios
+      .get(`${URI.uri}/Timetable/${ID}`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            id: item.id,
+            day: item.day,
+            location: `Room: ${item.room.toString()}`,
+            endTime: item.subhoursend.toString(),
+            startTime: item.subhoursstart.toString(),
+            courseId: item.sub,
+          };
+        });
+        console.log(g);
+        setdata(g);
+        setIsLoading(false);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    });
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  useEffect(() => {
+    getTimetable();
+  }, []);
 
-
-    return (
-      <SafeAreaProvider>
+  return (
+    <SafeAreaProvider>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
         <SafeAreaView style={styles.safeAreaContainer}>
           <StatusBar backgroundColor="rgba(21,101,192,1)" />
           {data && (
             <View style={styles.container}>
-               <TimeTable events={data}  
-                eventOnPress={(event) => Alert.alert(
-                  "Delete",
-                  "Are you sure you want to Delete the schedule ?",
-                  [
-                    {
-                      text: "Cancel",
-                      onPress: () => console.log("Cancel Pressed"),
-                      style: "cancel"
-                    },
-                    { text: "OK", onPress: () =>deletetimetable(event.id) }
-                  ]
-                )
-              }
-               
-               />
-               
+              <TimeTable
+                events={data}
+                eventOnPress={(event) =>
+                  Alert.alert(
+                    "Delete",
+                    "Are you sure you want to Delete the schedule ?",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel",
+                      },
+                      { text: "OK", onPress: () => deletetimetable(event.id) },
+                    ]
+                  )
+                }
+              />
             </View>
           )}
         </SafeAreaView>
-      </SafeAreaProvider>
-    );
+      )}
+    </SafeAreaProvider>
+  );
 }
 
 const styles = StyleSheet.create({

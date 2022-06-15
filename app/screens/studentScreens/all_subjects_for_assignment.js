@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
 import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { ActivityIndicator } from "react-native-paper";
 
 function AllSubjectsForAssignmentScreen({ navigation }) {
   const state = useSelector((state) => state);
@@ -18,6 +20,7 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
   const [classid, setClassId] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const ID = stateData.userReducer.id;
   const [isFetching, setIssFethin] = useState(false);
@@ -56,6 +59,7 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
         });
         setdata(g);
         setIssFethin(true);
+        setIsLoading(false);
       })
 
       .catch((error) => {
@@ -67,25 +71,42 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
       getallsubjects();
     }
   }
-  useEffect(() => {}, [isFetching]);
+  useEffect(() => {
+    setIsLoading(true);
+  }, [isFetching]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.subject_id.toString()}
-        renderItem={({ item }) => (
-          <ClassListItem
-            title={item.title}
-            onPress={() =>
-              navigation.navigate("Student All Assignment", {
-                id: item.subject_id,
-                class_id: item.class_id,
-              })
-            }
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View>
+          <FlatList
+            data={data}
+            keyExtractor={(data) => data.subject_id.toString()}
+            renderItem={({ item }) => (
+              <ClassListItem
+                title={item.title}
+                onPress={() =>
+                  navigation.navigate("Student All Assignment", {
+                    id: item.subject_id,
+                    class_id: item.class_id,
+                  })
+                }
+              />
+            )}
           />
-        )}
-      />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

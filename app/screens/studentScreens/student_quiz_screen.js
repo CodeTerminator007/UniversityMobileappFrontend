@@ -6,6 +6,7 @@ import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import CountDown from "react-native-countdown-component";
+import { ActivityIndicator } from "react-native-paper";
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -34,7 +35,6 @@ const StudentQuizScreen = ({ navigation, route }) => {
   const { subject } = route.params;
   const { current_date } = route.params;
 
-
   const getQuiz = async () => {
     setIsLoading(true);
     axios
@@ -44,7 +44,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
       .then((response) => {
         const data = response.data;
         setQuestions(data.allquestions);
-        settotalquestions(data.allquestions.length)
+        settotalquestions(data.allquestions.length);
         setOptions(generateOptionsAndShuffle(data.allquestions[0]));
         setIsLoading(false);
       });
@@ -56,18 +56,17 @@ const StudentQuizScreen = ({ navigation, route }) => {
 
   const handleNextPress = () => {
     const totel = questions.length;
-    settotalquestions(totel)
+    settotalquestions(totel);
     if (ques !== totel - 1) {
-    setQues(ques + 1);
-    setOptions(generateOptionsAndShuffle(questions[ques + 1]));
+      setQues(ques + 1);
+      setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
-      if (ques === totel - 1) {
+    if (ques === totel - 1) {
       handleShowResult();
     }
   };
 
   const generateOptionsAndShuffle = (_question) => {
-    
     const arr = [..._question.incorrect_answers];
     const g = arr.map((x) => x.content);
     const options = [...g];
@@ -79,7 +78,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
 
   const handlSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
-      setScore(score+1);
+      setScore(score + 1);
     }
     const totel = questions.length;
     settotalquestions(totel);
@@ -89,15 +88,14 @@ const StudentQuizScreen = ({ navigation, route }) => {
     }
 
     if (ques === totel - 1) {
-      console.log(totalquestions)
-      setComplete(true)
+      console.log(totalquestions);
+      setComplete(true);
     }
-
   };
 
   const handleShowResult = () => {
     const totel = questions.length;
-    settotalquestions(totel)
+    settotalquestions(totel);
     navigation.replace("Quiz Result", {
       score: score,
       quiz_id: quiz_id,
@@ -106,13 +104,12 @@ const StudentQuizScreen = ({ navigation, route }) => {
       title: title,
       subject: subject,
       current_date: current_date,
-      outofnumber:totalquestions,
-
+      outofnumber: totalquestions,
     });
   };
-if (complete){
-  handleShowResult();
-}
+  if (complete) {
+    handleShowResult();
+  }
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -124,7 +121,7 @@ if (complete){
             height: "100%",
           }}
         >
-          <Text style={{ fontSize: 32, fontWeight: "700" }}>LOADING...</Text>
+          <ActivityIndicator />
         </View>
       ) : (
         questions && (
@@ -141,7 +138,7 @@ if (complete){
                   title: title,
                   subject: subject,
                   current_date: current_date,
-                  outofnumber:totalquestions,
+                  outofnumber: totalquestions,
                 })
               }
               digitStyle={{

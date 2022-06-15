@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 import axios from "axios";
+import { ActivityIndicator } from "react-native-paper";
 
 function StudentUploadAssignmentScreen({ navigation, route }) {
   const state = useSelector((state) => state);
@@ -27,11 +28,13 @@ function StudentUploadAssignmentScreen({ navigation, route }) {
   const [marks, setMarks] = useState(0);
   const [name, setName] = useState("Default");
   const [rollno, setRollno] = useState("Default");
+  const [isloading, setIsLoading] = useState(false);
 
   const [isEnabled, setIsEnabled] = useState(false);
   const [file, setFile] = useState(null);
 
   const handleSubmit = () => {
+    setIsLoading(true);
     const option = {
       headers: {
         Authorization: AuthStr,
@@ -55,6 +58,7 @@ function StudentUploadAssignmentScreen({ navigation, route }) {
         if (res.status == 201) {
           Alert.alert("User", "The Assignment was Submitted.");
         }
+        setIsLoading(false);
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -65,29 +69,44 @@ function StudentUploadAssignmentScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Upload Assignment </Text>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.headingText}>Upload Assignment </Text>
 
-      <Text style={styles.text}>Comment</Text>
-      <View style={styles.commentinputView}>
-        <TextInput
-          style={styles.commentinputText}
-          value={comment}
-          editable={true}
-          placeholder="Comment"
-          placeholderTextColor="#003f5c"
-          multiline={true}
-          textAlignVertical="top"
-          onChangeText={setComment}
-        />
-      </View>
+          <Text style={styles.text}>Comment</Text>
+          <View style={styles.commentinputView}>
+            <TextInput
+              style={styles.commentinputText}
+              value={comment}
+              editable={true}
+              placeholder="Comment"
+              placeholderTextColor="#003f5c"
+              multiline={true}
+              textAlignVertical="top"
+              onChangeText={setComment}
+            />
+          </View>
 
-      <Text style={styles.text}>Assignment File</Text>
-      <FilePicker file={file} setFile={setFile} />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Upload</Text>
-      </TouchableOpacity>
-    </View>
+          <Text style={styles.text}>Assignment File</Text>
+          <FilePicker file={file} setFile={setFile} />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Upload</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 

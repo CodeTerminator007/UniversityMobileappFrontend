@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  View,
   FlatList,
   SafeAreaView,
   StatusBar,
@@ -12,6 +13,7 @@ import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
+import { ActivityIndicator } from "react-native-paper";
 
 function StudentAllAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
@@ -23,8 +25,10 @@ function StudentAllAssignmentsScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   const getallAssignment = () => {
+    setIsLoading(true);
     axios
       .get(`${URI.uri}/AssignmentViewSet/${id}`, {
         headers: { Authorization: AuthStr },
@@ -50,6 +54,7 @@ function StudentAllAssignmentsScreen({ navigation, route }) {
         console.log(g);
         setdata(g);
         setIssFethin(true);
+        setIsLoading(false);
       })
 
       .catch((error) => {
@@ -67,30 +72,45 @@ function StudentAllAssignmentsScreen({ navigation, route }) {
   ];
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.id.toString()}
-        renderItem={({ item }) => (
-          <ClassListItem
-            title={item.title}
-            onPress={() =>
-              navigation.navigate("View Assignment Screen", {
-                id: item.id,
-                class_id: item.class_id,
-                Marks: item.Marks,
-                Status: item.Status,
-                subject_id: item.subject,
-                document: item.document,
-                submission_time: item.submission_time,
-                submission_date: item.submission_date,
-                details: item.details,
-                title: item.title,
-                faculty: item.faculty,
-              })
-            }
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View>
+          <FlatList
+            data={data}
+            keyExtractor={(data) => data.id.toString()}
+            renderItem={({ item }) => (
+              <ClassListItem
+                title={item.title}
+                onPress={() =>
+                  navigation.navigate("View Assignment Screen", {
+                    id: item.id,
+                    class_id: item.class_id,
+                    Marks: item.Marks,
+                    Status: item.Status,
+                    subject_id: item.subject,
+                    document: item.document,
+                    submission_time: item.submission_time,
+                    submission_date: item.submission_date,
+                    details: item.details,
+                    title: item.title,
+                    faculty: item.faculty,
+                  })
+                }
+              />
+            )}
           />
-        )}
-      />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

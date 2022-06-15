@@ -17,7 +17,7 @@ import { ActivityIndicator } from "react-native-paper";
 
 import { DrawerItemList } from "@react-navigation/drawer";
 
-function StudentAttandanceScreen() {
+function QuizresultsScreen() {
   const [attandance_data, set_attandance_data] = useState(null);
   const state = useSelector((state) => state);
   const stateData = { ...state };
@@ -63,21 +63,21 @@ function StudentAttandanceScreen() {
         <ScrollView horizontal={true} style={styles.container}>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title style={styles.alpha}>CourseName</DataTable.Title>
-              <DataTable.Title style={styles.alpha}>
-                TeacherName
+              <DataTable.Title style={styles.alpha}>Quiz Name</DataTable.Title>
+              <DataTable.Title style={styles.numeric} numeric>
+                Total Marks
               </DataTable.Title>
               <DataTable.Title style={styles.numeric} numeric>
-                Lectures
+                Obtained
               </DataTable.Title>
               <DataTable.Title style={styles.numeric} numeric>
-                Presents
+                Attempted
               </DataTable.Title>
               <DataTable.Title style={styles.numeric} numeric>
-                Absents
+                exxtra
               </DataTable.Title>
               <DataTable.Title style={styles.numeric} numeric>
-                Percent
+                extra
               </DataTable.Title>
             </DataTable.Header>
             <FlatList
@@ -88,8 +88,8 @@ function StudentAttandanceScreen() {
                   <DataTable.Cell style={styles.alpha}>
                     {item.CourseName}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.alpha}>
-                    {item.TeacherName}
+                  <DataTable.Cell style={styles.numeric} numeric>
+                    {item.Lectures}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric} numeric>
                     {item.Lectures}
@@ -117,7 +117,7 @@ function StudentAttandanceScreen() {
                     {item.CourseName}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric}>
-                    {item.TeacherName}
+                    {item.Lectures}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric} numeric>
                     {item.Lectures}
@@ -152,11 +152,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   alpha: {
-    width: 190,
+    width: 200,
   },
   numeric: {
     width: 40,
   },
 });
 
-export default StudentAttandanceScreen;
+export default QuizresultsScreen;

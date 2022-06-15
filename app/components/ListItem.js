@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   detailText: {
     color: "white",
     marginTop: 4,
+    width: 260,
   },
   heading: {
     fontSize: 18,

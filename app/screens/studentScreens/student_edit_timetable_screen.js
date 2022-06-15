@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Alert } from "react-native";
 import {
   StyleSheet,
   Text,
@@ -9,9 +8,11 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Alert,
   ScrollView,
 } from "react-native";
 import URI from "../../context/uri";
+import { ActivityIndicator } from "react-native-paper";
 
 // import { useSelector, useDispatch } from "react-redux";
 // import { setToken, setName, setUserData } from "../redux/actions";
@@ -22,6 +23,7 @@ function StudentEditTimetableScreen() {
   const [subject, setSubject] = useState(null);
   const [subjectHourStart, setSubjectHourStart] = useState(null);
   const [subjectHourEnd, setSubjectHourEnd] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
   const [day, setDay] = useState(null);
   const [room, setRoom] = useState(null);
   const stateData = { ...state };
@@ -33,6 +35,7 @@ function StudentEditTimetableScreen() {
     const option = {
       headers: { Authorization: AuthStr },
     };
+    setIsLoading(true);
     axios
       .post(
         `${URI.uri}/Timetable/`,
@@ -47,6 +50,8 @@ function StudentEditTimetableScreen() {
         option
       )
       .then((res) => {
+        setIsLoading(false);
+
         if (res.status == 201) {
           Alert.alert(
             "Timetable",
@@ -55,6 +60,8 @@ function StudentEditTimetableScreen() {
         }
       })
       .catch((err) => {
+        setIsLoading(false);
+
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -62,52 +69,67 @@ function StudentEditTimetableScreen() {
       });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.logoText}>Add/Edit Timetable</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Subject"
-          placeholderTextColor="#003f5c"
-          onChangeText={setSubject}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Starting Time Format 12:00:00"
-          placeholderTextColor="#003f5c"
-          onChangeText={setSubjectHourStart}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Ending Time Time Format 12:00:00"
-          placeholderTextColor="#003f5c"
-          onChangeText={setSubjectHourEnd}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Day"
-          placeholderTextColor="#003f5c"
-          onChangeText={setDay}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Room No"
-          placeholderTextColor="#003f5c"
-          onChangeText={setRoom}
-        />
-      </View>
+    <View style={{ flex: 1 }}>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.logoText}>Add/Edit Timetable</Text>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Subject"
+              placeholderTextColor="#003f5c"
+              onChangeText={setSubject}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Starting Time Format 12:00:00"
+              placeholderTextColor="#003f5c"
+              onChangeText={setSubjectHourStart}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Ending Time Time Format 12:00:00"
+              placeholderTextColor="#003f5c"
+              onChangeText={setSubjectHourEnd}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Day"
+              placeholderTextColor="#003f5c"
+              onChangeText={setDay}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Room No"
+              placeholderTextColor="#003f5c"
+              onChangeText={setRoom}
+            />
+          </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.loginText}>Add</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.loginText}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }

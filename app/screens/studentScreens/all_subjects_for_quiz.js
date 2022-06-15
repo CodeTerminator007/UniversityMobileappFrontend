@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  View,
   FlatList,
   SafeAreaView,
   StatusBar,
@@ -11,6 +12,7 @@ import ClassListItem from "../../components/class_list_item";
 import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { ActivityIndicator } from "react-native-paper";
 
 function AllSubjectsForQuizScreen({ navigation }) {
   const state = useSelector((state) => state);
@@ -18,6 +20,7 @@ function AllSubjectsForQuizScreen({ navigation }) {
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
   const [classid, setClassId] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const ID = stateData.userReducer.id;
   const [isFetching, setIssFethin] = useState(false);
@@ -25,7 +28,6 @@ function AllSubjectsForQuizScreen({ navigation }) {
   const AuthStr = "Bearer ".concat(Token);
 
   // const data = [{ subject_id: 1, title: "aaaa" }];
-
 
   if (!classid) {
     axios
@@ -59,6 +61,7 @@ function AllSubjectsForQuizScreen({ navigation }) {
         });
         setdata(g);
         setIssFethin(true);
+        setIsLoading(false);
       })
 
       .catch((error) => {
@@ -70,24 +73,44 @@ function AllSubjectsForQuizScreen({ navigation }) {
       getallsubjects();
     }
   }
-  useEffect(() => {}, [isFetching]);
-  
+  useEffect(() => {
+    setIsLoading(true);
+  }, [isFetching]);
+
   return (
     <SafeAreaView style={styles.container}>
-      {data &&       <FlatList
-        data={data}
-        keyExtractor={(data) => data.subject_id.toString()}
-        renderItem={({ item }) => (
-          <ClassListItem
-            title={item.title}
-            onPress={() => navigation.navigate("All Quiz" , {
-              id: item.subject_id,
-              class_id: item.class_id,
-            })}
-          />
-        )}
-      /> }
-
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View>
+          {data && (
+            <FlatList
+              data={data}
+              keyExtractor={(data) => data.subject_id.toString()}
+              renderItem={({ item }) => (
+                <ClassListItem
+                  title={item.title}
+                  onPress={() =>
+                    navigation.navigate("All Quiz", {
+                      id: item.subject_id,
+                      class_id: item.class_id,
+                    })
+                  }
+                />
+              )}
+            />
+          )}
+        </View>
+      )}
     </SafeAreaView>
   );
 }

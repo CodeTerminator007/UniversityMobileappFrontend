@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 import URI from "../../context/uri";
 import { useEffect } from "react";
+import { ActivityIndicator } from "react-native-paper";
 
 const QuizResultScreen = ({ navigation, route }) => {
   const { score } = route.params;
@@ -14,7 +15,9 @@ const QuizResultScreen = ({ navigation, route }) => {
   const { title } = route.params;
   const { subject } = route.params;
   const { current_date } = route.params;
-  const { outofnumber} = route.params;
+  const { outofnumber } = route.params;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const state = useSelector((state) => state);
 
@@ -22,54 +25,73 @@ const QuizResultScreen = ({ navigation, route }) => {
   const Token = stateData.userReducer.token;
   const ID = stateData.userReducer.id;
   const AuthStr = "Bearer ".concat(Token);
-console.log("total number here",outofnumber)
-  const postData=()=>{
-  const option = {
-    headers: { Authorization: AuthStr },
+  console.log("total number here", outofnumber);
+  const postData = () => {
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    setIsLoading(true);
+    axios
+      .post(
+        `${URI.uri}/quizresult/`,
+        {
+          marks: score,
+          quiz: quiz_id,
+          student: ID,
+          subject: subject,
+          outofmarks: outofnumber,
+        },
+        option
+      )
+      .then((res) => {
+        console.log(res.status);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
   };
-  axios
-    .post(
-      `${URI.uri}/quizresult/`,
-      {
-        marks: score,
-        quiz: quiz_id,
-        student: ID,
-        subject:subject,
-        outofmarks:outofnumber,
-      },
-      option
-    )
-    .then((res) => {
-      console.log(res.status)
-    })
-    .catch((err) => {
-      console.log("error", err);
-    });
-  }
-    useEffect(()=>{
-      postData()
-      },[])
+  useEffect(() => {
+    postData();
+  }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.result}>RESULTS</Text>
-      <Text style={styles.text}>Title:</Text>
-      <Text style={styles.detail}>{title}</Text>
+      {isLoading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.result}>RESULTS</Text>
+          <Text style={styles.text}>Title:</Text>
+          <Text style={styles.detail}>{title}</Text>
 
-      <Text style={styles.text}>Date:</Text>
-      <Text style={styles.detail}>{quizDate}</Text>
+          <Text style={styles.text}>Date:</Text>
+          <Text style={styles.detail}>{quizDate}</Text>
 
-      <Text style={styles.text}>Time:</Text>
-      <Text style={styles.detail}>{time} seconds </Text>
+          <Text style={styles.text}>Time:</Text>
+          <Text style={styles.detail}>{time} seconds </Text>
 
-      <Text style={styles.text}>Score:</Text>
-      <Text style={styles.detail}>{score} out of {outofnumber}</Text>
+          <Text style={styles.text}>Score:</Text>
+          <Text style={styles.detail}>
+            {score} out of {outofnumber}
+          </Text>
 
-      <TouchableOpacity
-        onPress={() => navigation.replace("Student")}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>GO Back</Text>
-      </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.replace("Student")}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>GO Back</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };

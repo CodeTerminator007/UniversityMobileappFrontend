@@ -10,6 +10,7 @@ import {
   StudentQuizStackNavigator,
   StudentAttandanceStackNavigator,
   StudentResultStackNavigator,
+  StudentQuizResultsStackNavigator,
 } from "./StudentStackNavigator";
 import StudentTabNavigator from "./StudentTabNavigator";
 import { StudentDrawerContent } from "./StudentDrawerContent";
@@ -44,6 +45,11 @@ const StudentDrawerNavigator = () => {
       <Drawer.Screen
         name="Quiz"
         component={StudentQuizStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="Quiz Results"
+        component={StudentQuizResultsStackNavigator}
         options={{ headerShown: false }}
       />
       <Drawer.Screen
