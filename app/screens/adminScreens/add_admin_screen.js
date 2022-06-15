@@ -218,7 +218,7 @@ function AddAdminScreen() {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Phone 1 e.g +929567897"
+            placeholder="Phone 1 e.g +923357867050"
             placeholderTextColor="#003f5c"
             onChangeText={setPhone1}
           />
@@ -226,7 +226,7 @@ function AddAdminScreen() {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Phone 2 e.g +929567897"
+            placeholder="Phone 2 e.g +923357867050"
             placeholderTextColor="#003f5c"
             onChangeText={setPhone2}
           />

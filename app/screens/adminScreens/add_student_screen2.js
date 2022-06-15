@@ -32,6 +32,12 @@ function AddStudentScreen2() {
     { label: "Class 2", value: "b" },
     { label: "Class 3", value: "c" },
     { label: "Class 4", value: "d" },
+    { label: "Class 5", value: "e" },
+    { label: "Class 6", value: "f" },
+    { label: "Class 7", value: "g" },
+    { label: "Class 8", value: "h" },
+    { label: "Class 9", value: "j" },
+    { label: "Class 10", value: "k" },        
   ]);
 
   const onCourseOpen = useCallback(() => {
