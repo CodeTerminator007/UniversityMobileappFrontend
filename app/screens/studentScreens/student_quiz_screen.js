@@ -34,6 +34,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
   const { title } = route.params;
   const { subject } = route.params;
   const { current_date } = route.params;
+  console.log("in quiz ");
 
   const getQuiz = async () => {
     setIsLoading(true);
@@ -62,7 +63,8 @@ const StudentQuizScreen = ({ navigation, route }) => {
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
     }
     if (ques === totel - 1) {
-      handleShowResult();
+      setComplete(true);
+
     }
   };
 
@@ -88,12 +90,12 @@ const StudentQuizScreen = ({ navigation, route }) => {
     }
 
     if (ques === totel - 1) {
-      console.log(totalquestions);
       setComplete(true);
     }
   };
 
   const handleShowResult = () => {
+    console.log("in the handleshow result");
     const totel = questions.length;
     settotalquestions(totel);
     navigation.replace("Quiz Result", {
@@ -108,6 +110,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
     });
   };
   if (complete) {
+    setComplete(false)
     handleShowResult();
   }
   return (
