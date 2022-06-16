@@ -16,7 +16,6 @@ function EditTeacherScreen({ route }) {
   const { id } = route.params;
 
   const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
   const [firstname, setFirstname] = useState(null);
   const [lastname, setLastname] = useState(null);
   const [dobirth, setDobirth] = useState(null);
@@ -64,15 +63,6 @@ function EditTeacherScreen({ route }) {
         </View>
         <View style={styles.inputView}>
           <TextInput
-            style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            onChangeText={setPassword}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput
-            secureTextEntry
             style={styles.inputText}
             placeholder="First Name"
             placeholderTextColor="#003f5c"

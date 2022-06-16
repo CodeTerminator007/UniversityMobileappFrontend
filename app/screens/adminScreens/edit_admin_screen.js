@@ -64,15 +64,6 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            onChangeText={setPassword}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput
-            secureTextEntry
-            style={styles.inputText}
             placeholder="First Name"
             placeholderTextColor="#003f5c"
             onChangeText={setFirstname}
