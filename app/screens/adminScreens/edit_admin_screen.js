@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -11,34 +12,70 @@ import {
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
+import URI from "../../context/uri";
+import { Alert } from "react-native";
 
-function EditAdminScreen({ route }) {
+function EditAdminScreen({navigation ,route }) {
   const { id } = route.params;
-  const [username, setUsername] = useState(null);
+  const { first_name } = route.params;
+  const { last_name } = route.params;
+  const { username1 } = route.params;
+  const { email1 } = route.params;
+  const { phone_number1 } = route.params;
+  const { phone_number2 } = route.params;
+  const { gender1 } = route.params;
+  const { last_education_degree } = route.params;
+  const { Dob } = route.params;
+  const { cnic1 } = route.params;
+  const { profile_image } = route.params;
+  const [image, setImage] = useState(profile_image);
+
+  const [username, setUsername] = useState(username1);
   const [password, setPassword] = useState(null);
-  const [firstname, setFirstname] = useState(null);
-  const [lastname, setLastname] = useState(null);
-  const [dobirth, setDobirth] = useState(null);
-  const [cnic, setCnic] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [phone1, setPhone1] = useState(null);
-  const [phone2, setPhone2] = useState(null);
+  const [firstname, setFirstname] = useState(first_name);
+  const [lastname, setLastname] = useState(last_name);
+  const [dobirth, setDobirth] = useState(Dob);
+  const [cnic, setCnic] = useState(cnic1);
+  const [email, setEmail] = useState(email1);
+  const [phone1, setPhone1] = useState(phone_number1);
+  const [phone2, setPhone2] = useState(phone_number2);
 
   const [genderopen, setGenderopen] = useState(false);
-  const [gender, setGender] = useState(null);
+  const [gender, setGender] = useState(gender1);
   const [genderlist, setGenderlist] = useState([
-    { label: "Male", value: "m" },
-    { label: "Female", value: "f" },
-    { label: "Neuter", value: "n" },
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
   ]);
 
   const [lastdegreeopen, setLastdegreeopen] = useState(false);
-  const [lastdegree, setLastdegree] = useState(null);
+  const [lastdegree, setLastdegree] = useState(last_education_degree);
   const [lastdegreelist, setLastdegreelist] = useState([
-    { label: "Degree 1", value: "a" },
-    { label: "Degree 2", value: "b" },
-    { label: "Degree 3", value: "c" },
-    { label: "Degree 4", value: "d" },
+    { label: "Matric/O level", value: "Matric/O level" },
+    { label: "Intermediate/DAE/A level", value: "Intermediate/DAE/A level" },
+    { label: "B.Sc English literature", value: "B.Sc English literature" },
+    {
+      label: "B.Sc Accounting and Finance",
+      value: "B.Sc Accounting and Finance",
+    },
+    { label: "B.Sc Physics", value: "B.Sc Physics" },
+    { label: "B.Sc Electronics", value: "B.Sc Electronics" },
+    { label: "B.Sc Mathematics", value: "B.Sc Mathematics" },
+    { label: "B.Sc Electrical   ", value: "B.Sc Electrical" },
+    { label: "B.Sc Urdu", value: "B.Sc Urdu" },
+    { label: "B.Sc Compueter Science", value: "B.Sc Compueter Science" },
+    { label: "B.Sc Commerce", value: "Commerce" },
+    {
+      label: "B.Sc Mechanical Engineering",
+      value: "B.Sc Mechanical Engineering",
+    },
+    { label: "MS Computer Science", value: "MS Computer Science" },
+    { label: "MS Electronics", value: "MS Electronics" },
+    { label: "MS English literature", value: "MS English literature" },
+    { label: "MS Accounting and Finance", value: "MS Accounting and Finance" },
+    { label: "MS Physics", value: "MS Physics" },
+    { label: "MS Electrical", value: "MS Electrical" },
+    { label: "MS Mathematics", value: "MS Mathematics" },
+    { label: "MS Urdu", value: "MS Urdu" },
   ]);
 
   const onGenderOpen = useCallback(() => {
@@ -49,6 +86,45 @@ function EditAdminScreen({ route }) {
     setGenderopen(false);
   }, []);
 
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
+
+  const handleSubmit = async (event) => {
+    console.log("in")
+    event.preventDefault();
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    axios
+      .put(`${URI.uri}/updateuserwithoutpassword/${id}/`,
+      {
+        username: username,
+        email:email,
+        first_name:firstname,
+        last_name:lastname,
+        phone_number1:phone1,
+        phone_number2:phone2,
+        gender:gender,
+        last_education_degree:lastdegree,
+        Dob:dobirth,
+        cnic:cnic,
+      },
+      option)
+      .then((res) => {
+        console.log(res)
+          Alert.alert("Admin", "The Admin has been Updated.");
+          navigation.navigate("All Admins")
+
+      })
+      .catch((err) => {
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -56,7 +132,7 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="User Name"
+            placeholder={username1}
             placeholderTextColor="#003f5c"
             onChangeText={setUsername}
           />
@@ -64,7 +140,7 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="First Name"
+            placeholder={first_name}
             placeholderTextColor="#003f5c"
             onChangeText={setFirstname}
           />
@@ -72,7 +148,7 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Last Name"
+            placeholder={last_name}
             placeholderTextColor="#003f5c"
             onChangeText={setLastname}
           />
@@ -80,7 +156,7 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Date of Birth"
+            placeholder={Dob}
             placeholderTextColor="#003f5c"
             onChangeText={setDobirth}
           />
@@ -88,7 +164,7 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="CNIC"
+            placeholder={cnic1}
             placeholderTextColor="#003f5c"
             onChangeText={setCnic}
           />
@@ -96,13 +172,13 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Email"
+            placeholder={email1}
             placeholderTextColor="#003f5c"
             onChangeText={setEmail}
           />
         </View>
         <DropDownPicker
-          placeholder="Select Gender"
+          placeholder={gender1}
           open={genderopen}
           onOpen={onGenderOpen}
           value={gender}
@@ -130,7 +206,7 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Phone 1"
+            placeholder={phone_number1}
             placeholderTextColor="#003f5c"
             onChangeText={setPhone1}
           />
@@ -138,13 +214,13 @@ function EditAdminScreen({ route }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Phone 2"
+            placeholder={phone_number2}
             placeholderTextColor="#003f5c"
             onChangeText={setPhone2}
           />
         </View>
         <DropDownPicker
-          placeholder="Select Course"
+          placeholder={last_education_degree}
           open={lastdegreeopen}
           onOpen={onDegreeOpen}
           value={lastdegree}
@@ -169,10 +245,10 @@ function EditAdminScreen({ route }) {
             marginLeft: 10,
           }}
         />
-        <Text style={styles.text}>Select Profile</Text>
-        <ImagePickerr />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.loginText}>Edit</Text>
+        {/* <Text style={styles.text}>Select Profile</Text>
+        <ImagePickerr image={image} setImage={setImage} /> */}
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
