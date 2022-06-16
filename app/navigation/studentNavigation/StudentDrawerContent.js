@@ -106,6 +106,19 @@ export function StudentDrawerContent(props) {
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon
+                  name="clipboard-pulse-outline"
+                  color={color}
+                  size={size}
+                />
+              )}
+              label="Assignment Results"
+              onPress={() => {
+                props.navigation.navigate("Assignment Results");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon
                   name="clipboard-alert-outline"
                   color={color}
                   size={size}

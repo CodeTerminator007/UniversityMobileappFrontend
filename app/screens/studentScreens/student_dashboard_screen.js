@@ -45,6 +45,17 @@ function StudentDashboardScreen() {
               onPress={() => navigation.navigate("S Time Table")}
               icon={<Icon name="timetable" color={"white"} size={35} />}
             />
+            <DashboardButton
+              buttonName={"Assignment Results"}
+              onPress={() => navigation.navigate("S Assignment Result")}
+              icon={
+                <Icon
+                  name="clipboard-pulse-outline"
+                  color={"white"}
+                  size={35}
+                />
+              }
+            />
           </View>
           <View>
             <DashboardButton
@@ -73,6 +84,17 @@ function StudentDashboardScreen() {
               icon={
                 <Icon
                   name="clipboard-alert-outline"
+                  color={"white"}
+                  size={35}
+                />
+              }
+            />
+            <DashboardButton
+              buttonName={"Quiz Results"}
+              onPress={() => navigation.navigate("S Quiz Result")}
+              icon={
+                <Icon
+                  name="clipboard-pulse-outline"
                   color={"white"}
                   size={35}
                 />

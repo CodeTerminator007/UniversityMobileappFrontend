@@ -24,6 +24,8 @@ import AllSubjectsForQuizScreen from "../../screens/studentScreens/all_subjects_
 import AllQuizScreen from "../../screens/studentScreens/all_quiz_screen";
 import AllSubjectsForQuizResultScreen from "../../screens/studentScreens/subjects_for_quiz_result";
 import QuizresultsScreen from "../../screens/studentScreens/quiz_results_screen";
+import AllSubjectsForAssignmentResultScreen from "../../screens/studentScreens/subjects_for_assignment_results";
+import AssignmentResultsScreen from "../../screens/studentScreens/assignment_results_screen";
 
 const Stack = createStackNavigator();
 
@@ -78,6 +80,16 @@ const StudentHomeStackNavigator = () => {
       <Stack.Screen
         name="S Result"
         component={StudentResultStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="S Quiz Result"
+        component={StudentQuizResultsStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="S Assignment Result"
+        component={StudentAssignmentResultsStackNavigator}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -165,6 +177,21 @@ const StudentUploadAssignmentStackNavigator = () => {
   );
 };
 
+const StudentAssignmentResultsStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen
+        name="Subjects For Assignment Result"
+        component={AllSubjectsForAssignmentResultScreen}
+      />
+      <Stack.Screen
+        name="Assignment Results Screen"
+        component={AssignmentResultsScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const StudentQuizStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -239,6 +266,7 @@ export {
   StudentProfileStackNavigator,
   StudentTimetableStackNavigator,
   StudentUploadAssignmentStackNavigator,
+  StudentAssignmentResultsStackNavigator,
   StudentQuizStackNavigator,
   StudentQuizResultsStackNavigator,
   StudentAttandanceStackNavigator,
