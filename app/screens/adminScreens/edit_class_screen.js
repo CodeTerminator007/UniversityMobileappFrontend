@@ -17,12 +17,16 @@ import URI from "../../context/uri";
 
 function EditClassScreen({ route }) {
   const { id } = route.params;
-
-  const [classname, setClassname] = useState(null);
-  const [classsection, setClasssection] = useState(null);
-  const [semester, setSemester] = useState(null);
+  const { course_id } = route.params;
+  const { semaster_name } = route.params;
+  const { section_name } = route.params;
+  const { course_name } = route.params;
+  const { class_name } = route.params;
+  const [classname, setClassname] = useState(class_name);
+  const [classsection, setClasssection] = useState(section_name);
+  const [semester, setSemester] = useState(semaster_name);
   const [open, setOpen] = useState(false);
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState(course_id);
   const [courseslist, setCourselist] = useState([
     { label: "A", value: "a" },
     { label: "B", value: "b" },
@@ -64,7 +68,7 @@ function EditClassScreen({ route }) {
       getCourses();
     }
   }, [isFetchingcourse]);
-
+console.log(course);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const option = {
@@ -83,7 +87,7 @@ function EditClassScreen({ route }) {
       )
       .then((res) => {
         if (res.status == 201) {
-          Alert.alert("Class", "The Class has been created.");
+          Alert.alert("Class", "The Class has been Updated.");
         }
       })
       .catch((err) => {
@@ -99,7 +103,7 @@ function EditClassScreen({ route }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Class Name"
+          placeholder={class_name}
           placeholderTextColor="#003f5c"
           onChangeText={setClassname}
         />
@@ -107,7 +111,7 @@ function EditClassScreen({ route }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Class Section"
+          placeholder={section_name}
           placeholderTextColor="#003f5c"
           onChangeText={setClasssection}
         />
@@ -115,13 +119,13 @@ function EditClassScreen({ route }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Semester"
+          placeholder={semaster_name}
           placeholderTextColor="#003f5c"
           onChangeText={setSemester}
         />
       </View>
       <DropDownPicker
-        placeholder="Select Course"
+        placeholder={course_name}
         open={open}
         value={course}
         items={courseslist}

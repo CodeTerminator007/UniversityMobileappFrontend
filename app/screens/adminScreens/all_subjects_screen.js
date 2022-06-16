@@ -45,6 +45,14 @@ function AllSubjectsScreen({ navigation }) {
         return {
           id: item.id,
           title: item.subject_name,
+          course_name:item.course_name,
+          course_id:item.course_id,
+          staff_name:item.staff_name,
+          staff_id:item.staff_id,
+          class_name:item.class_name,
+          class_id:item.class_id,
+          class_sec:item.class_sec,
+          class_semaster:item.class_semaster,
         };
       });
       setdata(g);
@@ -64,6 +72,15 @@ function AllSubjectsScreen({ navigation }) {
             onPress={() =>
               navigation.navigate("Edit Subject", {
                 id: item.id,
+                subject_name:item.title,
+                course_name:item.course_name,
+                course_id:item.course_id,
+                staff_name:item.staff_name,
+                staff_id:item.staff_id,
+                class_name:item.class_name,
+                class_id:item.class_id,
+                class_sec:item.class_sec,
+                class_semaster:item.class_semaster,
               })
             }
           />

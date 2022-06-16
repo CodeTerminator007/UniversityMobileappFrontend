@@ -30,6 +30,11 @@ function AdminAllClassesScreen({ navigation }) {
         return {
           id: item.id,
           title: `${item.course_name} ${item.class_name} ${item.semaster} ${item.sec}`,
+          class_name:item.class_name,
+          section:item.sec,
+          semaster:item.semaster,
+          course:item.course_id,
+          course_name:item.course_name
         };
       });
       setdata(g);
@@ -49,6 +54,12 @@ function AdminAllClassesScreen({ navigation }) {
             onPress={() =>
               navigation.navigate("Edit Class", {
                 id: item.id,
+                course_id:item.course,
+                semaster_name:item.semaster,
+                section_name:item.section,
+                class_name:item.class_name,
+                course_name:item.course_name,
+
               })
             }
           />

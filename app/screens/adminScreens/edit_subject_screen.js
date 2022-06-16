@@ -17,11 +17,20 @@ import URI from "../../context/uri";
 
 function EditSubjectScreen({ route }) {
   const { id } = route.params;
+  const { subject_name } = route.params;
+  const { course_name } = route.params;
+  const { course_id } = route.params;
+  const { staff_name } = route.params;
+  const { staff_id } = route.params;
+  const { class_name } = route.params;
+  const { class_id } = route.params;
+  const {  class_sec} = route.params;
+  const { class_semaster} = route.params;
 
-  const [subjectname, setSubjectname] = useState(null);
+  const [subjectname, setSubjectname] = useState(subject_name);
 
   const [courseopen, setCourseopen] = useState(false);
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState(course_id);
   const [courseslist, setCourselist] = useState([
     { label: "Course 1", value: "a" },
     { label: "Course 2", value: "b" },
@@ -30,7 +39,7 @@ function EditSubjectScreen({ route }) {
   ]);
 
   const [staffopen, setStaffopen] = useState(false);
-  const [staff, setStaff] = useState(null);
+  const [staff, setStaff] = useState(staff_id);
   const [stafflist, setStafflist] = useState([
     { label: "Staff 1", value: "a" },
     { label: "Staff 2", value: "b" },
@@ -39,7 +48,7 @@ function EditSubjectScreen({ route }) {
   ]);
 
   const [classopen, setClassopen] = useState(false);
-  const [classs, setClasss] = useState(null);
+  const [classs, setClasss] = useState(class_id);
   const [classlist, setClasslist] = useState([
     { label: "Class 1", value: "a" },
     { label: "Class 2", value: "b" },
@@ -124,7 +133,7 @@ function EditSubjectScreen({ route }) {
         const l = response.data;
         const s = l.map((item) => {
           return {
-            label: `${item.class_name} ${item.semaster} sec ${item.sec}`,
+            label: `${item.course_name} ${item.class_name} ${item.semaster} sec ${item.sec}`,
             value: item.id.toString(),
           };
         });
@@ -154,8 +163,8 @@ function EditSubjectScreen({ route }) {
       headers: { Authorization: AuthStr },
     };
     axios
-      .post(
-        `${URI.uri}/Subject/`,
+      .put(
+        `${URI.uri}/Subject/${id}/`,
         {
           subject_name: subjectname,
           course_id: course,
@@ -165,9 +174,7 @@ function EditSubjectScreen({ route }) {
         option
       )
       .then((res) => {
-        if (res.status == 201) {
-          Alert.alert("Subject", "The Subject has been created.");
-        }
+          Alert.alert("Subject", "The Subject has been Updated.");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -182,13 +189,13 @@ function EditSubjectScreen({ route }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Subject Name"
+          placeholder={subject_name}
           placeholderTextColor="#003f5c"
           onChangeText={setSubjectname}
         />
       </View>
       <DropDownPicker
-        placeholder="Select Course"
+        placeholder={course_name}
         open={courseopen}
         onOpen={onCourseOpen}
         value={course}
@@ -214,7 +221,7 @@ function EditSubjectScreen({ route }) {
         }}
       />
       <DropDownPicker
-        placeholder="Select Staff"
+        placeholder={staff_name}
         open={staffopen}
         onOpen={onStaffOpen}
         value={staff}
@@ -240,7 +247,7 @@ function EditSubjectScreen({ route }) {
         }}
       />
       <DropDownPicker
-        placeholder="Select Class"
+        placeholder={`${course_name} ${class_name} ${class_semaster} sec ${class_sec}`}
         open={classopen}
         onOpen={onClassOpen}
         value={classs}

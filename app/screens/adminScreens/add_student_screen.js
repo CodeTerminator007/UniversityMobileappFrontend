@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useCallback, useSelector } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { Alert } from "react-native";
+
+import { useSelector } from "react-redux";
+
 import {
   StyleSheet,
   Text,
@@ -13,7 +17,7 @@ import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
-function AddStudentScreen({ navigation }) {
+function AddStudentScreen({ navigation ,route }) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [firstname, setFirstname] = useState(null);
@@ -26,6 +30,8 @@ function AddStudentScreen({ navigation }) {
 
   const [genderopen, setGenderopen] = useState(false);
   const [gender, setGender] = useState(null);
+  const [image, setImage] = useState(null);
+
   const [genderlist, setGenderlist] = useState([
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
@@ -70,55 +76,57 @@ function AddStudentScreen({ navigation }) {
     setGenderopen(false);
   }, []);
 
-  // const state = useSelector((state) => state);
-  // const stateData = { ...state };
-  // const Token = stateData.userReducer.token;
+  //this is where we code
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
 
-  // const AuthStr = "Bearer ".concat(Token);
+  const AuthStr = "Bearer ".concat(Token);
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const option = {
-  //     headers: {
-  //       Authorization: AuthStr,
-  //       "Content-Type": "multipart/form-data",
-  //     },
-  //   };
-  //   let formdata = new FormData();
-  //   formdata.append("username", username);
-  //   formdata.append("email", email);
-  //   formdata.append("password", password);
-  //   formdata.append("first_name", firstname);
-  //   formdata.append("last_name", lastname);
-  //   formdata.append("is_admin", true);
-  //   formdata.append("is_student", false);
-  //   formdata.append("is_faculty", false);
-  //   formdata.append("phone_number1", phone1);
-  //   formdata.append("phone_number2", phone2);
-  //   formdata.append("gender", gender);
-  //   formdata.append("last_education_degree", lastdegree);
-  //   formdata.append("Dob", dobirth);
-  //   formdata.append("cnic", cnic);
-  //   formdata.append("profile_image", {
-  //     uri: image.uri,
-  //     type: "image/jpeg",
-  //     name: `${username}profilepic.${image.uri.split(".").pop()}`,
-  //   });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const option = {
+      headers: {
+        Authorization: AuthStr,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    let formdata = new FormData();
+    formdata.append("username", username);
+    formdata.append("email", email);
+    formdata.append("password", password);
+    formdata.append("first_name", firstname);
+    formdata.append("last_name", lastname);
+    formdata.append("is_admin", false);
+    formdata.append("is_student", true);
+    formdata.append("is_faculty", false);
+    formdata.append("phone_number1", phone1);
+    formdata.append("phone_number2", phone2);
+    formdata.append("gender", gender);
+    formdata.append("last_education_degree", lastdegree);
+    formdata.append("Dob", dobirth);
+    formdata.append("cnic", cnic);
+    formdata.append("profile_image", {
+      uri: image.uri,
+      type: "image/jpeg",
+      name: `${username}profilepic.${image.uri.split(".").pop()}`,
+    });
 
-  //   axios
-  //     .post(`${URI.uri}/users/`, formdata, option)
-  //     .then((res) => {
-  //       if (res.status == 201) {
-  //         Alert.alert("Admin", "The Admin has been created.");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       if ((err = 400)) {
-  //         Alert.alert("Error", "Empty Fields fill all the fields");
-  //       }
-  //       console.log("error", err);
-  //     });
-  // };
+    axios
+      .post(`${URI.uri}/users/`, formdata, option)
+      .then((res) => {
+        console.log(res.data)
+        if (res.status == 201) {
+          navigation.navigate("Student Details",{id:res.data.id});
+        }
+      })
+      .catch((err) => {
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+  };
 
   return (
     <ScrollView>
@@ -250,12 +258,10 @@ function AddStudentScreen({ navigation }) {
           }}
         />
         <Text style={styles.text}>Select Profile</Text>
-        <ImagePickerr />
+        <ImagePickerr image={image} setImage={setImage} />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            navigation.navigate("Student Details");
-          }}
+          onPress={handleSubmit}
         >
           <Text style={styles.loginText}>Add</Text>
         </TouchableOpacity>

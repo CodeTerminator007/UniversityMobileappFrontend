@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useCallback, useSelector } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { Alert } from "react-native";
+
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -13,8 +16,9 @@ import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
-function AddStudentScreen2() {
+function AddStudentScreen2({navigation,route}) {
   const [address, setAddress] = useState(null);
+  const { id } = route.params;
 
   const [courseopen, setCourseopen] = useState(false);
   const [course, setCourse] = useState(null);
@@ -47,7 +51,101 @@ function AddStudentScreen2() {
   const onClassOpen = useCallback(() => {
     setCourseopen(false);
   }, []);
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const [data, setdata] = useState(null);
+  const [classdata, setclassdata] = useState(null);
 
+  const [isFetchingcourse, setIssFethincourse] = useState(false);
+  const [isFetchingclasss, setIssFethinclass] = useState(false);
+
+  const AuthStr = "Bearer ".concat(Token);
+  const getCourses = () => {
+    axios
+      .get(`${URI.uri}/course`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        setIssFethincourse(false);
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            label: item.course_name,
+            value: item.id.toString(),
+          };
+        });
+        setdata(g);
+        setCourselist(g);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  const getClasses = () => {
+    axios
+      .get(`${URI.uri}/Class`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        setIssFethinclass(false);
+        const h = response.data;
+        const a = h.map((item) => {
+          return {
+            label: `${item.course_name} ${item.class_name} ${item.semaster} ${item.sec}`,
+            value: item.id.toString(),
+          };
+        });
+        setclassdata(a);
+        setClasslist(a);
+      })
+
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("id",id)
+    console.log("address",address)
+    console.log("course",course)
+    console.log("classs",classs)
+    console.log("url "+`${URI.uri}/user/student/${id}/`)
+
+    const option = {
+      headers: { Authorization: AuthStr },
+    };
+    axios
+      .put(
+        `${URI.uri}/user/student/${id}/`,
+        {
+          user: id,
+          address: address,
+          course_id: course,
+          the_class: classs,
+        },
+        option
+      )
+      .then((res) => {
+          Alert.alert("Student", "The Student has been added.");
+      })
+      .catch((err) => {
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+
+  }
+  useEffect(() => {
+    if (!isFetchingcourse) {
+      getCourses();
+    }
+    if(!isFetchingclasss){
+      getClasses();
+    }
+  }, [isFetchingcourse,isFetchingclasss]);
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
@@ -117,7 +215,7 @@ function AddStudentScreen2() {
             marginLeft: 10,
           }}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.loginText}>Add</Text>
         </TouchableOpacity>
       </View>

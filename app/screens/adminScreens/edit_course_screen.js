@@ -17,6 +17,8 @@ import URI from "../../context/uri";
 function EditCourseScreen({ route }) {
   const { id } = route.params;
 
+  const {   course_name } = route.params;
+
   const [coursename, setCoursename] = useState(null);
   const state = useSelector((state) => state);
 
@@ -30,17 +32,15 @@ function EditCourseScreen({ route }) {
       headers: { Authorization: AuthStr },
     };
     axios
-      .post(
-        `${URI.uri}/course/`,
+      .put(
+        `${URI.uri}/course/${id}/`,
         {
           course_name: coursename,
         },
         option
       )
       .then((res) => {
-        if (res.status == 201) {
-          Alert.alert("Course", "The Course has been created.");
-        }
+          Alert.alert("Course", "The Course has been Updated.");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -55,7 +55,7 @@ function EditCourseScreen({ route }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Course Name"
+          placeholder={course_name}
           placeholderTextColor="#003f5c"
           onChangeText={setCoursename}
         />

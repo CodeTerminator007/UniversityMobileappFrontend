@@ -49,6 +49,7 @@ function AllCoursesScreen({ navigation }) {
             onPress={() =>
               navigation.navigate("Edit Course", {
                 id: item.id,
+                course_name:item.title,
               })
             }
           />
