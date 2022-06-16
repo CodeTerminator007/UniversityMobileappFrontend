@@ -32,6 +32,7 @@ import AllStudentsScreen from "../../screens/adminScreens/all_students_screen";
 import AddStudentScreen from "../../screens/adminScreens/add_student_screen";
 import EditStudentScreen from "../../screens/adminScreens/edit_student_screen";
 import AddStudentScreen2 from "../../screens/adminScreens/add_student_screen2";
+import EditStudentScreen2 from "../../screens/adminScreens/edit_student_screen2";
 
 const Stack = createStackNavigator();
 
@@ -271,6 +272,11 @@ const AdminAddStudentStackNavigator = () => {
       <Stack.Screen
         name="Edit Student"
         component={EditStudentScreen}
+        //options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit Student Details"
+        component={EditStudentScreen2}
         //options={{ headerShown: false }}
       />
     </Stack.Navigator>

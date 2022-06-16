@@ -12,7 +12,7 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
-function EditStudentScreen({ route }) {
+function EditStudentScreen({ navigation, route }) {
   const { id } = route.params;
 
   const [username, setUsername] = useState(null);
@@ -23,7 +23,6 @@ function EditStudentScreen({ route }) {
   const [email, setEmail] = useState(null);
   const [phone1, setPhone1] = useState(null);
   const [phone2, setPhone2] = useState(null);
-  const [address, setAddress] = useState(null);
 
   const [genderopen, setGenderopen] = useState(false);
   const [gender, setGender] = useState(null);
@@ -42,47 +41,15 @@ function EditStudentScreen({ route }) {
     { label: "Degree 4", value: "d" },
   ]);
 
-  const [courseopen, setCourseopen] = useState(false);
-  const [course, setCourse] = useState(null);
-  const [courseslist, setCourselist] = useState([
-    { label: "Course 1", value: "a" },
-    { label: "Course 2", value: "b" },
-    { label: "Course 3", value: "c" },
-    { label: "Course 4", value: "d" },
-  ]);
-
-  const [classopen, setClassopen] = useState(false);
-  const [classs, setClasss] = useState(null);
-  const [classlist, setClasslist] = useState([
-    { label: "Class 1", value: "a" },
-    { label: "Class 2", value: "b" },
-    { label: "Class 3", value: "c" },
-    { label: "Class 4", value: "d" },
-  ]);
-
   const onGenderOpen = useCallback(() => {
     setLastdegreeopen(false);
-    setClassopen(false);
-    setCourseopen(false);
   }, []);
 
   const onDegreeOpen = useCallback(() => {
     setGenderopen(false);
-    setClassopen(false);
-    setCourseopen(false);
   }, []);
 
-  const onCourseOpen = useCallback(() => {
-    setLastdegreeopen(false);
-    setClassopen(false);
-    setGenderopen(false);
-  }, []);
-
-  const onClassOpen = useCallback(() => {
-    setLastdegreeopen(false);
-    setCourseopen(false);
-    setGenderopen(false);
-  }, []);
+  const handleSubmit = () => {};
 
   return (
     <ScrollView>
@@ -206,70 +173,19 @@ function EditStudentScreen({ route }) {
         />
         <Text style={styles.text}>Select Profile</Text>
         <ImagePickerr />
-        <View style={styles.inputView}>
-          <TextInput
-            secureTextEntry
-            style={styles.inputText}
-            placeholder="Address"
-            placeholderTextColor="#003f5c"
-            onChangeText={setAddress}
-          />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Update</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("Edit Student Details");
+            }}
+          >
+            <Text style={styles.buttonText}>Advance Update</Text>
+          </TouchableOpacity>
         </View>
-        <DropDownPicker
-          placeholder="Select Course"
-          open={courseopen}
-          onOpen={onCourseOpen}
-          value={course}
-          items={courseslist}
-          setOpen={setCourseopen}
-          setValue={setCourse}
-          setItems={setCourselist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: courseopen ? 175 : 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        <DropDownPicker
-          placeholder="Select Class"
-          open={classopen}
-          onOpen={onClassOpen}
-          value={classs}
-          items={classlist}
-          setOpen={setClassopen}
-          setValue={setClasss}
-          setItems={setClasslist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.loginText}>Edit</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -306,17 +222,24 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 11,
   },
+  buttonContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    padding: 10,
+    paddingTop: 1,
+  },
   button: {
-    width: "80%",
+    width: "37%",
     backgroundColor: "#185079",
-    borderRadius: 25,
+    borderRadius: 15,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 10,
+    //marginTop: 40,
+    //marginBottom: 10,
   },
-  loginText: {
+  buttonText: {
     color: "white",
   },
   text: {
