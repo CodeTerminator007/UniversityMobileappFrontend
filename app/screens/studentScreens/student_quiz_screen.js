@@ -64,7 +64,6 @@ const StudentQuizScreen = ({ navigation, route }) => {
     }
     if (ques === totel - 1) {
       setComplete(true);
-
     }
   };
 
@@ -110,7 +109,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
     });
   };
   if (complete) {
-    setComplete(false)
+    setComplete(false);
     handleShowResult();
   }
   return (
@@ -124,7 +123,7 @@ const StudentQuizScreen = ({ navigation, route }) => {
             height: "100%",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
         questions && (

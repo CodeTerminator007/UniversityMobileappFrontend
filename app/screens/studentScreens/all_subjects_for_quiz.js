@@ -88,7 +88,7 @@ function AllSubjectsForQuizScreen({ navigation }) {
             height: "100%",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
         <View>

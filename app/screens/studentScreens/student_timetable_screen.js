@@ -77,7 +77,7 @@ function StudentTimetableScreen() {
             height: "100%",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
         <SafeAreaView style={styles.safeAreaContainer}>
