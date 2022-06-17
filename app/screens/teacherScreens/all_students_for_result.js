@@ -16,78 +16,54 @@ import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Students from "../../components/students";
 
-function AllStudentsResult({ navigation }) {
-  //   const { id } = route.params;
-  //   const { class_id } = route.params;
-  //   const { subject_id } = route.params;
+function AllStudentsResult({ navigation ,route }) {
+    const { id } = route.params;
+    const { class_id } = route.params;
+    const { subject_id } = route.params;
 
-  //   const state = useSelector((state) => state);
-  //   const stateData = { ...state };
-  //   const Token = stateData.userReducer.token;
-  //   const AuthStr = "Bearer ".concat(Token);
-  //   const [data, setdata] = useState(null);
-  //   const [isFetching, setIssFethin] = useState(false);
+    const state = useSelector((state) => state);
+    const stateData = { ...state };
+    const Token = stateData.userReducer.token;
+    const AuthStr = "Bearer ".concat(Token);
+    const [data, setdata] = useState(null);
+    const [isFetching, setIssFethin] = useState(false);
+    const ID = stateData.userReducer.id;
+
   const [isloading, setIsLoading] = useState(false);
 
-  //   console.log("the assignment id = " + id);
-  //   const getsubmittedassignmentdetail = () => {
-  //     setIsLoading(true);
-  //     axios
-  //       .get(`${URI.uri}/SecondAssignmentSubmissionViewSet/${id}`, {
-  //         headers: { Authorization: AuthStr },
-  //       })
-  //       .then((response) => {
-  //         const d = response.data;
-  //         console.log(d);
-  //         const g = d.map((item) => {
-  //           return {
-  //             id: item.student,
-  //             title: `${item.first_name} ${item.last_name}`,
-  //             class_id: class_id,
-  //             assignemt_id: id,
-  //           };
-  //         });
-  //         setdata(g);
-  //         setIssFethin(true);
-  //         setIsLoading(false);
-  //       })
+    const getstudentslist = () => {
+      setIsLoading(true);
+      axios
+      .get(`${URI.uri}/user/student/${class_id}`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        setIssFethin(true);
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            title: item.username,
+            rollNo: item.roll_num.toString(),
+            id: item.user.toString(),
+            class_id:class_id,
+            subject_id:subject_id
+          };
+        });
+        setdata(g);
+        setIsLoading(false);
+      })
 
-  //       .catch((error) => {
-  //         setIsLoading(false);
-  //         console.log("error " + error);
-  //       });
-  //   };
-  //   useEffect(() => {
-  //     if (!isFetching) {
-  //       getsubmittedassignmentdetail();
-  //     }
-  //   }, [isFetching]);
-  const data = [
-    { id: 1, title: "ali", rollNo: 10011 },
-    { id: 2, title: "ahmed", rollNo: 11082 },
-    { id: 3, title: "raza", rollNo: 10873 },
-  ];
-
+      .catch((error) => {
+        setIsLoading(false);
+        console.log("error " + error);
+      });
+    };
+    useEffect(() => {
+      if (!isFetching) {
+        getstudentslist();
+      }
+    }, [isFetching]);
   return (
-    // navigation.setOptions({
-    //   headerRight: () => (
-    //     <TouchableOpacity
-    //       onPress={() =>
-    //         navigation.navigate("Assignment Detail", {
-    //           assignment_id: id,
-    //         })
-    //       }
-    //       style={{ marginRight: 10 }}
-    //     >
-    //       <MaterialCommunityIcons
-    //         name="file-edit-outline"
-    //         size={24}
-    //         color="black"
-    //       />
-    //     </TouchableOpacity>
-    //   ),
-    // }),
-    // (
     <>
       {isloading ? (
         <View
@@ -108,9 +84,12 @@ function AllStudentsResult({ navigation }) {
             renderItem={({ item }) => (
               <Students
                 title={item.title}
-                //statuss={true}
                 rollNo={item.rollNo}
-                onPress={() => navigation.navigate("Mark Result")}
+                onPress={() => navigation.navigate("Mark Result" ,{
+                  studentid: item.id,
+                  class_id:class_id,
+                  subject_id:subject_id
+                })}
               />
             )}
           />

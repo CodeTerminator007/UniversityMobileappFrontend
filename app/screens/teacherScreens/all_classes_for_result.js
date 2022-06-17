@@ -32,6 +32,7 @@ function AllClassesForResult({ navigation }) {
       })
       .then((response) => {
         const d = response.data;
+        console.log(d)
         const g = d.map((item) => {
           return {
             class_id: item.class_id,
@@ -75,8 +76,8 @@ function AllClassesForResult({ navigation }) {
               <ClassListItem
                 title={item.title}
                 onPress={() =>
-                  navigation.navigate("All Subjects Result", {
-                    id: item.subject_id,
+                  navigation.navigate("All Students Result", {
+                    subject_id: item.subject_id,
                     class_id: item.class_id,
                   })
                 }

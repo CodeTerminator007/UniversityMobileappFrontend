@@ -19,61 +19,92 @@ import URI from "../../context/uri";
 // import { setToken, setName, setUserData } from "../redux/actions";
 // import { useNavigation } from "@react-navigation/native";
 
-function MarkResultScreen() {
-  //   const state = useSelector((state) => state);
+function MarkResultScreen({navigation,route}) {
+    const state = useSelector((state) => state);
+    const stateData = { ...state };
+    const Token = stateData.userReducer.token;
+    const ID = stateData.userReducer.id;    
   const [midmarks, setMidmarks] = useState(null);
   const [finalmarks, setFinalmarks] = useState(null);
   const [sessional, setSessional] = useState(null);
   const [isloading, setIsLoading] = useState(false);
-
+  
+  const { class_id } = route.params;
+  const { studentid } = route.params;
+  const { subject_id } = route.params;
   const [yearopen, setYearopen] = useState(false);
   const [year, setYear] = useState(null);
-
+  const [isFetching, setIssFethin] = useState(false);
   const [yearlist, setYearlist] = useState([
     { label: "2022", value: "2022" },
     { label: "2021", value: "2021" },
   ]);
 
-  //   const stateData = { ...state };
-  //   const Token = stateData.userReducer.token;
-  //   const ID = stateData.userReducer.id;
-  //   const handleSubmit = async (event) => {
-  //     event.preventDefault();
-  //     const AuthStr = "Bearer ".concat(Token);
-  //     const option = {
-  //       headers: { Authorization: AuthStr },
-  //     };
-  //     setIsLoading(true);
-  //     axios
-  //       .post(
-  //         `${URI.uri}/Timetable/`,
-  //         {
-  //           sub: subject,
-  //           subhoursstart: subjectHourStart,
-  //           subhoursend: subjectHourEnd,
-  //           day: day,
-  //           room: room,
-  //           person: ID,
-  //         },
-  //         option
-  //       )
-  //       .then((res) => {
-  //         setIsLoading(false);
-  //         if (res.status == 201) {
-  //           Alert.alert(
-  //             "Timetable",
-  //             "New Schedual Has been added in your Timetable."
-  //           );
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         setIsLoading(false);
-  //         if ((err = 400)) {
-  //           Alert.alert("Error", "Empty Fields fill all the fields");
-  //         }
-  //         console.log("error", err);
-  //       });
-  //   };
+  const AuthStr = "Bearer ".concat(Token);
+
+    if (!isFetching) {
+      useEffect(() => {
+        setIsLoading(true);
+        axios
+          .get(`${URI.uri}/Result/`, {
+            headers: { Authorization: AuthStr },
+          })
+          .then((response) => {
+            const data1 = response.data;
+            setIsLoading(false);
+            const g = data1.map((item) => {
+              return {
+                value: item.id,
+                label: item.name,
+              };
+            })
+            setYearlist(g)
+          })
+            .catch((error) => {
+              console.log("error " + error);
+            });        
+  
+      }, [isFetching]);
+    }
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      const AuthStr = "Bearer ".concat(Token);
+      const option = {
+        headers: { Authorization: AuthStr },
+      };
+      setIsLoading(true);
+      axios
+        .post(
+          `${URI.uri}/SubjectResult/`,
+          {
+            midobtainedMarks: midmarks,
+            finalobtainedMarks: finalmarks,
+            sessionalmarks: sessional,
+            classid: class_id,
+            student: studentid,
+            subject: subject_id,
+            result:year,
+          },
+          option
+        )
+        .then((res) => {
+          setIsLoading(false);
+          if (res.status == 201) {
+            Alert.alert(
+              "Marks",
+              "Marks has been added for the student."
+            );
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          if ((err = 400)) {
+            Alert.alert("Error", "Empty Fields fill all the fields");
+          }
+          console.log("error", err);
+        });
+    };
   return (
     <>
       {isloading ? (
@@ -92,8 +123,8 @@ function MarkResultScreen() {
           <Text style={styles.logoText}>Mark Result</Text>
           <DropDownPicker
             placeholder="Year"
-            //open={courseopen}
-            onOpen={yearopen}
+            open={yearopen}
+            // onOpen={yearopen}
             value={year}
             items={yearlist}
             setOpen={setYearopen}
@@ -144,7 +175,7 @@ function MarkResultScreen() {
 
           <TouchableOpacity
             style={styles.button}
-            //   onPress={handleSubmit}
+              onPress={handleSubmit}
           >
             <Text style={styles.loginText}>Post</Text>
           </TouchableOpacity>
