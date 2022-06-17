@@ -34,25 +34,51 @@ function StudentResultScreen() {
     { label: "2021", value: "2021" },
   ]);
 
-  // const ID = stateData.userReducer.id;
+  const ID = stateData.userReducer.id;
 
-  // if (!isFetching) {
-  //   useEffect(() => {
-  //     setIsLoading(true);
-  //     axios
-  //       .get(`${URI.uri}/Attendance/${ID}/student_attendance_report/`, {
-  //         headers: { Authorization: AuthStr },
-  //       })
-  //       .then((response) => {
-  //         const data1 = response.data;
-  //         setIsLoading(false);
-
-  //         set_attandance_data(data1).catch((error) => {
-  //           console.log("error " + error);
-  //         });
-  //       });
-  //   }, [isFetching]);
-  // }
+  if (!isFetching) {
+    useEffect(() => {
+      setIsLoading(true);
+      axios
+        .get(`${URI.uri}/Result/`, {
+          headers: { Authorization: AuthStr },
+        })
+        .then((response) => {
+          const data1 = response.data;
+          setIsLoading(false);
+          const g = data1.map((item) => {
+            return {
+              value: item.id,
+              label: item.name,
+            };
+          })
+          console.log(g)
+          setYearlist(g)
+          .catch((error) => {
+            console.log("error " + error);
+          });
+        });
+        if (year){
+          axios
+          .get(`${URI.uri}/Result/`, {
+            headers: { Authorization: AuthStr },
+          })
+          .then((response) => {
+            const data2 = response.data;
+            // const g = data2.map((item) => {
+            //   return {
+            //     value: item.id,
+            //     label: item.name,
+            //   };
+            // })
+            console.log(data2)
+            .catch((error) => {
+              console.log("error " + error);
+            });
+          }); 
+        }
+    }, [isFetching]);
+  }
 
   return (
     <>
@@ -114,16 +140,16 @@ function StudentResultScreen() {
                   TeacherName
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
-                  Lectures
+                  Mid
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
-                  Presents
+                  Final
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
-                  Absents
+                Sessional 
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
-                  Percent
+                  Total
                 </DataTable.Title>
               </DataTable.Header>
               <FlatList
