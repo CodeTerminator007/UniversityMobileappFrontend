@@ -17,11 +17,18 @@ import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
 function EditStudentScreen2({ navigation, route }) {
-  const [address, setAddress] = useState(null);
-  //   const { id } = route.params;
+  const { id } = route.params;
+  const { address1 } = route.params;
+  const { the_class1} = route.params;
+  const { course_id1 } = route.params;
+  const { coursename } = route.params;
+  const { classname } = route.params;
+
+
+  const [address, setAddress] = useState(address1);
 
   const [courseopen, setCourseopen] = useState(false);
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState(course_id1);
   const [courseslist, setCourselist] = useState([
     { label: "Course 1", value: "a" },
     { label: "Course 2", value: "b" },
@@ -30,7 +37,7 @@ function EditStudentScreen2({ navigation, route }) {
   ]);
 
   const [classopen, setClassopen] = useState(false);
-  const [classs, setClasss] = useState(null);
+  const [classs, setClasss] = useState(the_class1);
   const [classlist, setClasslist] = useState([
     { label: "Class 1", value: "a" },
     { label: "Class 2", value: "b" },
@@ -128,7 +135,8 @@ function EditStudentScreen2({ navigation, route }) {
         option
       )
       .then((res) => {
-        Alert.alert("Student", "The Student has been added.");
+        Alert.alert("Student", "The Student has been Updated.");
+        navigation.navigate("All Students");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -157,13 +165,13 @@ function EditStudentScreen2({ navigation, route }) {
             //secureTextEntry
             style={styles.inputText}
             multiline={true}
-            placeholder="Address"
+            placeholder={address1}
             placeholderTextColor="#003f5c"
             onChangeText={setAddress}
           />
         </View>
         <DropDownPicker
-          placeholder="Select Course"
+          placeholder={coursename}
           open={courseopen}
           onOpen={onCourseOpen}
           value={course}
@@ -189,7 +197,7 @@ function EditStudentScreen2({ navigation, route }) {
           }}
         />
         <DropDownPicker
-          placeholder="Select Class"
+          placeholder={classname}
           open={classopen}
           onOpen={onClassOpen}
           value={classs}
@@ -215,7 +223,7 @@ function EditStudentScreen2({ navigation, route }) {
           }}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.loginText}>Add</Text>
+          <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

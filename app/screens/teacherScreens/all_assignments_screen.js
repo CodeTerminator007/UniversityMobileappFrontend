@@ -97,6 +97,7 @@ function AllAssignmentsScreen({ navigation, route }) {
                     navigation.navigate("Submitted Assignments", {
                       id: item.id,
                       class_id: item.class_id,
+                      subject_id: id,
                     })
                   }
                 />

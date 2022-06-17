@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import URI from "../../context/uri";
 import FilePicker from "../../components/file_picker";
-import DateAndTimePicker from "../../components/date_and_time_picker";
+import DatePickerr from "../../components/date_picker";
 import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 
@@ -46,7 +46,8 @@ function TeacherCreateAssignmentScreen({ route }) {
     formdata.append("faculty", stateData.userReducer.id);
     formdata.append("Title", title);
     formdata.append("detail", detail);
-    formdata.append("submission_datetime", date);
+    formdata.append("submission_date", date);
+    formdata.append("submission_time","12:00:00")
     formdata.append("document", {
       uri: file.uri,
       type: "application/pdf",
@@ -56,7 +57,7 @@ function TeacherCreateAssignmentScreen({ route }) {
     formdata.append("status", isEnabled);
     formdata.append("marks ", marks);
     formdata.append("class_id ", class_id);
-
+console.log(formdata);
     axios
       .post(`${URI.uri}/AssignmentViewSet/`, formdata, option)
       .then((res) => {
@@ -71,7 +72,7 @@ function TeacherCreateAssignmentScreen({ route }) {
         console.log("error", err);
       });
   };
-
+console.log("the date is "+date);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -119,7 +120,8 @@ function TeacherCreateAssignmentScreen({ route }) {
             />
           </View>
         </View>
-
+<DatePickerr date={date} setDate={setDate}/>
+{/* 
         <DateAndTimePicker
           datePicker={datePicker}
           setDatePicker={setDatePicker}
@@ -129,7 +131,7 @@ function TeacherCreateAssignmentScreen({ route }) {
           timePicker={timePicker}
           time={time}
           setTime={setTime}
-        />
+        /> */}
 
         <FilePicker file={file} setFile={setFile} />
 

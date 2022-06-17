@@ -19,6 +19,7 @@ function AllAdminsScreen({ navigation }) {
   const [data, setdata] = useState(null);
 
   const AuthStr = "Bearer ".concat(Token);
+  
   axios
     .get(`${URI.uri}/user/admin/`, {
       headers: { Authorization: AuthStr },
@@ -26,10 +27,22 @@ function AllAdminsScreen({ navigation }) {
     .then((response) => {
       // If request is good...
       const d = response.data;
+      console.log(d)
       const g = d.map((item) => {
         return {
           id: item.user,
           title: `${item.first_name} ${item.last_name}`,
+          username:item.username,
+          first_name:item.first_name,
+          last_name:item.last_name,
+          email:item.email,
+          phone_number1:item.phone_number1,
+          phone_number2:item.phone_number2,
+          gender:item.gender,
+          last_education_degree:item.last_education_degree,
+          Dob:item.Dob,
+          cnic:item.cnic,
+          profile_image:item.profile_image,
         };
       });
       setdata(g);
@@ -49,6 +62,17 @@ function AllAdminsScreen({ navigation }) {
             onPress={() =>
               navigation.navigate("Edit Admin", {
                 id: item.id,
+                username1:item.username,
+                first_name:item.first_name,
+                last_name:item.last_name,
+                email1:item.email,
+                phone_number1:item.phone_number1,
+                phone_number2:item.phone_number2,
+                gender1:item.gender,
+                last_education_degree:item.last_education_degree,
+                Dob:item.Dob,
+                cnic1:item.cnic,
+                profile_image:item.profile_image,                
               })
             }
           />

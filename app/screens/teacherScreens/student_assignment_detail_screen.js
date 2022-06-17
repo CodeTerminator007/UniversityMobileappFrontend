@@ -20,6 +20,8 @@ import * as FileSystem from "expo-file-system";
 const { StorageAccessFramework } = FileSystem;
 function StudentAssignmentDetailScreen({ navigation, route }) {
   const { student_id } = route.params;
+  const { subject_id } = route.params;
+
   const { assignemt } = route.params;
   const [data, setdata] = useState(null);
   const state = useSelector((state) => state);
@@ -103,10 +105,30 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
     axios
       .put(`${URI.uri}/AssignmentSubmissionViewSet/${iid}/`, formdata, option)
       .then((res) => {
-        setIsLoading(false);
-        if (res.status == 200) {
-          Alert.alert("Marks", "The Marks has been updated.");
-        }
+        const option2 = {
+          headers: { Authorization: AuthStr },
+        };
+        axios
+          .post(
+            `${URI.uri}/Assignmentmarksresult/`,
+            {
+              assignment: assignemt,
+              student: student_id,
+              marks: marks,
+              subject: subject_id,
+            },
+            option2
+          )
+          .then((res) => {
+            setIsLoading(false);
+            Alert.alert("Marks", "The Marks has been updated.");
+          })
+          .catch((err) => {
+            if ((err = 400)) {
+              Alert.alert("Error", "Empty Fields fill all the fields");
+            }
+            console.log("error", err);
+          });
       })
       .catch((err) => {
         setIsLoading(false);
