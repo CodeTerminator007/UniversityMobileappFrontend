@@ -16,6 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 function SubmittedAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
   const { class_id } = route.params;
+  const {subject_id} = route.params;
+  
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -81,6 +83,7 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
                 navigation.navigate("Student Assignment Detail", {
                   student_id: item.id,
                   assignemt: item.assignemt_id,
+                  subject_id:subject_id,
                 })
               }
             />

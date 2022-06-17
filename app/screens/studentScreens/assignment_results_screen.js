@@ -32,7 +32,7 @@ function AssignmentResultsScreen({ route }) {
   const getData = () => {
     setIsLoading(true);
     axios
-      .get(`${URI.uri}/quizresultscreen/?student_id=${ID}&subject=${id}`, {
+      .get(`${URI.uri}/Assignmentmarksresult/?student_id=${ID}&subject_id=${id}`, {
         headers: { Authorization: AuthStr },
       })
       .then((response) => {
@@ -83,16 +83,16 @@ function AssignmentResultsScreen({ route }) {
               renderItem={({ item }) => (
                 <DataTable.Row>
                   <DataTable.Cell style={styles.alpha}>
-                    {item.quiz_name}
+                    {item.assignment_name}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric} numeric>
-                    {item.outofmarks}
+                    {item.totalmarks}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric} numeric>
                     {item.marks}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric} numeric>
-                    {(item.marks / item.outofmarks) * 100} %
+                    {(item.marks / item.totalmarks) * 100} %
                   </DataTable.Cell>
                 </DataTable.Row>
               )}
