@@ -11,12 +11,15 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 
 function TeacherCreateQuizScreen({ navigation, route }) {
   const [title, setTitle] = useState(null);
   const [time, setTime] = useState(null);
   const [date, setDate] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
+
   const { id } = route.params;
   const state = useSelector((state) => state);
   const stateData = { ...state };
@@ -24,11 +27,12 @@ function TeacherCreateQuizScreen({ navigation, route }) {
 
   const AuthStr = "Bearer ".concat(Token);
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
+    setIsLoading(true);
     axios
       .post(
         `${URI.uri}/Quiz/`,
@@ -41,9 +45,10 @@ function TeacherCreateQuizScreen({ navigation, route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("Quiz ", "The Quiz has been created.");
-          navigation.replace("Add Question" ,{id:res.data.id});
+          navigation.replace("Add Question", { id: res.data.id });
         }
       })
       .catch((err) => {
@@ -55,45 +60,57 @@ function TeacherCreateQuizScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Create Quiz</Text>
-      <Text style={styles.text}>Title</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Title"
-          placeholderTextColor="#003f5c"
-          onChangeText={setTitle}
-        />
-      </View>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.headingText}>Create Quiz</Text>
+          <Text style={styles.text}>Title</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Title"
+              placeholderTextColor="#003f5c"
+              onChangeText={setTitle}
+            />
+          </View>
 
-      <Text style={styles.text}>Time (In Seconds)</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Time"
-          placeholderTextColor="#003f5c"
-          onChangeText={setTime}
-        />
-      </View>
+          <Text style={styles.text}>Time (In Seconds)</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Time"
+              placeholderTextColor="#003f5c"
+              onChangeText={setTime}
+            />
+          </View>
 
-      <Text style={styles.text}>Date (YY-MM-DD)</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Date"
-          placeholderTextColor="#003f5c"
-          onChangeText={setDate}
-        />
-      </View>
+          <Text style={styles.text}>Date (YY-MM-DD)</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Date"
+              placeholderTextColor="#003f5c"
+              onChangeText={setDate}
+            />
+          </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSubmit}
-      >
-        <Text style={styles.buttonText}>Create</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Create</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 // navigation.replace("Add Question");

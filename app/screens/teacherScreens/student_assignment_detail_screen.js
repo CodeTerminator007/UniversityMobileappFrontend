@@ -11,11 +11,12 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import FileReader from "../../components/file_reader";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system";
 const { StorageAccessFramework } = FileSystem;
 function StudentAssignmentDetailScreen({ navigation, route }) {
   const { student_id } = route.params;
@@ -33,6 +34,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
   const [iid, setiid] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
   const [document, setDocument] = useState("Default");
+  const [isloading, setIsLoading] = useState(false);
 
   const getassignmentdetail = () => {
     axios
@@ -49,10 +51,12 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
           setiid(data[0].id);
           console.log(data[0].id);
           setIssFethin(true);
+          setIsLoading(false);
         }
       })
 
       .catch((error) => {
+        setIsLoading(false);
         console.log("error " + error);
       });
   };
@@ -60,11 +64,11 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
     getassignmentdetail();
   }
 
-const download_file = () =>{
+  const download_file = () => {};
 
-}
-  
   useEffect(() => {
+    setIsLoading(true);
+
     getassignmentdetail();
   }, [isFetching]);
   if (data != null) {
@@ -83,6 +87,7 @@ const download_file = () =>{
     }
   }
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const option = {
       headers: {
@@ -98,11 +103,13 @@ const download_file = () =>{
     axios
       .put(`${URI.uri}/AssignmentSubmissionViewSet/${iid}/`, formdata, option)
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 200) {
           Alert.alert("Marks", "The Marks has been updated.");
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -111,92 +118,104 @@ const download_file = () =>{
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.headingText}>Student Assignment Details</Text>
-        <Text style={styles.text}>Name</Text>
-        <View style={styles.textinputView}>
-          <TextInput
-            style={styles.inputText}
-            value={name}
-            editable={false}
-            placeholder="Name"
-            placeholderTextColor="#003f5c"
-            onChangeText={setName}
-          />
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
         </View>
-        <Text style={styles.text}>Roll No</Text>
-        <View style={styles.textinputView}>
-          <TextInput
-            style={styles.inputText}
-            value={rollno}
-            editable={false}
-            placeholder="Roll No"
-            placeholderTextColor="#003f5c"
-            onChange={setRollno}
-          />
-        </View>
-        <Text style={styles.text}>Comment</Text>
-        <View style={styles.commentinputView}>
-          <TextInput
-            style={styles.commentinputText}
-            value={comment}
-            editable={false}
-            placeholder="Comment"
-            placeholderTextColor="#003f5c"
-            multiline={true}
-            textAlignVertical="top"
-            onChangeText={setComment}
-          />
-        </View>
-        <Text style={styles.text}>Marks</Text>
-        <View style={styles.textinputView}>
-          <TextInput
-            style={styles.inputText}
-            value={marks}
-            placeholder="Marks"
-            placeholderTextColor="#003f5c"
-            onChangeText={setMarks}
-          />
-        </View>
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+        >
+          <View style={styles.container}>
+            <Text style={styles.headingText}>Student Assignment Details</Text>
+            <Text style={styles.text}>Name</Text>
+            <TextInput
+              style={styles.inputText}
+              value={name}
+              editable={false}
+              placeholder="Name"
+              placeholderTextColor="#003f5c"
+              onChangeText={setName}
+            />
+            <Text style={styles.text}>Roll No</Text>
+            <TextInput
+              style={styles.inputText}
+              value={rollno}
+              editable={false}
+              placeholder="Roll No"
+              placeholderTextColor="#003f5c"
+              onChange={setRollno}
+            />
+            <Text style={styles.text}>Comment</Text>
+            <TextInput
+              style={styles.commentinputText}
+              value={comment}
+              editable={false}
+              placeholder="Comment"
+              placeholderTextColor="#003f5c"
+              multiline={true}
+              textAlignVertical="top"
+              onChangeText={setComment}
+            />
+            <Text style={styles.text}>Marks</Text>
+            <View style={styles.textinputView}>
+              <TextInput
+                style={styles.inputText}
+                value={marks}
+                placeholder="Marks"
+                placeholderTextColor="#003f5c"
+                onChangeText={setMarks}
+              />
+            </View>
 
-        <Text style={styles.text}>Submit Date & Time</Text>
-        {/* <View style={styles.textinputView}> */}
-        <TextInput
-          style={styles.inputText}
-          value={date}
-          editable={false}
-          placeholder="Date & Time"
-          placeholderTextColor="#003f5c"
-          onChangeText={setDate}
-        />
-        {/* </View> */}
+            <Text style={styles.text}>Submit Date & Time</Text>
+            {/* <View style={styles.textinputView}> */}
+            <TextInput
+              style={styles.inputText}
+              value={date}
+              editable={false}
+              placeholder="Date & Time"
+              placeholderTextColor="#003f5c"
+              onChangeText={setDate}
+            />
+            {/* </View> */}
 
-        <Text style={styles.text}>Assignment File</Text>
+            <Text style={styles.text}>Assignment File</Text>
 
-        <View style={styles.fileButtonsView}>
-          <TouchableOpacity
-            style={styles.fileView}
-            onPress={() =>
-              navigation.navigate("File Reader", {
-                uri: document,
-              })
-            }
-          >
-            <Text style={styles.buttonText}>View</Text>
-          </TouchableOpacity>
+            <View style={styles.fileButtonsView}>
+              <TouchableOpacity
+                style={styles.fileView}
+                onPress={() =>
+                  navigation.navigate("File Reader", {
+                    uri: document,
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>View</Text>
+              </TouchableOpacity>
 
-          <TouchableOpacity style={styles.fileDownload} 
-          onPress={download_file}
-          >
-            <Text style={styles.buttonText}>Download</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.markGrade} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Mark Grade</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+              <TouchableOpacity
+                style={styles.fileDownload}
+                onPress={download_file}
+              >
+                <Text style={styles.buttonText}>Download</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.markGrade} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Mark Grade</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
 
@@ -269,8 +288,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   commentinputText: {
-    height: 90,
+    //height: 90,
     color: "black",
+    marginBottom: 20,
   },
   button: {
     width: "80%",

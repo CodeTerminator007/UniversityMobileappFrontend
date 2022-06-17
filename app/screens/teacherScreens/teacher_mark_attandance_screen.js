@@ -7,6 +7,7 @@ import {
   Switch,
   TouchableOpacity,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import DatePickerr from "../../components/date_picker";
 import { useSelector } from "react-redux";
@@ -26,11 +27,13 @@ function TeacherMarkAttandanceScreen({ route }) {
   const [attandance_data, set_attandance_data] = useState(null);
 
   const [isFetching, setIssFethin] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   const AttandanceReport = () => {
     const option = {
       headers: { Authorization: AuthStr },
     };
+    setIsLoading(true);
     axios
       .post(
         `${URI.uri}/Attendance/`,
@@ -60,8 +63,10 @@ function TeacherMarkAttandanceScreen({ route }) {
           .catch((err2) => {
             console.log("error", err2);
           });
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log("error", err);
       });
   };
@@ -72,6 +77,7 @@ function TeacherMarkAttandanceScreen({ route }) {
 
   const AuthStr = "Bearer ".concat(Token);
   const getStudents = () => {
+    setIsLoading(true);
     axios
       .get(`${URI.uri}/user/student/${paasedData.id}`, {
         headers: { Authorization: AuthStr },
@@ -88,9 +94,11 @@ function TeacherMarkAttandanceScreen({ route }) {
           };
         });
         setdata(g);
+        setIsLoading(false);
       })
 
       .catch((error) => {
+        setIsLoading(false);
         console.log("error " + error);
       });
   };
@@ -109,8 +117,8 @@ function TeacherMarkAttandanceScreen({ route }) {
     <View
       style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}
     >
-      <Text style={styles.item}>{item.name}</Text>
-      <Text style={styles.item}>{item.rollno}</Text>
+      <Text style={styles.itemName}>{item.name}</Text>
+      <Text style={styles.itemRollno}>{item.rollno}</Text>
       <Switch
         onValueChange={(value) => setSwitchValue(value, index)}
         value={item.switch}
@@ -119,28 +127,43 @@ function TeacherMarkAttandanceScreen({ route }) {
   );
 
   return (
-    <View style={styles.container}>
-      <DatePickerr date={date} setDate={setDate} />
-      <View
-        style={{
-          //flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Text style={styles.itemHeader}>NAME</Text>
-        <Text style={styles.itemHeader}>ROLL NO</Text>
-        <Text style={styles.itemHeader}></Text>
-      </View>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.rollno.toString()}
-        renderItem={listItem}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.loginText}>Mark Attandance</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <DatePickerr date={date} setDate={setDate} />
+          <View
+            style={{
+              //flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.itemHeaderName}>NAME</Text>
+            <Text style={styles.itemHeaderRollNo}>ROLL NO</Text>
+            <Text style={styles.itemHeaderRollNo}></Text>
+          </View>
+          <FlatList
+            data={data}
+            keyExtractor={(data) => data.rollno.toString()}
+            renderItem={listItem}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.loginText}>Mark Attandance</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 
@@ -149,16 +172,31 @@ const styles = StyleSheet.create({
     flex: 1,
     //paddingTop: 40,
   },
-  item: {
+  itemName: {
     padding: 10,
     fontSize: 18,
     height: 44,
+    width: "60%",
   },
-  itemHeader: {
+  itemRollno: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+    width: "20%",
+  },
+  itemHeaderName: {
     padding: 10,
     fontSize: 18,
     fontWeight: "bold",
     height: 44,
+    width: "60%",
+  },
+  itemHeaderRollNo: {
+    padding: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    height: 44,
+    width: "20%",
   },
   button: {
     width: "80%",

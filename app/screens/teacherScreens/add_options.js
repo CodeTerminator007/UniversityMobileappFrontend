@@ -12,9 +12,12 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 function AddOptions({ navigation, route }) {
   const [options, setOption] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
+
   const { question_id } = route.params;
   const { quiz_id } = route.params;
 
@@ -24,12 +27,13 @@ function AddOptions({ navigation, route }) {
 
   const AuthStr = "Bearer ".concat(Token);
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
-    console.log("question_id "+question_id)
+    console.log("question_id " + question_id);
+    setIsLoading(true);
     axios
       .post(
         `${URI.uri}/Incorrect_answers/`,
@@ -40,6 +44,7 @@ function AddOptions({ navigation, route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("Option ", "The Option has been created.");
         }
@@ -52,39 +57,55 @@ function AddOptions({ navigation, route }) {
       });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Add Options</Text>
-
-      <Text style={styles.text}>Option</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Add Option"
-          placeholderTextColor="#003f5c"
-          onChangeText={setOption}
-        />
-      </View>
-
-      <View style={styles.fileButtonsView}>
-        <TouchableOpacity
-          style={styles.fileView}
-          onPress={() => {
-            navigation.replace("Add Question",{id:quiz_id});
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
           }}
         >
-          <Text style={styles.buttonText}>Add Question</Text>
-        </TouchableOpacity>
-        {/* {question_id:res.data.id,quiz_id:id} */}
-        <TouchableOpacity style={styles.fileDownload}
-        onPress={handleSubmit}
-        >
-          <Text style={styles.buttonText}>Add Option</Text>
-        </TouchableOpacity>
-      </View>
-      {/* <TouchableOpacity style={styles.button}>
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.headingText}>Add Options</Text>
+
+          <Text style={styles.text}>Option</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Add Option"
+              placeholderTextColor="#003f5c"
+              onChangeText={setOption}
+            />
+          </View>
+
+          <View style={styles.fileButtonsView}>
+            <TouchableOpacity
+              style={styles.fileView}
+              onPress={() => {
+                navigation.replace("Add Question", { id: quiz_id });
+              }}
+            >
+              <Text style={styles.buttonText}>Add Question</Text>
+            </TouchableOpacity>
+            {/* {question_id:res.data.id,quiz_id:id} */}
+            <TouchableOpacity
+              style={styles.fileDownload}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.buttonText}>Add Option</Text>
+            </TouchableOpacity>
+          </View>
+          {/* <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Add Options</Text>
       </TouchableOpacity> */}
-    </View>
+        </View>
+      )}
+    </>
   );
 }
 

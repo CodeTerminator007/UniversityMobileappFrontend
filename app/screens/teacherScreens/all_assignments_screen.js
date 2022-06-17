@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
@@ -23,8 +25,10 @@ function AllAssignmentsScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   const getallAssignment = () => {
+    setIsLoading(true);
     axios
       .get(`${URI.uri}/AssignmentViewSet/${id}`, {
         headers: { Authorization: AuthStr },
@@ -40,6 +44,7 @@ function AllAssignmentsScreen({ navigation, route }) {
         });
         setdata(g);
         setIssFethin(true);
+        setIsLoading(false);
       })
 
       .catch((error) => {
@@ -68,23 +73,38 @@ function AllAssignmentsScreen({ navigation, route }) {
       ),
     }),
     (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={data}
-          keyExtractor={(data) => data.id.toString()}
-          renderItem={({ item }) => (
-            <ClassListItem
-              title={item.title}
-              onPress={() =>
-                navigation.navigate("Submitted Assignments", {
-                  id: item.id,
-                  class_id: item.class_id,
-                })
-              }
+      <>
+        {isloading ? (
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator animating={true} size={40} />
+          </View>
+        ) : (
+          <SafeAreaView style={styles.container}>
+            <FlatList
+              data={data}
+              keyExtractor={(data) => data.id.toString()}
+              renderItem={({ item }) => (
+                <ClassListItem
+                  title={item.title}
+                  onPress={() =>
+                    navigation.navigate("Submitted Assignments", {
+                      id: item.id,
+                      class_id: item.class_id,
+                    })
+                  }
+                />
+              )}
             />
-          )}
-        />
-      </SafeAreaView>
+          </SafeAreaView>
+        )}
+      </>
     )
   );
 }

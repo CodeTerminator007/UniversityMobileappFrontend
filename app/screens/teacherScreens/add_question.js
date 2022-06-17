@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 import URI from "../../context/uri";
@@ -16,6 +17,8 @@ import URI from "../../context/uri";
 function AddQuestion({ navigation, route }) {
   const [ques, setQues] = useState(null);
   const [ans, setAns] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
+
   const { id } = route.params;
   const state = useSelector((state) => state);
   const stateData = { ...state };
@@ -23,11 +26,12 @@ function AddQuestion({ navigation, route }) {
 
   const AuthStr = "Bearer ".concat(Token);
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
+    setIsLoading(true);
     axios
       .post(
         `${URI.uri}/Question/`,
@@ -39,9 +43,13 @@ function AddQuestion({ navigation, route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("Question ", "The Question has been created.");
-          navigation.replace("Add Option" ,{question_id:res.data.id,quiz_id:id});
+          navigation.replace("Add Option", {
+            question_id: res.data.id,
+            quiz_id: id,
+          });
         }
       })
       .catch((err) => {
@@ -52,35 +60,47 @@ function AddQuestion({ navigation, route }) {
       });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Add Question</Text>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.headingText}>Add Question</Text>
 
-      <Text style={styles.text}>Question</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Add Question"
-          placeholderTextColor="#003f5c"
-          onChangeText={setQues}
-        />
-      </View>
+          <Text style={styles.text}>Question</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Add Question"
+              placeholderTextColor="#003f5c"
+              onChangeText={setQues}
+            />
+          </View>
 
-      <Text style={styles.text}>Answer</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Answer"
-          placeholderTextColor="#003f5c"
-          onChangeText={setAns}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSubmit}
-      >
-        <Text style={styles.buttonText}>Add Options</Text>
-      </TouchableOpacity>
-    </View>
+          <Text style={styles.text}>Answer</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Answer"
+              placeholderTextColor="#003f5c"
+              onChangeText={setAns}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Add Options</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 

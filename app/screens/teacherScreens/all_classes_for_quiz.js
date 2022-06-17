@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
@@ -19,9 +21,11 @@ function AllClassesForQuiz({ navigation }) {
   const [data, setdata] = useState(null);
   const ID = stateData.userReducer.id;
   const [isFetching, setIssFethin] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
   const getallClasses = () => {
+    setIsLoading(true);
     axios
       .get(`${URI.uri}/Subject/${ID}`, {
         headers: { Authorization: AuthStr },
@@ -36,6 +40,7 @@ function AllClassesForQuiz({ navigation }) {
           };
         });
         setdata(g);
+        setIsLoading(false);
       })
 
       .catch((error) => {
@@ -49,23 +54,38 @@ function AllClassesForQuiz({ navigation }) {
   }, [isFetching]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.subject_id.toString()}
-        renderItem={({ item }) => (
-          <ClassListItem
-            title={item.title}
-            onPress={() =>
-              navigation.navigate("Create Quiz", {
-                id: item.subject_id,
-                class_id: item.class_id,
-              })
-            }
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={data}
+            keyExtractor={(data) => data.subject_id.toString()}
+            renderItem={({ item }) => (
+              <ClassListItem
+                title={item.title}
+                onPress={() =>
+                  navigation.navigate("Create Quiz", {
+                    id: item.subject_id,
+                    class_id: item.class_id,
+                  })
+                }
+              />
+            )}
           />
-        )}
-      />
-    </SafeAreaView>
+        </SafeAreaView>
+      )}
+    </>
   );
 }
 

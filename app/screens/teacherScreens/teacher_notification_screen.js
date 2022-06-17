@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import ListItem from "../../components/ListItem";
 import { useSelector } from "react-redux";
@@ -18,39 +19,64 @@ function TeacherNotificationScreen({ navigation }) {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState();
+  const [isloading, setIsLoading] = useState(false);
 
-  const AuthStr = "Bearer ".concat(Token);
-  axios
-    .get(`${URI.uri}/announcement/`, {
-      headers: { Authorization: AuthStr },
-    })
-    .then((response) => {
-      // If request is good...
-      setdata(response.data);
-    })
-    .catch((error) => {
-      console.log("error " + error);
-    });
+  const getNotification = async () => {
+    const AuthStr = "Bearer ".concat(Token);
+    setIsLoading(true);
+    axios
+      .get(`${URI.uri}/announcement/`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        // If request is good...
+        setdata(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log("error " + error);
+      });
+  };
+
+  useEffect(() => {
+    getNotification();
+  }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.id.toString()}
-        renderItem={({ item }) => (
-          <ListItem
-            title={item.title}
-            description={item.detail}
-            url={item.image}
-            onPress={() =>
-              navigation.navigate("Teacher Notifications Detail", {
-                ...item,
-              })
-            }
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={data}
+            keyExtractor={(data) => data.id.toString()}
+            renderItem={({ item }) => (
+              <ListItem
+                title={item.title}
+                description={item.detail}
+                url={item.image}
+                onPress={() =>
+                  navigation.navigate("Teacher Notifications Detail", {
+                    ...item,
+                  })
+                }
+              />
+            )}
           />
-        )}
-      />
-    </SafeAreaView>
+        </SafeAreaView>
+      )}
+    </>
   );
 }
 

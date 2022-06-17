@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import AssignmentListItem from "../../components/assignment_list_item";
 import { useSelector } from "react-redux";
@@ -22,8 +24,11 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
   const [data, setdata] = useState(null);
   const [isFetching, setIssFethin] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
+
   console.log("the assignment id = " + id);
   const getsubmittedassignmentdetail = () => {
+    setIsLoading(true);
     axios
       .get(`${URI.uri}/SecondAssignmentSubmissionViewSet/${id}`, {
         headers: { Authorization: AuthStr },
@@ -41,9 +46,11 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
         });
         setdata(g);
         setIssFethin(true);
+        setIsLoading(false);
       })
 
       .catch((error) => {
+        setIsLoading(false);
         console.log("error " + error);
       });
   };
@@ -69,24 +76,39 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
       ),
     }),
     (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={data}
-          keyExtractor={(data) => data.id}
-          renderItem={({ item }) => (
-            <AssignmentListItem
-              title={item.title}
-              statuss={true}
-              onPress={() =>
-                navigation.navigate("Student Assignment Detail", {
-                  student_id: item.id,
-                  assignemt: item.assignemt_id,
-                })
-              }
+      <>
+        {isloading ? (
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator animating={true} size={40} />
+          </View>
+        ) : (
+          <SafeAreaView style={styles.container}>
+            <FlatList
+              data={data}
+              keyExtractor={(data) => data.id}
+              renderItem={({ item }) => (
+                <AssignmentListItem
+                  title={item.title}
+                  statuss={true}
+                  onPress={() =>
+                    navigation.navigate("Student Assignment Detail", {
+                      student_id: item.id,
+                      assignemt: item.assignemt_id,
+                    })
+                  }
+                />
+              )}
             />
-          )}
-        />
-      </SafeAreaView>
+          </SafeAreaView>
+        )}
+      </>
     )
   );
 }
