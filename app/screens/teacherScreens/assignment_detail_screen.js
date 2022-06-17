@@ -11,6 +11,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import { Ionicons } from "@expo/vector-icons";
 import DatePickerr from "../../components/date_picker";
@@ -36,6 +37,7 @@ function AssignmentDetailScreen({ navigation, route }) {
   const [class_id, setClassID] = useState(1);
   const [marks, setMarks] = useState(12);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
@@ -82,18 +84,24 @@ function AssignmentDetailScreen({ navigation, route }) {
           setFaculty(data.faculty);
           setSubject(data.subject);
           setIssFethin(true);
+          setIsLoading(false);
         }
       })
 
       .catch((error) => {
+        setIsLoading(false);
+
         console.log("error " + error);
       });
   };
   if (!isFetching) {
     getassignmentdetail();
   }
-  useEffect(() => {}, [isFetching]);
+  useEffect(() => {
+    setIsLoading(true);
+  }, [isFetching]);
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const option = {
       headers: {
@@ -130,11 +138,13 @@ function AssignmentDetailScreen({ navigation, route }) {
     axios
       .put(`${URI.uri}/AssignmentViewSet/${assignment_id}/`, formdata, option)
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 200) {
           Alert.alert("Assignment", "The Assignment has been updated.");
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -143,63 +153,81 @@ function AssignmentDetailScreen({ navigation, route }) {
   };
 
   return (
-    <ScrollView>
-      {data && (
-        <View style={styles.container}>
-          <Text style={styles.headingText}>Assignment Details</Text>
-          <Text style={styles.text}>Title</Text>
-          <View style={styles.titleinputView}>
-            <TextInput
-              style={styles.titleinputText}
-              placeholder="Title"
-              value={title}
-              placeholderTextColor="#003f5c"
-              onChangeText={setTitle}
-            />
-          </View>
-          <Text style={styles.text}>Detail</Text>
-          <View style={styles.detailinputView}>
-            <TextInput
-              style={styles.detailinputText}
-              placeholder="Details"
-              placeholderTextColor="#003f5c"
-              value={detail}
-              multiline={true}
-              textAlignVertical="top"
-              onChangeText={setDetail}
-            />
-          </View>
-          <Text style={styles.text}>Marks & Status</Text>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+        >
+          {data && (
+            <View style={styles.container}>
+              <Text style={styles.headingText}>Assignment Details</Text>
+              <Text style={styles.text}>Title</Text>
+              <View style={styles.titleinputView}>
+                <TextInput
+                  style={styles.titleinputText}
+                  placeholder="Title"
+                  value={title}
+                  placeholderTextColor="#003f5c"
+                  onChangeText={setTitle}
+                />
+              </View>
+              <Text style={styles.text}>Detail</Text>
+              <View style={styles.detailinputView}>
+                <TextInput
+                  style={styles.detailinputText}
+                  placeholder="Details"
+                  placeholderTextColor="#003f5c"
+                  value={detail}
+                  multiline={true}
+                  textAlignVertical="top"
+                  onChangeText={setDetail}
+                />
+              </View>
 
-          <View style={styles.marksnswitch}>
-            <View style={styles.marksinputView}>
-              <TextInput
-                style={styles.titleinputText}
-                placeholder="Marks"
-                value={marks.toString()}
-                placeholderTextColor="#003f5c"
-                onChangeText={setMarks}
-              />
-            </View>
-            <View style={styles.switch}>
-              {isEnabled ? (
-                <Text style={styles.switchtext}>OPEN</Text>
-              ) : (
-                <Text style={styles.switchtext}>CLOSED</Text>
-              )}
+              <View style={styles.marksnswitch}>
+                <View style={styles.marksContainer}>
+                  <Text style={styles.text}>Marks & Status</Text>
 
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </View>
-          </View>
-          <Text style={styles.text}>Submit Date & Time</Text>
-          <DatePickerr date={date} setDate={setDate}/>
-          {/* <DateAndTimePicker
+                  <View style={styles.marksinputView}>
+                    <TextInput
+                      style={styles.titleinputText}
+                      placeholder="Marks"
+                      value={marks.toString()}
+                      placeholderTextColor="#003f5c"
+                      onChangeText={setMarks}
+                    />
+                  </View>
+                </View>
+                <View style={styles.switch}>
+                  {isEnabled ? (
+                    <Text style={styles.switchtext}>OPEN</Text>
+                  ) : (
+                    <Text style={styles.switchtext}>CLOSED</Text>
+                  )}
+
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                  />
+                </View>
+              </View>
+              <Text style={styles.text}>Submit Date & Time</Text>
+              <DatePickerr date={date} setDate={setDate} />
+              {/* <DateAndTimePicker
             datePicker={datePicker}
             setDatePicker={setDatePicker}
             date={date}
@@ -210,24 +238,29 @@ function AssignmentDetailScreen({ navigation, route }) {
             setTime={setTime}
           /> */}
 
-          <Text style={styles.text}>Assignment File</Text>
+              <Text style={styles.text}>Assignment File</Text>
 
-          <TouchableOpacity
-            style={styles.fileView}
-            onPress={() =>
-              navigation.navigate("File Reader", {
-                uri: document,
-              })
-            }
-          >
-            <Text style={styles.buttonText}>View PDF</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.fileUpload} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Upload Changes</Text>
-          </TouchableOpacity>
-        </View>
+              <TouchableOpacity
+                style={styles.fileView}
+                onPress={() =>
+                  navigation.navigate("File Reader", {
+                    uri: document,
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>View PDF</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.fileUpload}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.buttonText}>Upload Changes</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </ScrollView>
       )}
-    </ScrollView>
+    </>
   );
 }
 
@@ -240,9 +273,14 @@ const styles = StyleSheet.create({
   },
   marksnswitch: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     width: "60%",
-    marginTop: 10,
+    //marginTop: 10,
+  },
+  marksContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   fileView: {
     alignItems: "center",
@@ -287,13 +325,13 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#edece8",
     borderRadius: 25,
-    height: 130,
+    height: 100,
     marginBottom: 20,
     //justifyContent: "center",
     padding: 20,
   },
   marksinputView: {
-    width: "35%",
+    width: "70%",
     backgroundColor: "#edece8",
     borderRadius: 25,
     height: 50,
@@ -303,7 +341,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   detailinputText: {
-    height: 130,
+    height: 70,
     color: "black",
   },
   button: {
@@ -332,7 +370,9 @@ const styles = StyleSheet.create({
     marginLeft: "14%",
   },
   switch: {
-    justifyContent: "center",
+    flex: 1,
+    marginTop: 2,
+    //justifyContent: "center",
     alignItems: "center",
   },
 });

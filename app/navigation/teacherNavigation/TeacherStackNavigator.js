@@ -1,7 +1,11 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import TeacherDashboardScreen from "../../screens/teacherScreens/teacher_dashboard_screen";
@@ -53,6 +57,26 @@ const TeacherHomeStackNavigator = () => {
             </TouchableOpacity>
           ),
         }}
+      />
+      <Stack.Screen
+        name="T Mark Attandance"
+        component={TeacherMarkAttandanceStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="T Create Assignment"
+        component={TeacherCreateAssignmentStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="T Create Quiz"
+        component={TeacherCreateQuizStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="T Timetable"
+        component={TeacherTimetableStackNavigator}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -136,9 +160,13 @@ const TeacherTimetableStackNavigator = () => {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate("Teacher Edit Timetable")}
-              style={{ marginLeft: 9 }}
+              style={{ marginRight: 10 }}
             >
-              <Ionicons name="create" size={24} color="black" />
+              <MaterialCommunityIcons
+                name="file-edit-outline"
+                size={24}
+                color="black"
+              />
             </TouchableOpacity>
           ),
         }}

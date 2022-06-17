@@ -87,7 +87,7 @@ export function TeacherDrawerContent(props) {
             /> */}
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
+                <Icon name="clipboard-list-outline" color={color} size={size} />
               )}
               label="Mark Attandance"
               onPress={() => {
@@ -96,7 +96,7 @@ export function TeacherDrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="cellphone" color={color} size={size} />
+                <Icon name="clipboard-text-outline" color={color} size={size} />
               )}
               label="Create Assignment"
               onPress={() => {
@@ -105,7 +105,11 @@ export function TeacherDrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="account-plus-outline" color={color} size={size} />
+                <Icon
+                  name="clipboard-alert-outline"
+                  color={color}
+                  size={size}
+                />
               )}
               label="Create Quiz"
               onPress={() => {
@@ -114,11 +118,7 @@ export function TeacherDrawerContent(props) {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon
-                  name="account-supervisor-outline"
-                  color={color}
-                  size={size}
-                />
+                <Icon name="timetable" color={color} size={size} />
               )}
               label="Teacher Timetable"
               onPress={() => {

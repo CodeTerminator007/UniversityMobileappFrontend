@@ -20,6 +20,16 @@ const TeacherBottomTabNavigator = () => {
       style={{ justifyContent: "flex-end", flex: 1, backgroundColor: "red" }}
     >
       <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: "black",
+          inactiveTintColor: "black",
+          activeBackgroundColor: "white",
+          inactiveBackgroundColor: "white",
+          style: {
+            backgroundColor: "#CE4418",
+            paddingBottom: 3,
+          },
+        }}
         ScreenOptions={{
           showLabel: true,
           style: {

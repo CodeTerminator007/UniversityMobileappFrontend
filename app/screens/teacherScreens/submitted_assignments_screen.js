@@ -13,7 +13,7 @@ import URI from "../../context/uri";
 import AssignmentListItem from "../../components/assignment_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function SubmittedAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
@@ -71,9 +71,13 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
               assignment_id: id,
             })
           }
-          style={{ marginLeft: 9 }}
+          style={{ marginRight: 10 }}
         >
-          <Ionicons name="create" size={24} color="black" />
+          <MaterialCommunityIcons
+            name="file-edit-outline"
+            size={24}
+            color="black"
+          />
         </TouchableOpacity>
       ),
     }),

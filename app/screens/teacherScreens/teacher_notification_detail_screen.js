@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     //padding: 8,
   },
   modalView: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -68,6 +69,9 @@ const styles = StyleSheet.create({
     width: 300,
     marginHorizontal: 40,
     marginVertical: 40,
+    borderColor: "black",
+    borderWidth: 2,
+    resizeMode: "center",
     //backgroundColor: "red",
   },
 
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
   image: {
     height: 150,
     width: "100%",
-    backgroundColor: "black",
+    //backgroundColor: "black",
     marginBottom: 10,
     //padding: 20,
   },

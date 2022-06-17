@@ -13,7 +13,7 @@ import URI from "../../context/uri";
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 function AllAssignmentsScreen({ navigation, route }) {
   const { id } = route.params;
@@ -66,9 +66,9 @@ function AllAssignmentsScreen({ navigation, route }) {
               class_id: class_id,
             })
           }
-          style={{ marginLeft: 9 }}
+          style={{ marginRight: 10 }}
         >
-          <Ionicons name="create" size={24} color="black" />
+          <AntDesign name="addfile" size={24} color="black" />
         </TouchableOpacity>
       ),
     }),

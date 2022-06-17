@@ -10,6 +10,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import FilePicker from "../../components/file_picker";
 import DatePickerr from "../../components/date_picker";
@@ -28,6 +29,8 @@ function TeacherCreateAssignmentScreen({ route }) {
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date(Date.now()));
   const [file, setFile] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
+
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
@@ -36,6 +39,7 @@ function TeacherCreateAssignmentScreen({ route }) {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const handleSubmit = () => {
+    setIsLoading(true);
     const option = {
       headers: {
         Authorization: AuthStr,
@@ -47,7 +51,7 @@ function TeacherCreateAssignmentScreen({ route }) {
     formdata.append("Title", title);
     formdata.append("detail", detail);
     formdata.append("submission_date", date);
-    formdata.append("submission_time","12:00:00")
+    formdata.append("submission_time", "12:00:00");
     formdata.append("document", {
       uri: file.uri,
       type: "application/pdf",
@@ -57,71 +61,101 @@ function TeacherCreateAssignmentScreen({ route }) {
     formdata.append("status", isEnabled);
     formdata.append("marks ", marks);
     formdata.append("class_id ", class_id);
-console.log(formdata);
+    console.log(formdata);
     axios
       .post(`${URI.uri}/AssignmentViewSet/`, formdata, option)
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("User", "The Assignment is created.");
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
         console.log("error", err);
       });
   };
-console.log("the date is "+date);
+  console.log("the date is " + date);
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.headingText}>Create Assignment</Text>
-        <View style={styles.titleinputView}>
-          <TextInput
-            style={styles.titleinputText}
-            placeholder="Title"
-            placeholderTextColor="#003f5c"
-            onChangeText={setTitle}
-          />
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
         </View>
-        <View style={styles.detailinputView}>
-          <TextInput
-            style={styles.detailinputText}
-            placeholder="Details"
-            placeholderTextColor="#003f5c"
-            multiline={true}
-            textAlignVertical="top"
-            onChangeText={setDetail}
-          />
-        </View>
-        <View style={styles.marksnswitch}>
-          <View style={styles.marksinputView}>
-            <TextInput
-              style={styles.titleinputText}
-              placeholder="Marks"
-              placeholderTextColor="#003f5c"
-              onChangeText={setMarks}
-            />
-          </View>
-          <View style={styles.switch}>
-            {isEnabled ? (
-              <Text style={styles.text}>OPEN</Text>
-            ) : (
-              <Text style={styles.text}>CLOSED</Text>
-            )}
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+        >
+          <View style={styles.container}>
+            <Text style={styles.headingText}>Create Assignment</Text>
 
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-          </View>
-        </View>
-<DatePickerr date={date} setDate={setDate}/>
-{/* 
+            <Text style={styles.text}>Title:</Text>
+
+            <View style={styles.titleinputView}>
+              <TextInput
+                style={styles.titleinputText}
+                placeholder="Title"
+                placeholderTextColor="#003f5c"
+                onChangeText={setTitle}
+              />
+            </View>
+
+            <Text style={styles.text}>Details:</Text>
+
+            <View style={styles.detailinputView}>
+              <TextInput
+                style={styles.detailinputText}
+                placeholder="Details"
+                placeholderTextColor="#003f5c"
+                multiline={true}
+                textAlignVertical="top"
+                onChangeText={setDetail}
+              />
+            </View>
+            <View style={styles.marksnswitch}>
+              <View style={styles.marksContainer}>
+                <Text style={styles.text2}>Marks:</Text>
+
+                <View style={styles.marksinputView}>
+                  <TextInput
+                    style={styles.titleinputText}
+                    placeholder="Marks"
+                    placeholderTextColor="#003f5c"
+                    onChangeText={setMarks}
+                  />
+                </View>
+              </View>
+              <View style={styles.switch}>
+                {isEnabled ? (
+                  <Text style={styles.text2}>OPEN</Text>
+                ) : (
+                  <Text style={styles.text2}>CLOSED</Text>
+                )}
+
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+            </View>
+
+            <Text style={styles.text}>Date:</Text>
+
+            <DatePickerr date={date} setDate={setDate} />
+            {/* 
         <DateAndTimePicker
           datePicker={datePicker}
           setDatePicker={setDatePicker}
@@ -132,14 +166,17 @@ console.log("the date is "+date);
           time={time}
           setTime={setTime}
         /> */}
+            <Text style={styles.text}>Assignment File: (Only PDF)</Text>
 
-        <FilePicker file={file} setFile={setFile} />
+            <FilePicker file={file} setFile={setFile} />
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Create</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Create</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
 
@@ -152,8 +189,13 @@ const styles = StyleSheet.create({
   },
   marksnswitch: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     width: "60%",
+  },
+  marksContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   headingText: {
     fontWeight: "bold",
@@ -179,13 +221,13 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#edece8",
     borderRadius: 25,
-    height: 80,
+    height: 100,
     marginBottom: 20,
     //justifyContent: "center",
-    padding: 20,
+    padding: 15,
   },
   marksinputView: {
-    width: "35%",
+    width: "70%",
     backgroundColor: "#edece8",
     borderRadius: 25,
     height: 50,
@@ -195,8 +237,18 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   detailinputText: {
-    height: 180,
+    height: 70,
     color: "black",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
+  },
+  text2: {
+    color: "#003f5c",
+    fontWeight: "bold",
   },
   button: {
     width: "80%",
@@ -211,12 +263,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
   },
-  text: {
-    color: "#003f5c",
-    fontWeight: "bold",
-  },
   switch: {
-    justifyContent: "center",
+    flex: 1,
+    //justifyContent: "center",
     alignItems: "center",
   },
 });
