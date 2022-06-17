@@ -17,7 +17,7 @@ import { ActivityIndicator } from "react-native-paper";
 
 import { DrawerItemList } from "@react-navigation/drawer";
 
-function QuizresultsScreen({route}) {
+function QuizresultsScreen({ route }) {
   const [data, setData] = useState(null);
   const state = useSelector((state) => state);
   const stateData = { ...state };
@@ -37,7 +37,7 @@ function QuizresultsScreen({route}) {
       })
       .then((response) => {
         const s = response.data;
-        console.log(s)
+        console.log(s);
         setData(s);
         setIsLoading(false);
       })
@@ -60,7 +60,7 @@ function QuizresultsScreen({route}) {
             height: "100%",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
         <ScrollView horizontal={true} style={styles.container}>
@@ -92,7 +92,7 @@ function QuizresultsScreen({route}) {
                     {item.marks}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.numeric} numeric>
-                    {item.marks/item.outofmarks*100} %
+                    {(item.marks / item.outofmarks) * 100} %
                   </DataTable.Cell>
                 </DataTable.Row>
               )}

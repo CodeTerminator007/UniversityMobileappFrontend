@@ -57,7 +57,7 @@ function StudentAttandanceScreen() {
             height: "100%",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
         <ScrollView horizontal={true} style={styles.container}>

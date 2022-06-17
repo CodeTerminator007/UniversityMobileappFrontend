@@ -32,9 +32,12 @@ function AssignmentResultsScreen({ route }) {
   const getData = () => {
     setIsLoading(true);
     axios
-      .get(`${URI.uri}/Assignmentmarksresult/?student_id=${ID}&subject_id=${id}`, {
-        headers: { Authorization: AuthStr },
-      })
+      .get(
+        `${URI.uri}/Assignmentmarksresult/?student_id=${ID}&subject_id=${id}`,
+        {
+          headers: { Authorization: AuthStr },
+        }
+      )
       .then((response) => {
         const s = response.data;
         console.log(s);
@@ -60,7 +63,7 @@ function AssignmentResultsScreen({ route }) {
             height: "100%",
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
         <ScrollView horizontal={true} style={styles.container}>
