@@ -52,34 +52,28 @@ function StudentResultScreen() {
               label: item.name,
             };
           })
-          console.log(g)
           setYearlist(g)
+        })
           .catch((error) => {
             console.log("error " + error);
-          });
-        });
-        if (year){
-          axios
-          .get(`${URI.uri}/Result/`, {
-            headers: { Authorization: AuthStr },
-          })
-          .then((response) => {
-            const data2 = response.data;
-            // const g = data2.map((item) => {
-            //   return {
-            //     value: item.id,
-            //     label: item.name,
-            //   };
-            // })
-            console.log(data2)
-            .catch((error) => {
-              console.log("error " + error);
-            });
-          }); 
-        }
+          });        
+
     }, [isFetching]);
   }
+  if (year){
+    axios
+    .get(`${URI.uri}/SubjectResult/?student_id=${ID}&result_id=${year}`, {
+      headers: { Authorization: AuthStr },
+    })
+    .then((response) => {
+      const data2 = response.data;
+      set_attandance_data(data2)
 
+    })
+    .catch((error) => {
+      console.log("error " + error);
+    });
+  }
   return (
     <>
       {isloading ? (
@@ -106,8 +100,9 @@ function StudentResultScreen() {
               setValue={setYear}
               setItems={setYearlist}
               containerStyle={{
-                //width: "80%",
-                //height: 50,
+                width: "150%",
+                height: 50,
+                marginLeft :80,
                 marginBottom: yearopen ? 175 : 0,
                 justifyContent: "center",
                 //padding: 20,
@@ -125,19 +120,16 @@ function StudentResultScreen() {
                 marginLeft: 19,
               }}
             />
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.text}>CGPA:</Text>
-              <Text style={styles.text}>2.9</Text>
-            </View>
+
           </View>
           <ScrollView horizontal={true} style={styles.container}>
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title style={styles.alpha}>
-                  CourseName
+                  Subject
                 </DataTable.Title>
                 <DataTable.Title style={styles.alpha}>
-                  TeacherName
+                  Teacher
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
                   Mid
@@ -154,26 +146,26 @@ function StudentResultScreen() {
               </DataTable.Header>
               <FlatList
                 data={attandance_data}
-                keyExtractor={(data) => data.CourseName.toString()}
+                keyExtractor={(data) => data.id.toString()}
                 renderItem={({ item }) => (
                   <DataTable.Row>
                     <DataTable.Cell style={styles.alpha}>
-                      {item.CourseName}
+                      {item.subjectname}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.alpha}>
-                      {item.TeacherName}
+                    {item.teacherfirstname + item.teacherlastname}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.Lectures}
+                      {item.midobtainedMarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.total_present}
+                      {item.finalobtainedMarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.total_absent}
+                      {item.sessionalmarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.Percentage}
+                    {item.midobtainedMarks+item.finalobtainedMarks+item.sessionalmarks}
                     </DataTable.Cell>
                   </DataTable.Row>
                 )}
@@ -181,27 +173,27 @@ function StudentResultScreen() {
             </DataTable>
             <FlatList
               data={attandance_data}
-              keyExtractor={(data) => data.CourseName.toString()}
+              keyExtractor={(data) => data.id.toString()}
               renderItem={({ item }) => (
                 <DataTable>
                   <DataTable.Row>
                     <DataTable.Cell style={styles.numeric}>
-                      {item.CourseName}
+                      {item.subjectname}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric}>
-                      {item.TeacherName}
+                      {item.teacherfirstname + item.teacherlastname}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.Lectures}
+                      {item.midobtainedMarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.total_present}
+                      {item.finalobtainedMarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.total_absent}
+                      {item.sessionalmarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                      {item.Percentage}
+                    {item.midobtainedMarks+item.finalobtainedMarks+item.sessionalmarks}
                     </DataTable.Cell>
                   </DataTable.Row>
                 </DataTable>
