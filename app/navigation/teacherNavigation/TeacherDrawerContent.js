@@ -125,6 +125,19 @@ export function TeacherDrawerContent(props) {
                 props.navigation.navigate("Teacher Timetable");
               }}
             />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon
+                  name="clipboard-pulse-outline"
+                  color={color}
+                  size={size}
+                />
+              )}
+              label="Mark Result"
+              onPress={() => {
+                props.navigation.navigate("Mark Result");
+              }}
+            />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>

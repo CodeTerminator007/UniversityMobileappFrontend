@@ -51,7 +51,9 @@ function TeacherDashboardScreen({ navigation }) {
             />
             <DashboardButton
               buttonName={"Mark Result"}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("T Mark Result");
+              }}
               icon={
                 <Icon
                   name="clipboard-pulse-outline"

@@ -6,6 +6,7 @@ import {
   TeacherCreateAssignmentStackNavigator,
   TeacherCreateQuizStackNavigator,
   TeacherMarkAttandanceStackNavigator,
+  TeacherMarkResultStackNavigator,
   TeacherTimetableStackNavigator,
 } from "./TeacherStackNavigator";
 import TeacherBottomTabNavigator from "./TeacherTabNavigator";
@@ -41,6 +42,11 @@ const TeacherDrawerNavigator = () => {
       <Drawer.Screen
         name="Teacher Timetable"
         component={TeacherTimetableStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="Mark Result"
+        component={TeacherMarkResultStackNavigator}
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>

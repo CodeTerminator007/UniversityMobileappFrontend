@@ -27,6 +27,11 @@ import FileReader from "../../components/file_reader";
 import AddQuestion from "../../screens/teacherScreens/add_question";
 import AddOptions from "../../screens/teacherScreens/add_options";
 import AllClassesForQuiz from "../../screens/teacherScreens/all_classes_for_quiz";
+import AllSubjectsForResult from "../../screens/teacherScreens/all_subjects_for_result";
+import AllClassesForResult from "../../screens/teacherScreens/all_classes_for_result";
+import AllStudentsResult from "../../screens/teacherScreens/all_students_for_result";
+import MarkResult from "../../screens/teacherScreens/mark_result";
+import MarkResultScreen from "../../screens/teacherScreens/mark_result";
 
 const Stack = createStackNavigator();
 
@@ -76,6 +81,11 @@ const TeacherHomeStackNavigator = () => {
       <Stack.Screen
         name="T Timetable"
         component={TeacherTimetableStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="T Mark Result"
+        component={TeacherMarkResultStackNavigator}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -205,6 +215,20 @@ const TeacherProfileStackNavigator = () => {
   );
 };
 
+const TeacherMarkResultStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen name="All Classes Result" component={AllClassesForResult} />
+      <Stack.Screen
+        name="All Subjects Result"
+        component={AllSubjectsForResult}
+      />
+      <Stack.Screen name="All Students Result" component={AllStudentsResult} />
+      <Stack.Screen name="Mark Result" component={MarkResultScreen} />
+    </Stack.Navigator>
+  );
+};
+
 export {
   TeacherHomeStackNavigator,
   TeacherCreateAssignmentStackNavigator,
@@ -213,4 +237,5 @@ export {
   TeacherTimetableStackNavigator,
   TeacherNotificationStackNavigator,
   TeacherProfileStackNavigator,
+  TeacherMarkResultStackNavigator,
 };
