@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import URI from "../../context/uri";
 import { Ionicons } from "@expo/vector-icons";
-import DateAndTimePicker from "../../components/date_and_time_picker";
+import DatePickerr from "../../components/date_picker";
 import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 
@@ -106,10 +106,10 @@ function AssignmentDetailScreen({ navigation, route }) {
     formdata.append("faculty", ID);
     formdata.append("Title", title);
     formdata.append("detail", detail);
-    var d = date.toISOString();
-    var da = d.split("T")[0];
+    // var d = date.toISOString();
+    // var da = d.split("T")[0];
     // console.log(da)
-    formdata.append("submission_date", da);
+    formdata.append("submission_date", date);
 
     // const year = date.getFullYear()
     // const month = date.getMonth()
@@ -117,11 +117,11 @@ function AssignmentDetailScreen({ navigation, route }) {
     // const d = new Date(year , month ,day )
     // console.log(d)
     // console.log(time.getTime())
-    var f = time.toTimeString();
-    var ti = d.split("T")[1];
-    var si = ti.split(".")[0];
-    console.log(si);
-    formdata.append("submission_time", si);
+    // var f = time.toTimeString();
+    // var ti = d.split("T")[1];
+    // var si = ti.split(".")[0];
+    // console.log(si);
+    formdata.append("submission_time", "12:00:00");
     formdata.append("subject", subject);
     formdata.append("status", isEnabled);
     formdata.append("marks", marks);
@@ -198,8 +198,8 @@ function AssignmentDetailScreen({ navigation, route }) {
             </View>
           </View>
           <Text style={styles.text}>Submit Date & Time</Text>
-
-          <DateAndTimePicker
+          <DatePickerr date={date} setDate={setDate}/>
+          {/* <DateAndTimePicker
             datePicker={datePicker}
             setDatePicker={setDatePicker}
             date={date}
@@ -208,7 +208,7 @@ function AssignmentDetailScreen({ navigation, route }) {
             timePicker={timePicker}
             time={time}
             setTime={setTime}
-          />
+          /> */}
 
           <Text style={styles.text}>Assignment File</Text>
 
