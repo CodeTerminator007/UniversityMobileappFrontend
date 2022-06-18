@@ -27,11 +27,11 @@ function EditStudentScreen({ navigation, route }) {
   const { Dob } = route.params;
   const { cnic1 } = route.params;
   const { profile_image } = route.params;
-  const {address1 } = route.params;
-  const { the_class1} = route.params;
-  const {course_id1 } = route.params;
-  const {course} = route.params;
-  const {classname } = route.params;
+  const { address1 } = route.params;
+  const { the_class1 } = route.params;
+  const { course_id1 } = route.params;
+  const { course } = route.params;
+  const { classname } = route.params;
 
   const [image, setImage] = useState(profile_image);
   const [username, setUsername] = useState(username1);
@@ -48,7 +48,6 @@ function EditStudentScreen({ navigation, route }) {
   const [genderlist, setGenderlist] = useState([
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
-
   ]);
 
   const [lastdegreeopen, setLastdegreeopen] = useState(false);
@@ -82,7 +81,6 @@ function EditStudentScreen({ navigation, route }) {
     { label: "MS Urdu", value: "MS Urdu" },
   ]);
 
-
   const onGenderOpen = useCallback(() => {
     setLastdegreeopen(false);
   }, []);
@@ -97,32 +95,34 @@ function EditStudentScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
 
   const handleSubmit = async (event) => {
-    console.log("in")
+    console.log("in");
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
     axios
-      .put(`${URI.uri}/updateuserwithoutpassword/${id}/`,
-      {
-        username: username,
-        email:email,
-        first_name:firstname,
-        last_name:lastname,
-        phone_number1:phone1,
-        phone_number2:phone2,
-        gender:gender,
-        last_education_degree:lastdegree,
-        Dob:dobirth,
-        cnic:cnic,
-      },
-      option)
+      .put(
+        `${URI.uri}/updateuserwithoutpassword/${id}/`,
+        {
+          username: username,
+          email: email,
+          first_name: firstname,
+          last_name: lastname,
+          phone_number1: phone1,
+          phone_number2: phone2,
+          gender: gender,
+          last_education_degree: lastdegree,
+          Dob: dobirth,
+          cnic: cnic,
+        },
+        option
+      )
       .then((res) => {
-          Alert.alert("Student", "The Student has been Updated.");
+        Alert.alert("Student", "The Student has been Updated.");
       })
       .catch((err) => {
         if ((err = 400)) {
-          console.log(err)
+          console.log(err);
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
         console.log("error", err);
@@ -133,6 +133,8 @@ function EditStudentScreen({ navigation, route }) {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.logoText}>Edit Student</Text>
+
+        <Text style={styles.text}>User Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -141,6 +143,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setUsername}
           />
         </View>
+
+        <Text style={styles.text}>First Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -149,6 +153,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setFirstname}
           />
         </View>
+
+        <Text style={styles.text}>Last Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -157,6 +163,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setLastname}
           />
         </View>
+
+        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -165,6 +173,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setDobirth}
           />
         </View>
+
+        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -173,6 +183,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setCnic}
           />
         </View>
+
+        <Text style={styles.text}>Email</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -181,6 +193,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setEmail}
           />
         </View>
+
+        <Text style={styles.text}>Gender</Text>
         <DropDownPicker
           placeholder={gender1}
           open={genderopen}
@@ -207,6 +221,8 @@ function EditStudentScreen({ navigation, route }) {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -215,6 +231,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setPhone1}
           />
         </View>
+
+        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -223,6 +241,8 @@ function EditStudentScreen({ navigation, route }) {
             onChangeText={setPhone2}
           />
         </View>
+
+        <Text style={styles.text}>Last Degree</Text>
         <DropDownPicker
           placeholder={last_education_degree}
           open={lastdegreeopen}
@@ -258,7 +278,14 @@ function EditStudentScreen({ navigation, route }) {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              navigation.navigate("Edit Student Details",{id:id,address1:address1,the_class1:the_class1,course_id1:course_id1,coursename:course,classname:classname});
+              navigation.navigate("Edit Student Details", {
+                id: id,
+                address1: address1,
+                the_class1: the_class1,
+                course_id1: course_id1,
+                coursename: course,
+                classname: classname,
+              });
             }}
           >
             <Text style={styles.buttonText}>Advance Update</Text>
@@ -322,6 +349,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

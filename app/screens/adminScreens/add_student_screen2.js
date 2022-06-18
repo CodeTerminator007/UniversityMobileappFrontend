@@ -16,7 +16,7 @@ import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
-function AddStudentScreen2({navigation,route}) {
+function AddStudentScreen2({ navigation, route }) {
   const [address, setAddress] = useState(null);
   const { id } = route.params;
 
@@ -41,7 +41,7 @@ function AddStudentScreen2({navigation,route}) {
     { label: "Class 7", value: "g" },
     { label: "Class 8", value: "h" },
     { label: "Class 9", value: "j" },
-    { label: "Class 10", value: "k" },        
+    { label: "Class 10", value: "k" },
   ]);
 
   const onCourseOpen = useCallback(() => {
@@ -107,11 +107,11 @@ function AddStudentScreen2({navigation,route}) {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("id",id)
-    console.log("address",address)
-    console.log("course",course)
-    console.log("classs",classs)
-    console.log("url "+`${URI.uri}/user/student/${id}/`)
+    console.log("id", id);
+    console.log("address", address);
+    console.log("course", course);
+    console.log("classs", classs);
+    console.log("url " + `${URI.uri}/user/student/${id}/`);
 
     const option = {
       headers: { Authorization: AuthStr },
@@ -128,7 +128,7 @@ function AddStudentScreen2({navigation,route}) {
         option
       )
       .then((res) => {
-          Alert.alert("Student", "The Student has been added.");
+        Alert.alert("Student", "The Student has been added.");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -136,16 +136,15 @@ function AddStudentScreen2({navigation,route}) {
         }
         console.log("error", err);
       });
-
-  }
+  };
   useEffect(() => {
     if (!isFetchingcourse) {
       getCourses();
     }
-    if(!isFetchingclasss){
+    if (!isFetchingclasss) {
       getClasses();
     }
-  }, [isFetchingcourse,isFetchingclasss]);
+  }, [isFetchingcourse, isFetchingclasss]);
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
@@ -153,6 +152,7 @@ function AddStudentScreen2({navigation,route}) {
       <View style={styles.container}>
         <Text style={styles.logoText}>Student Details</Text>
 
+        <Text style={styles.text}>Address</Text>
         <View style={styles.inputView}>
           <TextInput
             //secureTextEntry
@@ -163,6 +163,8 @@ function AddStudentScreen2({navigation,route}) {
             onChangeText={setAddress}
           />
         </View>
+
+        <Text style={styles.text}>Course</Text>
         <DropDownPicker
           placeholder="Select Course"
           open={courseopen}
@@ -189,6 +191,9 @@ function AddStudentScreen2({navigation,route}) {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Class</Text>
+
         <DropDownPicker
           placeholder="Select Class"
           open={classopen}
@@ -269,6 +274,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

@@ -129,6 +129,8 @@ function AddTeacherScreen() {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.logoText}>Add Teacher</Text>
+
+        <Text style={styles.text}>User Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -137,6 +139,8 @@ function AddTeacherScreen() {
             onChangeText={setUsername}
           />
         </View>
+
+        <Text style={styles.text}>Password</Text>
         <View style={styles.inputView}>
           <TextInput
             secureTextEntry
@@ -146,6 +150,8 @@ function AddTeacherScreen() {
             onChangeText={setPassword}
           />
         </View>
+
+        <Text style={styles.text}>First Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -154,6 +160,8 @@ function AddTeacherScreen() {
             onChangeText={setFirstname}
           />
         </View>
+
+        <Text style={styles.text}>Last Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -162,6 +170,8 @@ function AddTeacherScreen() {
             onChangeText={setLastname}
           />
         </View>
+
+        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -170,6 +180,8 @@ function AddTeacherScreen() {
             onChangeText={setDobirth}
           />
         </View>
+
+        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -178,6 +190,8 @@ function AddTeacherScreen() {
             onChangeText={setCnic}
           />
         </View>
+
+        <Text style={styles.text}>Email</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -186,6 +200,8 @@ function AddTeacherScreen() {
             onChangeText={setEmail}
           />
         </View>
+
+        <Text style={styles.text}>Gender</Text>
         <DropDownPicker
           placeholder="Select Gender"
           open={genderopen}
@@ -212,6 +228,8 @@ function AddTeacherScreen() {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -220,6 +238,8 @@ function AddTeacherScreen() {
             onChangeText={setPhone1}
           />
         </View>
+
+        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -228,6 +248,8 @@ function AddTeacherScreen() {
             onChangeText={setPhone2}
           />
         </View>
+
+        <Text style={styles.text}>Course</Text>
         <DropDownPicker
           placeholder="Select Course"
           open={lastdegreeopen}
@@ -310,6 +332,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

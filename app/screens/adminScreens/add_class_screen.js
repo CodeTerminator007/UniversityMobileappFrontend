@@ -88,6 +88,9 @@ function AddClassScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Add Class</Text>
+
+      <Text style={styles.text}>Class Name</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -96,6 +99,9 @@ function AddClassScreen() {
           onChangeText={setClassname}
         />
       </View>
+
+      <Text style={styles.text}>Class Section</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -104,6 +110,9 @@ function AddClassScreen() {
           onChangeText={setClasssection}
         />
       </View>
+
+      <Text style={styles.text}>Semester</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -112,6 +121,9 @@ function AddClassScreen() {
           onChangeText={setSemester}
         />
       </View>
+
+      <Text style={styles.text}>Course</Text>
+
       <DropDownPicker
         placeholder="Select Course"
         open={open}
@@ -187,6 +199,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 export default AddClassScreen;

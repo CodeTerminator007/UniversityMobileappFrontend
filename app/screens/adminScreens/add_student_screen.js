@@ -17,7 +17,7 @@ import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
-function AddStudentScreen({ navigation ,route }) {
+function AddStudentScreen({ navigation, route }) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [firstname, setFirstname] = useState(null);
@@ -115,9 +115,9 @@ function AddStudentScreen({ navigation ,route }) {
     axios
       .post(`${URI.uri}/users/`, formdata, option)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         if (res.status == 201) {
-          navigation.navigate("Student Details",{id:res.data.id});
+          navigation.navigate("Student Details", { id: res.data.id });
         }
       })
       .catch((err) => {
@@ -132,6 +132,8 @@ function AddStudentScreen({ navigation ,route }) {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.logoText}>Add Student</Text>
+
+        <Text style={styles.text}>User Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -140,6 +142,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setUsername}
           />
         </View>
+
+        <Text style={styles.text}>Password</Text>
         <View style={styles.inputView}>
           <TextInput
             secureTextEntry
@@ -149,6 +153,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setPassword}
           />
         </View>
+
+        <Text style={styles.text}>First Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -157,6 +163,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setFirstname}
           />
         </View>
+
+        <Text style={styles.text}>Last Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -165,6 +173,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setLastname}
           />
         </View>
+
+        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -173,6 +183,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setDobirth}
           />
         </View>
+
+        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -181,6 +193,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setCnic}
           />
         </View>
+
+        <Text style={styles.text}>Email</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -189,6 +203,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setEmail}
           />
         </View>
+
+        <Text style={styles.text}>Gender</Text>
         <DropDownPicker
           placeholder="Select Gender"
           open={genderopen}
@@ -215,6 +231,8 @@ function AddStudentScreen({ navigation ,route }) {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -223,6 +241,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setPhone1}
           />
         </View>
+
+        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -231,6 +251,8 @@ function AddStudentScreen({ navigation ,route }) {
             onChangeText={setPhone2}
           />
         </View>
+
+        <Text style={styles.text}>Last Degree</Text>
         <DropDownPicker
           placeholder="Select Last Degree"
           open={lastdegreeopen}
@@ -259,10 +281,7 @@ function AddStudentScreen({ navigation ,route }) {
         />
         <Text style={styles.text}>Select Profile</Text>
         <ImagePickerr image={image} setImage={setImage} />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSubmit}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.loginText}>Add</Text>
         </TouchableOpacity>
       </View>
@@ -316,6 +335,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

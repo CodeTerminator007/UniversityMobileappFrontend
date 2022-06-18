@@ -15,7 +15,7 @@ import ImagePickerr from "../../components/image_picker";
 import URI from "../../context/uri";
 import { Alert } from "react-native";
 
-function EditAdminScreen({navigation ,route }) {
+function EditAdminScreen({ navigation, route }) {
   const { id } = route.params;
   const { first_name } = route.params;
   const { last_name } = route.params;
@@ -92,31 +92,32 @@ function EditAdminScreen({navigation ,route }) {
   const AuthStr = "Bearer ".concat(Token);
 
   const handleSubmit = async (event) => {
-    console.log("in")
+    console.log("in");
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
     axios
-      .put(`${URI.uri}/updateuserwithoutpassword/${id}/`,
-      {
-        username: username,
-        email:email,
-        first_name:firstname,
-        last_name:lastname,
-        phone_number1:phone1,
-        phone_number2:phone2,
-        gender:gender,
-        last_education_degree:lastdegree,
-        Dob:dobirth,
-        cnic:cnic,
-      },
-      option)
+      .put(
+        `${URI.uri}/updateuserwithoutpassword/${id}/`,
+        {
+          username: username,
+          email: email,
+          first_name: firstname,
+          last_name: lastname,
+          phone_number1: phone1,
+          phone_number2: phone2,
+          gender: gender,
+          last_education_degree: lastdegree,
+          Dob: dobirth,
+          cnic: cnic,
+        },
+        option
+      )
       .then((res) => {
-        console.log(res)
-          Alert.alert("Admin", "The Admin has been Updated.");
-          navigation.navigate("All Admins")
-
+        console.log(res);
+        Alert.alert("Admin", "The Admin has been Updated.");
+        navigation.navigate("All Admins");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -129,6 +130,9 @@ function EditAdminScreen({navigation ,route }) {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.logoText}>Edit Admin</Text>
+
+        <Text style={styles.text}>User Name</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -137,6 +141,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setUsername}
           />
         </View>
+
+        <Text style={styles.text}>First Name</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -145,6 +152,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setFirstname}
           />
         </View>
+
+        <Text style={styles.text}>Last Name</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -153,6 +163,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setLastname}
           />
         </View>
+
+        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -161,6 +174,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setDobirth}
           />
         </View>
+
+        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -169,6 +185,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setCnic}
           />
         </View>
+
+        <Text style={styles.text}>Email</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -177,6 +196,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setEmail}
           />
         </View>
+
+        <Text style={styles.text}>Gender</Text>
+
         <DropDownPicker
           placeholder={gender1}
           open={genderopen}
@@ -203,6 +225,9 @@ function EditAdminScreen({navigation ,route }) {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -211,6 +236,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setPhone1}
           />
         </View>
+
+        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
+
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -219,6 +247,9 @@ function EditAdminScreen({navigation ,route }) {
             onChangeText={setPhone2}
           />
         </View>
+
+        <Text style={styles.text}>Last Education</Text>
+
         <DropDownPicker
           placeholder={last_education_degree}
           open={lastdegreeopen}
@@ -245,8 +276,6 @@ function EditAdminScreen({navigation ,route }) {
             marginLeft: 10,
           }}
         />
-        {/* <Text style={styles.text}>Select Profile</Text>
-        <ImagePickerr image={image} setImage={setImage} /> */}
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
@@ -301,6 +330,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

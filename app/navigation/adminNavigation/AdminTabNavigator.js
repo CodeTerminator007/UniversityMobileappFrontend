@@ -21,6 +21,16 @@ const AdminBottomTabNavigator = () => {
       style={{ justifyContent: "flex-end", flex: 1, backgroundColor: "red" }}
     >
       <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: "black",
+          inactiveTintColor: "black",
+          activeBackgroundColor: "white",
+          inactiveBackgroundColor: "white",
+          style: {
+            backgroundColor: "#CE4418",
+            paddingBottom: 3,
+          },
+        }}
         ScreenOptions={{
           showLabel: true,
           style: {
@@ -67,7 +77,7 @@ const AdminBottomTabNavigator = () => {
             headerShown: false,
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Admin Post Notification"
           component={AdminPostNotificationStackNavigator}
           options={{
@@ -76,7 +86,7 @@ const AdminBottomTabNavigator = () => {
             ),
             headerShown: false,
           }}
-        />
+        /> */}
         <Tab.Screen
           name="Admin Profile"
           component={AdminProfileStackNavigator}

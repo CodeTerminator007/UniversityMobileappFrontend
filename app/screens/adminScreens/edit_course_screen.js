@@ -17,7 +17,7 @@ import URI from "../../context/uri";
 function EditCourseScreen({ route }) {
   const { id } = route.params;
 
-  const {   course_name } = route.params;
+  const { course_name } = route.params;
 
   const [coursename, setCoursename] = useState(null);
   const state = useSelector((state) => state);
@@ -40,7 +40,7 @@ function EditCourseScreen({ route }) {
         option
       )
       .then((res) => {
-          Alert.alert("Course", "The Course has been Updated.");
+        Alert.alert("Course", "The Course has been Updated.");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -52,6 +52,9 @@ function EditCourseScreen({ route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Edit Course</Text>
+
+      <Text style={styles.text}>Course Name</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -110,6 +113,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

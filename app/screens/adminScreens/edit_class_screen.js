@@ -68,7 +68,7 @@ function EditClassScreen({ route }) {
       getCourses();
     }
   }, [isFetchingcourse]);
-console.log(course);
+  console.log(course);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const option = {
@@ -100,6 +100,9 @@ console.log(course);
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Edit Class</Text>
+
+      <Text style={styles.text}>Class Name</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -108,6 +111,9 @@ console.log(course);
           onChangeText={setClassname}
         />
       </View>
+
+      <Text style={styles.text}>Class Section</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -116,6 +122,9 @@ console.log(course);
           onChangeText={setClasssection}
         />
       </View>
+
+      <Text style={styles.text}>Semester</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -124,6 +133,9 @@ console.log(course);
           onChangeText={setSemester}
         />
       </View>
+
+      <Text style={styles.text}>Course</Text>
+
       <DropDownPicker
         placeholder={course_name}
         open={open}
@@ -199,6 +211,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 export default EditClassScreen;

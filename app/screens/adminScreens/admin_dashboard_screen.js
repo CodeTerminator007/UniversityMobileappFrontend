@@ -15,97 +15,84 @@ import {
   MaterialCommunityIcons,
   Foundation,
 } from "@expo/vector-icons";
+import DashboardButton from "../../components/dashboard_button";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-function AdminDashboardScreen() {
+function AdminDashboardScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, padding: 10 }}>
-      <ImageBackground
-        style={{ flex: 1 }}
-        source={require("../../assets/background.jpeg")}
-      >
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require("../../assets/background.jpeg")}
+    >
+      <View style={{ flex: 1, padding: 10 }}>
         <AdminProfile />
         <View style={styles.container}>
-          <View style={styles.box}>
-            <MaterialCommunityIcons
-              name="cash-register"
-              size={35}
-              color="white"
+          <View>
+            <DashboardButton
+              buttonName={"Admin"}
+              onPress={() => navigation.navigate("A Add Admin")}
+              icon={
+                <Icon name="account-plus-outline" color={"white"} size={35} />
+              }
             />
-            <Text style={styles.text}>Registered Courses</Text>
-          </View>
-          <View style={styles.box}>
-            <AntDesign name="clockcircleo" size={35} color="white" />
-            <Text style={styles.text}>Lecture Schedule</Text>
-          </View>
-          <View style={styles.box}>
-            <MaterialCommunityIcons
-              name="source-branch"
-              size={35}
-              color="white"
+            <DashboardButton
+              buttonName={"Course"}
+              onPress={() => navigation.navigate("A Add Course")}
+              icon={
+                <Icon name="account-plus-outline" color={"white"} size={35} />
+              }
             />
-            <Text style={styles.text}>Scheme of Study</Text>
+            <DashboardButton
+              buttonName={"Post Notification"}
+              onPress={() => navigation.navigate("A Post Notification")}
+              icon={
+                <Icon name="clipboard-text-outline" color={"white"} size={35} />
+              }
+            />
+          </View>
+          <View>
+            <DashboardButton
+              buttonName={"Teacher"}
+              onPress={() => navigation.navigate("A Add Teacher")}
+              icon={
+                <Icon name="account-plus-outline" color={"white"} size={35} />
+              }
+            />
+            <DashboardButton
+              buttonName={"Class"}
+              onPress={() => navigation.navigate("A Add Class")}
+              icon={
+                <Icon name="account-plus-outline" color={"white"} size={35} />
+              }
+            />
+          </View>
+          <View>
+            <DashboardButton
+              buttonName={"Student"}
+              onPress={() => navigation.navigate("A Add Student")}
+              icon={
+                <Icon name="account-plus-outline" color={"white"} size={35} />
+              }
+            />
+            <DashboardButton
+              buttonName={"Subject"}
+              onPress={() => navigation.navigate("A Add Subject")}
+              icon={
+                <Icon name="account-plus-outline" color={"white"} size={35} />
+              }
+            />
           </View>
         </View>
-        <View style={styles.container}>
-          <View style={styles.box}>
-            <MaterialCommunityIcons
-              name="notebook-outline"
-              size={35}
-              color="white"
-            />
-            <Text style={styles.text}>Account Book</Text>
-          </View>
-          <View style={styles.box}>
-            <AntDesign name="calendar" size={35} color="white" />
-            <Text style={styles.text}>Academic Calender</Text>
-          </View>
-          <View style={styles.box}>
-            <AntDesign name="book" size={35} color="white" />
-            <Text style={styles.text}>Grade Book</Text>
-          </View>
-        </View>
-        <View style={styles.container}>
-          <View style={styles.box}>
-            <Foundation name="page-copy" size={35} color="white" />
-            <Text style={styles.text}>Student DateSheet</Text>
-          </View>
-          <View style={styles.box}>
-            <AntDesign name="setting" size={35} color="white" />
-            <Text style={styles.text}>Student Servicesr</Text>
-          </View>
-          <View style={styles.box}>
-            <MaterialCommunityIcons
-              name="lightbulb-on-outline"
-              size={35}
-              color="white"
-            />
-            <Text style={styles.text}>Event News</Text>
-          </View>
-        </View>
-      </ImageBackground>
-    </View>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 15,
-  },
-  box: {
-    alignItems: "center",
     justifyContent: "space-evenly",
-    padding: 10,
-    height: 115,
-    width: 115,
-    backgroundColor: "#4981AA",
-    borderRadius: 20,
-  },
-  text: {
-    color: "white",
-    //fontSize: 17,
-    fontWeight: "bold",
+    marginTop: 20,
   },
 });
 export default AdminDashboardScreen;

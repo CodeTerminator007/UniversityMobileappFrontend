@@ -168,6 +168,9 @@ function AddSubjectScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Add Subject</Text>
+
+      <Text style={styles.text}>Subject Name</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -176,6 +179,9 @@ function AddSubjectScreen() {
           onChangeText={setSubjectname}
         />
       </View>
+
+      <Text style={styles.text}>Course</Text>
+
       <DropDownPicker
         placeholder="Select Course"
         open={courseopen}
@@ -202,6 +208,9 @@ function AddSubjectScreen() {
           marginLeft: 10,
         }}
       />
+
+      <Text style={styles.text}>Staff</Text>
+
       <DropDownPicker
         placeholder="Select Staff"
         open={staffopen}
@@ -228,6 +237,9 @@ function AddSubjectScreen() {
           marginLeft: 10,
         }}
       />
+
+      <Text style={styles.text}>Class</Text>
+
       <DropDownPicker
         placeholder="Select Class"
         open={classopen}
@@ -304,6 +316,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

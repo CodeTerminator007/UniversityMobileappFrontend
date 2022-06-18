@@ -24,8 +24,8 @@ function EditSubjectScreen({ route }) {
   const { staff_id } = route.params;
   const { class_name } = route.params;
   const { class_id } = route.params;
-  const {  class_sec} = route.params;
-  const { class_semaster} = route.params;
+  const { class_sec } = route.params;
+  const { class_semaster } = route.params;
 
   const [subjectname, setSubjectname] = useState(subject_name);
 
@@ -174,7 +174,7 @@ function EditSubjectScreen({ route }) {
         option
       )
       .then((res) => {
-          Alert.alert("Subject", "The Subject has been Updated.");
+        Alert.alert("Subject", "The Subject has been Updated.");
       })
       .catch((err) => {
         if ((err = 400)) {
@@ -186,6 +186,9 @@ function EditSubjectScreen({ route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Edit Subject</Text>
+
+      <Text style={styles.text}>Subject Name</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -194,6 +197,9 @@ function EditSubjectScreen({ route }) {
           onChangeText={setSubjectname}
         />
       </View>
+
+      <Text style={styles.text}>Course</Text>
+
       <DropDownPicker
         placeholder={course_name}
         open={courseopen}
@@ -220,6 +226,9 @@ function EditSubjectScreen({ route }) {
           marginLeft: 10,
         }}
       />
+
+      <Text style={styles.text}>Staff</Text>
+
       <DropDownPicker
         placeholder={staff_name}
         open={staffopen}
@@ -246,6 +255,9 @@ function EditSubjectScreen({ route }) {
           marginLeft: 10,
         }}
       />
+
+      <Text style={styles.text}>Class</Text>
+
       <DropDownPicker
         placeholder={`${course_name} ${class_name} ${class_semaster} sec ${class_sec}`}
         open={classopen}
@@ -322,6 +334,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

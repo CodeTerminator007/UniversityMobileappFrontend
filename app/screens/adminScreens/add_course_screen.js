@@ -50,6 +50,9 @@ function AddCourseScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.logoText}>Add Course</Text>
+
+      <Text style={styles.text}>Course Name</Text>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
@@ -108,6 +111,12 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+  },
+  text: {
+    color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

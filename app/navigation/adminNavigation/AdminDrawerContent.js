@@ -128,7 +128,7 @@ export function AdminDrawerContent(props) {
                 props.navigation.navigate("All Subjects");
               }}
             />
-            <DrawerItem
+            {/* <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-plus-outline" color={color} size={size} />
               )}
@@ -136,8 +136,8 @@ export function AdminDrawerContent(props) {
               onPress={() => {
                 props.navigation.navigate("Admin Edit Attandance");
               }}
-            />
-            <DrawerItem
+            /> */}
+            {/* <DrawerItem
               icon={({ color, size }) => (
                 <Icon
                   name="account-supervisor-outline"
@@ -149,14 +149,10 @@ export function AdminDrawerContent(props) {
               onPress={() => {
                 props.navigation.navigate("Admin Mark Result");
               }}
-            />
+            /> */}
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon
-                  name="account-supervisor-outline"
-                  color={color}
-                  size={size}
-                />
+                <Icon name="clipboard-text-outline" color={color} size={size} />
               )}
               label="Post Notification"
               onPress={() => {

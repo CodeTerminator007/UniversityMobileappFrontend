@@ -15,7 +15,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 import URI from "../../context/uri";
 import { Alert } from "react-native";
-function EditTeacherScreen({navigation, route }) {
+function EditTeacherScreen({ navigation, route }) {
   const { id } = route.params;
   const { first_name } = route.params;
   const { last_name } = route.params;
@@ -44,7 +44,6 @@ function EditTeacherScreen({navigation, route }) {
   const [genderlist, setGenderlist] = useState([
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
-
   ]);
 
   const [lastdegreeopen, setLastdegreeopen] = useState(false);
@@ -92,34 +91,35 @@ function EditTeacherScreen({navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
 
   const handleSubmit = async (event) => {
-    console.log("in")
+    console.log("in");
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
     };
     axios
-      .put(`${URI.uri}/updateuserwithoutpassword/${id}/`,
-      {
-        username: username,
-        email:email,
-        first_name:firstname,
-        last_name:lastname,
-        phone_number1:phone1,
-        phone_number2:phone2,
-        gender:gender,
-        last_education_degree:lastdegree,
-        Dob:dobirth,
-        cnic:cnic,
-      },
-      option)
+      .put(
+        `${URI.uri}/updateuserwithoutpassword/${id}/`,
+        {
+          username: username,
+          email: email,
+          first_name: firstname,
+          last_name: lastname,
+          phone_number1: phone1,
+          phone_number2: phone2,
+          gender: gender,
+          last_education_degree: lastdegree,
+          Dob: dobirth,
+          cnic: cnic,
+        },
+        option
+      )
       .then((res) => {
-          Alert.alert("Teacher", "The Teacher has been Updated.");
-          navigation.navigate("All Teachers")
-
+        Alert.alert("Teacher", "The Teacher has been Updated.");
+        navigation.navigate("All Teachers");
       })
       .catch((err) => {
         if ((err = 400)) {
-          console.log(err)
+          console.log(err);
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
         console.log("error", err);
@@ -130,6 +130,8 @@ function EditTeacherScreen({navigation, route }) {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.logoText}>Edit Teacher</Text>
+
+        <Text style={styles.text}>User Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -138,6 +140,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setUsername}
           />
         </View>
+
+        <Text style={styles.text}>First Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -146,6 +150,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setFirstname}
           />
         </View>
+
+        <Text style={styles.text}>Last Name</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -154,6 +160,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setLastname}
           />
         </View>
+
+        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -162,6 +170,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setDobirth}
           />
         </View>
+
+        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -170,6 +180,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setCnic}
           />
         </View>
+
+        <Text style={styles.text}>Email</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -178,6 +190,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setEmail}
           />
         </View>
+
+        <Text style={styles.text}>Gender</Text>
         <DropDownPicker
           placeholder={gender1}
           open={genderopen}
@@ -204,6 +218,8 @@ function EditTeacherScreen({navigation, route }) {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -212,6 +228,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setPhone1}
           />
         </View>
+
+        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -220,6 +238,8 @@ function EditTeacherScreen({navigation, route }) {
             onChangeText={setPhone2}
           />
         </View>
+
+        <Text style={styles.text}>Course</Text>
         <DropDownPicker
           placeholder={last_education_degree}
           open={lastdegreeopen}
@@ -302,6 +322,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

@@ -19,11 +19,10 @@ import ImagePickerr from "../../components/image_picker";
 function EditStudentScreen2({ navigation, route }) {
   const { id } = route.params;
   const { address1 } = route.params;
-  const { the_class1} = route.params;
+  const { the_class1 } = route.params;
   const { course_id1 } = route.params;
   const { coursename } = route.params;
   const { classname } = route.params;
-
 
   const [address, setAddress] = useState(address1);
 
@@ -160,6 +159,7 @@ function EditStudentScreen2({ navigation, route }) {
       <View style={styles.container}>
         <Text style={styles.logoText}>Student Details</Text>
 
+        <Text style={styles.text}>Address</Text>
         <View style={styles.inputView}>
           <TextInput
             //secureTextEntry
@@ -170,6 +170,8 @@ function EditStudentScreen2({ navigation, route }) {
             onChangeText={setAddress}
           />
         </View>
+
+        <Text style={styles.text}>Course</Text>
         <DropDownPicker
           placeholder={coursename}
           open={courseopen}
@@ -196,6 +198,8 @@ function EditStudentScreen2({ navigation, route }) {
             marginLeft: 10,
           }}
         />
+
+        <Text style={styles.text}>Class</Text>
         <DropDownPicker
           placeholder={classname}
           open={classopen}
@@ -276,6 +280,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#003f5c",
+    fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginLeft: "14%",
   },
 });
 

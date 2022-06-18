@@ -6,8 +6,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import AdminDashboardScreen from "../../screens/adminScreens/admin_dashboard_screen";
 import AdminPostNotificationScreen from "../../screens/adminScreens/admin_post_notification_screen";
-import AdminEditAttandanceScreen from "../../screens/adminScreens/admin_edit_attandance_screen";
-import AdminMarkResultScreen from "../../screens/adminScreens/admin_mark_result_screen";
 import AdminProfileScreen from "../../screens/adminScreens/admin_profile_screen";
 
 import AdminAllClassesScreen from "../../screens/adminScreens/all_classes_screen";
@@ -64,6 +62,41 @@ const AdminHomeStackNavigator = () => {
           ),
         }}
       />
+      <Stack.Screen
+        name="A Add Student"
+        component={AdminAddStudentStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="A Add Teacher"
+        component={AdminAddTeacherStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="A Add Admin"
+        component={AdminAllAdminsStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="A Add Subject"
+        component={AdminSubjectsStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="A Add Class"
+        component={AdminClassesStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="A Add Course"
+        component={AdminCoursesStackNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="A Post Notification"
+        component={AdminPostNotificationStackNavigator}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -79,28 +112,28 @@ const AdminPostNotificationStackNavigator = () => {
     </Stack.Navigator>
   );
 };
-const AdminEditAttandanceStackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen
-        name="Admin Edit Attandance"
-        component={AdminEditAttandanceScreen}
-        //options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-const AdminMarkResultStackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen
-        name="Admin Mark Result"
-        component={AdminMarkResultScreen}
-        //options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
+// const AdminEditAttandanceStackNavigator = () => {
+//   return (
+//     <Stack.Navigator screenOptions={screenOptionStyle}>
+//       <Stack.Screen
+//         name="Admin Edit Attandance"
+//         component={AdminEditAttandanceScreen}
+//         //options={{ headerShown: false }}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
+// const AdminMarkResultStackNavigator = () => {
+//   return (
+//     <Stack.Navigator screenOptions={screenOptionStyle}>
+//       <Stack.Screen
+//         name="Admin Mark Result"
+//         component={AdminMarkResultScreen}
+//         //options={{ headerShown: false }}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
 const AdminCoursesStackNavigator = () => {
   const navigation = useNavigation();
   return (
@@ -335,8 +368,6 @@ export {
   AdminAddStudentStackNavigator,
   AdminAddTeacherStackNavigator,
   AdminPostNotificationStackNavigator,
-  AdminEditAttandanceStackNavigator,
-  AdminMarkResultStackNavigator,
   AdminCoursesStackNavigator,
   AdminClassesStackNavigator,
   AdminSubjectsStackNavigator,
