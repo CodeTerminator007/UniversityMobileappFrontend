@@ -12,6 +12,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
@@ -25,6 +26,7 @@ function EditStudentScreen2({ navigation, route }) {
   const { classname } = route.params;
 
   const [address, setAddress] = useState(address1);
+  const [isloading, setIsLoading] = useState(false);
 
   const [courseopen, setCourseopen] = useState(false);
   const [course, setCourse] = useState(course_id1);

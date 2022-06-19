@@ -6,11 +6,14 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import URI from "../../context/uri";
+import { ActivityIndicator } from "react-native-paper";
 import ClassListItem from "../../components/class_list_item";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useEffect } from "react";
 
 // const data = [
 //   {
@@ -32,61 +35,86 @@ function AllSubjectsScreen({ navigation }) {
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const AuthStr = "Bearer ".concat(Token);
-  axios
-    .get(`${URI.uri}/Subject/`, {
-      headers: { Authorization: AuthStr },
-    })
-    .then((response) => {
-      // If request is good...
-      const d = response.data;
-      const g = d.map((item) => {
-        return {
-          id: item.id,
-          title: item.subject_name,
-          course_name:item.course_name,
-          course_id:item.course_id,
-          staff_name:item.staff_name,
-          staff_id:item.staff_id,
-          class_name:item.class_name,
-          class_id:item.class_id,
-          class_sec:item.class_sec,
-          class_semaster:item.class_semaster,
-        };
-      });
-      setdata(g);
-    })
+  const getSubjects = async () => {
+    setIsLoading(true);
+    axios
+      .get(`${URI.uri}/Subject/`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        // If request is good...
+        const d = response.data;
+        const g = d.map((item) => {
+          return {
+            id: item.id,
+            title: item.subject_name,
+            course_name: item.course_name,
+            course_id: item.course_id,
+            staff_name: item.staff_name,
+            staff_id: item.staff_id,
+            class_name: item.class_name,
+            class_id: item.class_id,
+            class_sec: item.class_sec,
+            class_semaster: item.class_semaster,
+          };
+        });
+        setdata(g);
+        setIsLoading(false);
+      })
 
-    .catch((error) => {
-      console.log("error " + error);
-    });
+      .catch((error) => {
+        setIsLoading(false);
+        console.log("error " + error);
+      });
+  };
+  useEffect(() => {
+    getSubjects();
+  }, []);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(data) => data.id.toString()}
-        renderItem={({ item }) => (
-          <ClassListItem
-            title={item.title}
-            onPress={() =>
-              navigation.navigate("Edit Subject", {
-                id: item.id,
-                subject_name:item.title,
-                course_name:item.course_name,
-                course_id:item.course_id,
-                staff_name:item.staff_name,
-                staff_id:item.staff_id,
-                class_name:item.class_name,
-                class_id:item.class_id,
-                class_sec:item.class_sec,
-                class_semaster:item.class_semaster,
-              })
-            }
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={data}
+            keyExtractor={(data) => data.id.toString()}
+            renderItem={({ item }) => (
+              <ClassListItem
+                title={item.title}
+                onPress={() =>
+                  navigation.navigate("Edit Subject", {
+                    id: item.id,
+                    subject_name: item.title,
+                    course_name: item.course_name,
+                    course_id: item.course_id,
+                    staff_name: item.staff_name,
+                    staff_id: item.staff_id,
+                    class_name: item.class_name,
+                    class_id: item.class_id,
+                    class_sec: item.class_sec,
+                    class_semaster: item.class_semaster,
+                  })
+                }
+              />
+            )}
           />
-        )}
-      />
-    </SafeAreaView>
+        </SafeAreaView>
+      )}
+    </>
   );
 }
 

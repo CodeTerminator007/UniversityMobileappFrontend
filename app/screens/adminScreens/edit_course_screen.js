@@ -12,6 +12,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 
 function EditCourseScreen({ route }) {
@@ -20,6 +21,7 @@ function EditCourseScreen({ route }) {
   const { course_name } = route.params;
 
   const [coursename, setCoursename] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
   const state = useSelector((state) => state);
 
   const stateData = { ...state };

@@ -13,6 +13,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 
 function EditClassScreen({ route }) {
@@ -38,6 +39,7 @@ function EditClassScreen({ route }) {
   const Token = stateData.userReducer.token;
   const [data, setdata] = useState(null);
   const [isFetchingcourse, setIssFethincourse] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   // const [isFetchingstaff,setIssFethinstaff]=useState(false)
 
   const AuthStr = "Bearer ".concat(Token);

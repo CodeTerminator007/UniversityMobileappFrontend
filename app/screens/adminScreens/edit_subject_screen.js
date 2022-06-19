@@ -13,6 +13,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 
 function EditSubjectScreen({ route }) {
@@ -28,6 +29,7 @@ function EditSubjectScreen({ route }) {
   const { class_semaster } = route.params;
 
   const [subjectname, setSubjectname] = useState(subject_name);
+  const [isloading, setIsLoading] = useState(false);
 
   const [courseopen, setCourseopen] = useState(false);
   const [course, setCourse] = useState(course_id);

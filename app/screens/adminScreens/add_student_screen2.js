@@ -12,12 +12,14 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 
 function AddStudentScreen2({ navigation, route }) {
   const [address, setAddress] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
   const { id } = route.params;
 
   const [courseopen, setCourseopen] = useState(false);
@@ -106,6 +108,7 @@ function AddStudentScreen2({ navigation, route }) {
       });
   };
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     console.log("id", id);
     console.log("address", address);
@@ -128,9 +131,11 @@ function AddStudentScreen2({ navigation, route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         Alert.alert("Student", "The Student has been added.");
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -138,93 +143,112 @@ function AddStudentScreen2({ navigation, route }) {
       });
   };
   useEffect(() => {
+    setIsLoading(true);
     if (!isFetchingcourse) {
       getCourses();
+      setIsLoading(false);
     }
+    setIsLoading(true);
     if (!isFetchingclasss) {
       getClasses();
+      setIsLoading(false);
     }
   }, [isFetchingcourse, isFetchingclasss]);
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
-    >
-      <View style={styles.container}>
-        <Text style={styles.logoText}>Student Details</Text>
-
-        <Text style={styles.text}>Address</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            //secureTextEntry
-            style={styles.inputText}
-            multiline={true}
-            placeholder="Address"
-            placeholderTextColor="#003f5c"
-            onChangeText={setAddress}
-          />
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
         </View>
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+        >
+          <View style={styles.container}>
+            <Text style={styles.logoText}>Student Details</Text>
 
-        <Text style={styles.text}>Course</Text>
-        <DropDownPicker
-          placeholder="Select Course"
-          open={courseopen}
-          onOpen={onCourseOpen}
-          value={course}
-          items={courseslist}
-          setOpen={setCourseopen}
-          setValue={setCourse}
-          setItems={setCourselist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: courseopen ? 175 : 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
+            <Text style={styles.text}>Address</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                //secureTextEntry
+                style={styles.inputText}
+                multiline={true}
+                placeholder="Address"
+                placeholderTextColor="#003f5c"
+                onChangeText={setAddress}
+              />
+            </View>
 
-        <Text style={styles.text}>Class</Text>
+            <Text style={styles.text}>Course</Text>
+            <DropDownPicker
+              placeholder="Select Course"
+              open={courseopen}
+              onOpen={onCourseOpen}
+              value={course}
+              items={courseslist}
+              setOpen={setCourseopen}
+              setValue={setCourse}
+              setItems={setCourselist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: courseopen ? 175 : 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
 
-        <DropDownPicker
-          placeholder="Select Class"
-          open={classopen}
-          onOpen={onClassOpen}
-          value={classs}
-          items={classlist}
-          setOpen={setClassopen}
-          setValue={setClasss}
-          setItems={setClasslist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.loginText}>Add</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <Text style={styles.text}>Class</Text>
+
+            <DropDownPicker
+              placeholder="Select Class"
+              open={classopen}
+              onOpen={onClassOpen}
+              value={classs}
+              items={classlist}
+              setOpen={setClassopen}
+              setValue={setClasss}
+              setItems={setClasslist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.loginText}>Add</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
 

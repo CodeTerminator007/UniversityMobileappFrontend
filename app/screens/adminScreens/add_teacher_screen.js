@@ -12,6 +12,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
@@ -27,6 +28,7 @@ function AddTeacherScreen() {
   const [email, setEmail] = useState(null);
   const [phone1, setPhone1] = useState(null);
   const [phone2, setPhone2] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const [genderopen, setGenderopen] = useState(false);
   const [gender, setGender] = useState(null);
@@ -82,6 +84,7 @@ function AddTeacherScreen() {
   const AuthStr = "Bearer ".concat(Token);
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const option = {
       headers: {
@@ -113,11 +116,13 @@ function AddTeacherScreen() {
     axios
       .post(`${URI.uri}/users/`, formdata, option)
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("Teacher", "The Teacher has been created.");
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -126,163 +131,178 @@ function AddTeacherScreen() {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.logoText}>Add Teacher</Text>
-
-        <Text style={styles.text}>User Name</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="User Name"
-            placeholderTextColor="#003f5c"
-            onChangeText={setUsername}
-          />
-        </View>
-
-        <Text style={styles.text}>Password</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            secureTextEntry
-            style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            onChangeText={setPassword}
-          />
-        </View>
-
-        <Text style={styles.text}>First Name</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="First Name"
-            placeholderTextColor="#003f5c"
-            onChangeText={setFirstname}
-          />
-        </View>
-
-        <Text style={styles.text}>Last Name</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Last Name"
-            placeholderTextColor="#003f5c"
-            onChangeText={setLastname}
-          />
-        </View>
-
-        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Date of Birth"
-            placeholderTextColor="#003f5c"
-            onChangeText={setDobirth}
-          />
-        </View>
-
-        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="CNIC"
-            placeholderTextColor="#003f5c"
-            onChangeText={setCnic}
-          />
-        </View>
-
-        <Text style={styles.text}>Email</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Email"
-            placeholderTextColor="#003f5c"
-            onChangeText={setEmail}
-          />
-        </View>
-
-        <Text style={styles.text}>Gender</Text>
-        <DropDownPicker
-          placeholder="Select Gender"
-          open={genderopen}
-          onOpen={onGenderOpen}
-          value={gender}
-          items={genderlist}
-          setOpen={setGenderopen}
-          setValue={setGender}
-          setItems={setGenderlist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: genderopen ? 175 : 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
+    <>
+      {isloading ? (
+        <View
           style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-
-        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Phone 1"
-            placeholderTextColor="#003f5c"
-            onChangeText={setPhone1}
-          />
-        </View>
-
-        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Phone 2"
-            placeholderTextColor="#003f5c"
-            onChangeText={setPhone2}
-          />
-        </View>
-
-        <Text style={styles.text}>Course</Text>
-        <DropDownPicker
-          placeholder="Select Course"
-          open={lastdegreeopen}
-          onOpen={onDegreeOpen}
-          value={lastdegree}
-          items={lastdegreelist}
-          setOpen={setLastdegreeopen}
-          setValue={setLastdegree}
-          setItems={setLastdegreelist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: lastdegreeopen ? 175 : 20,
+            display: "flex",
             justifyContent: "center",
-            //padding: 20,
+            alignItems: "center",
+            height: "100%",
           }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        <Text style={styles.text}>Select Profile</Text>
-        <ImagePickerr image={image} setImage={setImage} />
-        <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-          <Text style={styles.loginText}>Add</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.logoText}>Add Teacher</Text>
+
+            <Text style={styles.text}>User Name</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="User Name"
+                placeholderTextColor="#003f5c"
+                onChangeText={setUsername}
+              />
+            </View>
+
+            <Text style={styles.text}>Password</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                secureTextEntry
+                style={styles.inputText}
+                placeholder="Password"
+                placeholderTextColor="#003f5c"
+                onChangeText={setPassword}
+              />
+            </View>
+
+            <Text style={styles.text}>First Name</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="First Name"
+                placeholderTextColor="#003f5c"
+                onChangeText={setFirstname}
+              />
+            </View>
+
+            <Text style={styles.text}>Last Name</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Last Name"
+                placeholderTextColor="#003f5c"
+                onChangeText={setLastname}
+              />
+            </View>
+
+            <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Date of Birth"
+                placeholderTextColor="#003f5c"
+                onChangeText={setDobirth}
+              />
+            </View>
+
+            <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="CNIC"
+                placeholderTextColor="#003f5c"
+                onChangeText={setCnic}
+              />
+            </View>
+
+            <Text style={styles.text}>Email</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Email"
+                placeholderTextColor="#003f5c"
+                onChangeText={setEmail}
+              />
+            </View>
+
+            <Text style={styles.text}>Gender</Text>
+            <DropDownPicker
+              placeholder="Select Gender"
+              open={genderopen}
+              onOpen={onGenderOpen}
+              value={gender}
+              items={genderlist}
+              setOpen={setGenderopen}
+              setValue={setGender}
+              setItems={setGenderlist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: genderopen ? 175 : 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+
+            <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Phone 1"
+                placeholderTextColor="#003f5c"
+                onChangeText={setPhone1}
+              />
+            </View>
+
+            <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder="Phone 2"
+                placeholderTextColor="#003f5c"
+                onChangeText={setPhone2}
+              />
+            </View>
+
+            <Text style={styles.text}>Course</Text>
+            <DropDownPicker
+              placeholder="Select Course"
+              open={lastdegreeopen}
+              onOpen={onDegreeOpen}
+              value={lastdegree}
+              items={lastdegreelist}
+              setOpen={setLastdegreeopen}
+              setValue={setLastdegree}
+              setItems={setLastdegreelist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: lastdegreeopen ? 175 : 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+            <Text style={styles.text}>Select Profile</Text>
+            <ImagePickerr image={image} setImage={setImage} />
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+              <Text style={styles.loginText}>Add</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
 

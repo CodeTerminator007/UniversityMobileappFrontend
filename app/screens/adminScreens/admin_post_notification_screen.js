@@ -11,52 +11,80 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 function AdminPostNotificationScreen() {
   const [title, setTitle] = useState(null);
   const [detail, setDetail] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const handleSubmit = () => {
-    axios.post(`https://app.nativenotify.com/api/notification`, {
-      appId: 2899,
-      appToken: "S0A9cKzQJtppEYoM5j6dMo",
-      title: title,
-      body: detail,
-      dateSent: new Date(Date.now()),
-      pushData: { "yourProperty": "yourPropertyValue" }
-  });
-
+    setIsLoading(true);
+    axios
+      .post(`https://app.nativenotify.com/api/notification`, {
+        appId: 2899,
+        appToken: "S0A9cKzQJtppEYoM5j6dMo",
+        title: title,
+        body: detail,
+        dateSent: new Date(Date.now()),
+        pushData: { yourProperty: "yourPropertyValue" },
+      })
+      .then((res) => {
+        setIsLoading(false);
+        if (res.status == 201) {
+          Alert.alert("Announcement", "The Announcement has been Posted.");
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
   };
 
-
-
-  
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Post Notification</Text>
-      <View style={styles.titleinputView}>
-        <TextInput
-          style={styles.titleinputText}
-          placeholder="Title"
-          placeholderTextColor="#003f5c"
-          onChangeText={setTitle}
-        />
-      </View>
-      <View style={styles.detailinputView}>
-        <TextInput
-          style={styles.detailinputText}
-          placeholder="Details"
-          placeholderTextColor="#003f5c"
-          multiline={true}
-          textAlignVertical="top"
-          onChangeText={setDetail}
-        />
-      </View>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.headingText}>Post Notification</Text>
+          <View style={styles.titleinputView}>
+            <TextInput
+              style={styles.titleinputText}
+              placeholder="Title"
+              placeholderTextColor="#003f5c"
+              onChangeText={setTitle}
+            />
+          </View>
+          <View style={styles.detailinputView}>
+            <TextInput
+              style={styles.detailinputText}
+              placeholder="Details"
+              placeholderTextColor="#003f5c"
+              multiline={true}
+              textAlignVertical="top"
+              onChangeText={setDetail}
+            />
+          </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>POST</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>POST</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 

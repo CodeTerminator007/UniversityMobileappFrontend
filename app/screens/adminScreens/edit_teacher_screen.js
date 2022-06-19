@@ -11,6 +11,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
 import URI from "../../context/uri";
@@ -38,6 +39,7 @@ function EditTeacherScreen({ navigation, route }) {
   const [email, setEmail] = useState(email1);
   const [phone1, setPhone1] = useState(phone_number1);
   const [phone2, setPhone2] = useState(phone_number2);
+  const [isloading, setIsLoading] = useState(false);
 
   const [genderopen, setGenderopen] = useState(false);
   const [gender, setGender] = useState(gender1);

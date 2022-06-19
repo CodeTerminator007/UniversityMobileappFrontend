@@ -14,9 +14,11 @@ import {
   ScrollView,
 } from "react-native";
 import URI from "../../context/uri";
+import { ActivityIndicator } from "react-native-paper";
 
 function AddSubjectScreen() {
   const [subjectname, setSubjectname] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const [courseopen, setCourseopen] = useState(false);
   const [course, setCourse] = useState(null);
@@ -126,18 +128,25 @@ function AddSubjectScreen() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     if (!isFetchingcourse) {
       getCourses();
+      setIsLoading(false);
     }
+    setIsLoading(true);
     if (!isFetchingstaff) {
       getstaff();
+      setIsLoading(false);
     }
+    setIsLoading(true);
     if (!isFetchingclasses) {
       getclasses();
+      setIsLoading(false);
     }
   }, [isFetchingcourse, isFetchingstaff, isFetchingclasses]);
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
@@ -154,11 +163,13 @@ function AddSubjectScreen() {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("Subject", "The Subject has been created.");
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -166,110 +177,125 @@ function AddSubjectScreen() {
       });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.logoText}>Add Subject</Text>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.logoText}>Add Subject</Text>
 
-      <Text style={styles.text}>Subject Name</Text>
+          <Text style={styles.text}>Subject Name</Text>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Subject Name"
-          placeholderTextColor="#003f5c"
-          onChangeText={setSubjectname}
-        />
-      </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Subject Name"
+              placeholderTextColor="#003f5c"
+              onChangeText={setSubjectname}
+            />
+          </View>
 
-      <Text style={styles.text}>Course</Text>
+          <Text style={styles.text}>Course</Text>
 
-      <DropDownPicker
-        placeholder="Select Course"
-        open={courseopen}
-        onOpen={onCourseOpen}
-        value={course}
-        items={courseslist}
-        setOpen={setCourseopen}
-        setValue={setCourse}
-        setItems={setCourselist}
-        containerStyle={{
-          width: "80%",
-          height: 50,
-          marginBottom: courseopen ? 175 : 20,
-          justifyContent: "center",
-          //padding: 20,
-        }}
-        style={{
-          backgroundColor: "#edece8",
-          borderColor: "#edece8",
-          borderRadius: 25,
-        }}
-        textStyle={{
-          color: "#003f5c",
-          marginLeft: 10,
-        }}
-      />
+          <DropDownPicker
+            placeholder="Select Course"
+            open={courseopen}
+            onOpen={onCourseOpen}
+            value={course}
+            items={courseslist}
+            setOpen={setCourseopen}
+            setValue={setCourse}
+            setItems={setCourselist}
+            containerStyle={{
+              width: "80%",
+              height: 50,
+              marginBottom: courseopen ? 175 : 20,
+              justifyContent: "center",
+              //padding: 20,
+            }}
+            style={{
+              backgroundColor: "#edece8",
+              borderColor: "#edece8",
+              borderRadius: 25,
+            }}
+            textStyle={{
+              color: "#003f5c",
+              marginLeft: 10,
+            }}
+          />
 
-      <Text style={styles.text}>Staff</Text>
+          <Text style={styles.text}>Staff</Text>
 
-      <DropDownPicker
-        placeholder="Select Staff"
-        open={staffopen}
-        onOpen={onStaffOpen}
-        value={staff}
-        items={stafflist}
-        setOpen={setStaffopen}
-        setValue={setStaff}
-        setItems={setStafflist}
-        containerStyle={{
-          width: "80%",
-          height: 50,
-          marginBottom: staffopen ? 175 : 20,
-          justifyContent: "center",
-          //padding: 20,
-        }}
-        style={{
-          backgroundColor: "#edece8",
-          borderColor: "#edece8",
-          borderRadius: 25,
-        }}
-        textStyle={{
-          color: "#003f5c",
-          marginLeft: 10,
-        }}
-      />
+          <DropDownPicker
+            placeholder="Select Staff"
+            open={staffopen}
+            onOpen={onStaffOpen}
+            value={staff}
+            items={stafflist}
+            setOpen={setStaffopen}
+            setValue={setStaff}
+            setItems={setStafflist}
+            containerStyle={{
+              width: "80%",
+              height: 50,
+              marginBottom: staffopen ? 175 : 20,
+              justifyContent: "center",
+              //padding: 20,
+            }}
+            style={{
+              backgroundColor: "#edece8",
+              borderColor: "#edece8",
+              borderRadius: 25,
+            }}
+            textStyle={{
+              color: "#003f5c",
+              marginLeft: 10,
+            }}
+          />
 
-      <Text style={styles.text}>Class</Text>
+          <Text style={styles.text}>Class</Text>
 
-      <DropDownPicker
-        placeholder="Select Class"
-        open={classopen}
-        onOpen={onClassOpen}
-        value={classs}
-        items={classlist}
-        setOpen={setClassopen}
-        setValue={setClasss}
-        setItems={setClasslist}
-        containerStyle={{
-          width: "80%",
-          height: 50,
-          marginBottom: 20,
-          justifyContent: "center",
-          //padding: 20,
-        }}
-        style={{
-          backgroundColor: "#edece8",
-          borderColor: "#edece8",
-          borderRadius: 25,
-        }}
-        textStyle={{
-          color: "#003f5c",
-          marginLeft: 10,
-        }}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.loginText}>Add</Text>
-      </TouchableOpacity>
-    </View>
+          <DropDownPicker
+            placeholder="Select Class"
+            open={classopen}
+            onOpen={onClassOpen}
+            value={classs}
+            items={classlist}
+            setOpen={setClassopen}
+            setValue={setClasss}
+            setItems={setClasslist}
+            containerStyle={{
+              width: "80%",
+              height: 50,
+              marginBottom: 20,
+              justifyContent: "center",
+              //padding: 20,
+            }}
+            style={{
+              backgroundColor: "#edece8",
+              borderColor: "#edece8",
+              borderRadius: 25,
+            }}
+            textStyle={{
+              color: "#003f5c",
+              marginLeft: 10,
+            }}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.loginText}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 
