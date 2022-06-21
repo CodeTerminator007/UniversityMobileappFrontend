@@ -93,6 +93,7 @@ function EditTeacherScreen({ navigation, route }) {
   const AuthStr = "Bearer ".concat(Token);
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     console.log("in");
     event.preventDefault();
     const option = {
@@ -116,10 +117,12 @@ function EditTeacherScreen({ navigation, route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         Alert.alert("Teacher", "The Teacher has been Updated.");
         navigation.navigate("All Teachers");
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           console.log(err);
           Alert.alert("Error", "Empty Fields fill all the fields");
@@ -129,152 +132,167 @@ function EditTeacherScreen({ navigation, route }) {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.logoText}>Edit Teacher</Text>
-
-        <Text style={styles.text}>User Name</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={username1}
-            placeholderTextColor="#003f5c"
-            onChangeText={setUsername}
-          />
-        </View>
-
-        <Text style={styles.text}>First Name</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={first_name}
-            placeholderTextColor="#003f5c"
-            onChangeText={setFirstname}
-          />
-        </View>
-
-        <Text style={styles.text}>Last Name</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={last_name}
-            placeholderTextColor="#003f5c"
-            onChangeText={setLastname}
-          />
-        </View>
-
-        <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={Dob}
-            placeholderTextColor="#003f5c"
-            onChangeText={setDobirth}
-          />
-        </View>
-
-        <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={cnic1}
-            placeholderTextColor="#003f5c"
-            onChangeText={setCnic}
-          />
-        </View>
-
-        <Text style={styles.text}>Email</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={email1}
-            placeholderTextColor="#003f5c"
-            onChangeText={setEmail}
-          />
-        </View>
-
-        <Text style={styles.text}>Gender</Text>
-        <DropDownPicker
-          placeholder={gender1}
-          open={genderopen}
-          onOpen={onGenderOpen}
-          value={gender}
-          items={genderlist}
-          setOpen={setGenderopen}
-          setValue={setGender}
-          setItems={setGenderlist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: genderopen ? 175 : 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
+    <>
+      {isloading ? (
+        <View
           style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-
-        <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={phone_number1}
-            placeholderTextColor="#003f5c"
-            onChangeText={setPhone1}
-          />
-        </View>
-
-        <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={phone_number2}
-            placeholderTextColor="#003f5c"
-            onChangeText={setPhone2}
-          />
-        </View>
-
-        <Text style={styles.text}>Course</Text>
-        <DropDownPicker
-          placeholder={last_education_degree}
-          open={lastdegreeopen}
-          onOpen={onDegreeOpen}
-          value={lastdegree}
-          items={lastdegreelist}
-          setOpen={setLastdegreeopen}
-          setValue={setLastdegree}
-          setItems={setLastdegreelist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: lastdegreeopen ? 175 : 20,
+            display: "flex",
             justifyContent: "center",
-            //padding: 20,
+            alignItems: "center",
+            height: "100%",
           }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        {/* <Text style={styles.text}>Select Profile</Text>
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.logoText}>Edit Teacher</Text>
+
+            <Text style={styles.text}>User Name</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={username1}
+                placeholderTextColor="#003f5c"
+                onChangeText={setUsername}
+              />
+            </View>
+
+            <Text style={styles.text}>First Name</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={first_name}
+                placeholderTextColor="#003f5c"
+                onChangeText={setFirstname}
+              />
+            </View>
+
+            <Text style={styles.text}>Last Name</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={last_name}
+                placeholderTextColor="#003f5c"
+                onChangeText={setLastname}
+              />
+            </View>
+
+            <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={Dob}
+                placeholderTextColor="#003f5c"
+                onChangeText={setDobirth}
+              />
+            </View>
+
+            <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={cnic1}
+                placeholderTextColor="#003f5c"
+                onChangeText={setCnic}
+              />
+            </View>
+
+            <Text style={styles.text}>Email</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={email1}
+                placeholderTextColor="#003f5c"
+                onChangeText={setEmail}
+              />
+            </View>
+
+            <Text style={styles.text}>Gender</Text>
+            <DropDownPicker
+              placeholder={gender1}
+              open={genderopen}
+              onOpen={onGenderOpen}
+              value={gender}
+              items={genderlist}
+              setOpen={setGenderopen}
+              setValue={setGender}
+              setItems={setGenderlist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: genderopen ? 175 : 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+
+            <Text style={styles.text}>Phone 1 (+92 ***********)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={phone_number1}
+                placeholderTextColor="#003f5c"
+                onChangeText={setPhone1}
+              />
+            </View>
+
+            <Text style={styles.text}>Phone 2 (+92 ***********)</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                placeholder={phone_number2}
+                placeholderTextColor="#003f5c"
+                onChangeText={setPhone2}
+              />
+            </View>
+
+            <Text style={styles.text}>Course</Text>
+            <DropDownPicker
+              placeholder={last_education_degree}
+              open={lastdegreeopen}
+              onOpen={onDegreeOpen}
+              value={lastdegree}
+              items={lastdegreelist}
+              setOpen={setLastdegreeopen}
+              setValue={setLastdegree}
+              setItems={setLastdegreelist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: lastdegreeopen ? 175 : 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+            {/* <Text style={styles.text}>Select Profile</Text>
         <ImagePickerr /> */}
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.loginText}>Edit</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.loginText}>Edit</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
 

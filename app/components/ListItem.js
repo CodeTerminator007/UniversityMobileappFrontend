@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import Separator from "../components/separator";
 
 function ListItem({ title, description, url, onPress }) {
   return (
@@ -13,6 +14,7 @@ function ListItem({ title, description, url, onPress }) {
           </Text>
         </View>
       </View>
+      <Separator />
     </TouchableOpacity>
   );
 }
@@ -20,8 +22,8 @@ function ListItem({ title, description, url, onPress }) {
 const styles = StyleSheet.create({
   notifiContainer: {
     flexDirection: "row",
-    padding: 15,
-    backgroundColor: "#185079",
+    padding: 8,
+    //backgroundColor: "#185079",
     marginBottom: 6,
   },
   image: {
@@ -34,14 +36,14 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   detailText: {
-    color: "white",
+    color: "black",
     marginTop: 4,
     width: 260,
   },
   heading: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
   },
 });
 export default ListItem;

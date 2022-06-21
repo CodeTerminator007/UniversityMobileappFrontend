@@ -9,7 +9,14 @@ import {
   SafeAreaView,
 } from "react-native";
 import URI from "../../context/uri";
-import { Ionicons, Fontisto, AntDesign, Feather } from "@expo/vector-icons";
+import {
+  Ionicons,
+  Fontisto,
+  AntDesign,
+  Feather,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import Constants from "expo-constants";
 //import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Separator from "../../components/separator";
@@ -30,7 +37,7 @@ function StudentProfileScreen() {
             }}
           ></Image>
           <Text style={styles.namestyle}>
-            {stateData.userReducer.userData.first_name}{" "}
+            {stateData.userReducer.userData.first_name}
             {stateData.userReducer.userData.last_name}
           </Text>
         </View>
@@ -38,6 +45,23 @@ function StudentProfileScreen() {
         <Separator />
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>DETAILS</Text>
+        </View>
+        <Separator />
+        <View style={styles.LocationEmailContainer}>
+          <View style={styles.icon}>
+            <MaterialCommunityIcons
+              name="badge-account-outline"
+              size={24}
+              color="grey"
+            />
+          </View>
+          <View style={styles.LocationEmailTextContainer}>
+            <Text style={styles.LocationEmailHeading}>Roll No</Text>
+            <Text style={styles.detailText}>
+              {/* {stateData.userReducer.userData.RollNo} */}
+              10111
+            </Text>
+          </View>
         </View>
         <Separator />
         <View style={styles.LocationEmailContainer}>
@@ -60,6 +84,19 @@ function StudentProfileScreen() {
             <Text style={styles.LocationEmailHeading}>Email</Text>
             <Text style={styles.detailText}>
               {stateData.userReducer.userData.email}
+            </Text>
+          </View>
+        </View>
+        <Separator />
+        <View style={styles.LocationEmailContainer}>
+          <View style={styles.icon}>
+            <Ionicons name="ios-home-outline" size={24} color="grey" />
+          </View>
+          <View style={styles.LocationEmailTextContainer}>
+            <Text style={styles.LocationEmailHeading}>Address</Text>
+            <Text style={styles.detailText}>
+              {/* {stateData.userReducer.userData.address} */}
+              house 1 black A
             </Text>
           </View>
         </View>

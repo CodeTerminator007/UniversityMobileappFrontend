@@ -28,6 +28,7 @@ function EditCourseScreen({ route }) {
   const Token = stateData.userReducer.token;
   const ID = stateData.userReducer.id;
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const AuthStr = "Bearer ".concat(Token);
     const option = {
@@ -42,9 +43,11 @@ function EditCourseScreen({ route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         Alert.alert("Course", "The Course has been Updated.");
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -52,23 +55,38 @@ function EditCourseScreen({ route }) {
       });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.logoText}>Edit Course</Text>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.logoText}>Edit Course</Text>
 
-      <Text style={styles.text}>Course Name</Text>
+          <Text style={styles.text}>Course Name</Text>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder={course_name}
-          placeholderTextColor="#003f5c"
-          onChangeText={setCoursename}
-        />
-      </View>
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.loginText}>Edit</Text>
-      </TouchableOpacity>
-    </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder={course_name}
+              placeholderTextColor="#003f5c"
+              onChangeText={setCoursename}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.loginText}>Edit</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 

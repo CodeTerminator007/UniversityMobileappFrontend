@@ -44,6 +44,7 @@ function EditClassScreen({ route }) {
 
   const AuthStr = "Bearer ".concat(Token);
   const getCourses = () => {
+    setIsLoading(true);
     axios
       .get(`${URI.uri}/course`, {
         headers: { Authorization: AuthStr },
@@ -59,9 +60,11 @@ function EditClassScreen({ route }) {
         });
         setdata(g);
         setCourselist(g);
+        setIsLoading(false);
       })
 
       .catch((error) => {
+        setIsLoading(false);
         console.log("error " + error);
       });
   };
@@ -72,6 +75,7 @@ function EditClassScreen({ route }) {
   }, [isFetchingcourse]);
   console.log(course);
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const option = {
       headers: { Authorization: AuthStr },
@@ -88,11 +92,13 @@ function EditClassScreen({ route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         if (res.status == 201) {
           Alert.alert("Class", "The Class has been Updated.");
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -100,73 +106,88 @@ function EditClassScreen({ route }) {
       });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.logoText}>Edit Class</Text>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.logoText}>Edit Class</Text>
 
-      <Text style={styles.text}>Class Name</Text>
+          <Text style={styles.text}>Class Name</Text>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder={class_name}
-          placeholderTextColor="#003f5c"
-          onChangeText={setClassname}
-        />
-      </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder={class_name}
+              placeholderTextColor="#003f5c"
+              onChangeText={setClassname}
+            />
+          </View>
 
-      <Text style={styles.text}>Class Section</Text>
+          <Text style={styles.text}>Class Section</Text>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder={section_name}
-          placeholderTextColor="#003f5c"
-          onChangeText={setClasssection}
-        />
-      </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder={section_name}
+              placeholderTextColor="#003f5c"
+              onChangeText={setClasssection}
+            />
+          </View>
 
-      <Text style={styles.text}>Semester</Text>
+          <Text style={styles.text}>Semester</Text>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder={semaster_name}
-          placeholderTextColor="#003f5c"
-          onChangeText={setSemester}
-        />
-      </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder={semaster_name}
+              placeholderTextColor="#003f5c"
+              onChangeText={setSemester}
+            />
+          </View>
 
-      <Text style={styles.text}>Course</Text>
+          <Text style={styles.text}>Course</Text>
 
-      <DropDownPicker
-        placeholder={course_name}
-        open={open}
-        value={course}
-        items={courseslist}
-        setOpen={setOpen}
-        setValue={setCourse}
-        setItems={setCourselist}
-        containerStyle={{
-          width: "80%",
-          height: 50,
-          marginBottom: 20,
-          justifyContent: "center",
-          //padding: 20,
-        }}
-        style={{
-          backgroundColor: "#edece8",
-          borderColor: "#edece8",
-          borderRadius: 25,
-        }}
-        textStyle={{
-          color: "#003f5c",
-          marginLeft: 10,
-        }}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.loginText}>Edit</Text>
-      </TouchableOpacity>
-    </View>
+          <DropDownPicker
+            placeholder={course_name}
+            open={open}
+            value={course}
+            items={courseslist}
+            setOpen={setOpen}
+            setValue={setCourse}
+            setItems={setCourselist}
+            containerStyle={{
+              width: "80%",
+              height: 50,
+              marginBottom: 20,
+              justifyContent: "center",
+              //padding: 20,
+            }}
+            style={{
+              backgroundColor: "#edece8",
+              borderColor: "#edece8",
+              borderRadius: 25,
+            }}
+            textStyle={{
+              color: "#003f5c",
+              marginLeft: 10,
+            }}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.loginText}>Edit</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 

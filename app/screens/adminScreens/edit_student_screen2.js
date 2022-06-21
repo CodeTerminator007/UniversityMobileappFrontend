@@ -114,6 +114,7 @@ function EditStudentScreen2({ navigation, route }) {
       });
   };
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     console.log("id", id);
     console.log("address", address);
@@ -136,10 +137,12 @@ function EditStudentScreen2({ navigation, route }) {
         option
       )
       .then((res) => {
+        setIsLoading(false);
         Alert.alert("Student", "The Student has been Updated.");
         navigation.navigate("All Students");
       })
       .catch((err) => {
+        setIsLoading(false);
         if ((err = 400)) {
           Alert.alert("Error", "Empty Fields fill all the fields");
         }
@@ -147,92 +150,111 @@ function EditStudentScreen2({ navigation, route }) {
       });
   };
   useEffect(() => {
+    setIsLoading(true);
     if (!isFetchingcourse) {
       getCourses();
+      setIsLoading(false);
     }
+    setIsLoading(true);
     if (!isFetchingclasss) {
       getClasses();
+      setIsLoading(false);
     }
   }, [isFetchingcourse, isFetchingclasss]);
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
-    >
-      <View style={styles.container}>
-        <Text style={styles.logoText}>Student Details</Text>
-
-        <Text style={styles.text}>Address</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            //secureTextEntry
-            style={styles.inputText}
-            multiline={true}
-            placeholder={address1}
-            placeholderTextColor="#003f5c"
-            onChangeText={setAddress}
-          />
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
         </View>
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+        >
+          <View style={styles.container}>
+            <Text style={styles.logoText}>Student Details</Text>
 
-        <Text style={styles.text}>Course</Text>
-        <DropDownPicker
-          placeholder={coursename}
-          open={courseopen}
-          onOpen={onCourseOpen}
-          value={course}
-          items={courseslist}
-          setOpen={setCourseopen}
-          setValue={setCourse}
-          setItems={setCourselist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: courseopen ? 175 : 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
+            <Text style={styles.text}>Address</Text>
+            <View style={styles.inputView}>
+              <TextInput
+                //secureTextEntry
+                style={styles.inputText}
+                multiline={true}
+                placeholder={address1}
+                placeholderTextColor="#003f5c"
+                onChangeText={setAddress}
+              />
+            </View>
 
-        <Text style={styles.text}>Class</Text>
-        <DropDownPicker
-          placeholder={classname}
-          open={classopen}
-          onOpen={onClassOpen}
-          value={classs}
-          items={classlist}
-          setOpen={setClassopen}
-          setValue={setClasss}
-          setItems={setClasslist}
-          containerStyle={{
-            width: "80%",
-            height: 50,
-            marginBottom: 20,
-            justifyContent: "center",
-            //padding: 20,
-          }}
-          style={{
-            backgroundColor: "#edece8",
-            borderColor: "#edece8",
-            borderRadius: 25,
-          }}
-          textStyle={{
-            color: "#003f5c",
-            marginLeft: 10,
-          }}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.loginText}>Update</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <Text style={styles.text}>Course</Text>
+            <DropDownPicker
+              placeholder={coursename}
+              open={courseopen}
+              onOpen={onCourseOpen}
+              value={course}
+              items={courseslist}
+              setOpen={setCourseopen}
+              setValue={setCourse}
+              setItems={setCourselist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: courseopen ? 175 : 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+
+            <Text style={styles.text}>Class</Text>
+            <DropDownPicker
+              placeholder={classname}
+              open={classopen}
+              onOpen={onClassOpen}
+              value={classs}
+              items={classlist}
+              setOpen={setClassopen}
+              setValue={setClasss}
+              setItems={setClasslist}
+              containerStyle={{
+                width: "80%",
+                height: 50,
+                marginBottom: 20,
+                justifyContent: "center",
+                //padding: 20,
+              }}
+              style={{
+                backgroundColor: "#edece8",
+                borderColor: "#edece8",
+                borderRadius: 25,
+              }}
+              textStyle={{
+                color: "#003f5c",
+                marginLeft: 10,
+              }}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.loginText}>Update</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 }
 

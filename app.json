@@ -3,7 +3,7 @@
     "name": "MyUniversity",
     "slug": "uni-app",
     "version": "1.0.0",
-    "orientation": "default",
+    "orientation": "portrait",
     "icon": "./app/assets/RipLogo1024.png",
     "splash": {
       "image": "./app/assets/RIU.png",
@@ -18,7 +18,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package":"tothepointcode.unvierstyapp",
+      "package": "tothepointcode.unvierstyapp",
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/RipLogo1024.png",
         "backgroundColor": "#FFFFFF"
