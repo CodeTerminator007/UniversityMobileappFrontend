@@ -36,16 +36,16 @@ export default loginScreen = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!username) {
-      setusernamecheck("Username is missing");
-    } else {
-      setusernamecheck(null);
-    }
-    if (!passwordcheck) {
-      setpasswordcheck("Password is missing");
-    } else {
-      setpasswordcheck(null);
-    }
+    // if (!username) {
+    //   setusernamecheck("Username is missing");
+    // } else {
+    //   setusernamecheck(null);
+    // }
+    // if (!passwordcheck) {
+    //   setpasswordcheck("Password is missing");
+    // } else {
+    //   setpasswordcheck(null);
+    // }
     if (username && password) {
       axios
         .post(`${URI.uri}/auth/login`, {

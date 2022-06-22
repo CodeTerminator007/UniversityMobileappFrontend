@@ -16,7 +16,8 @@ import _ from "lodash";
 
 function TeacherMarkAttandanceScreen({ route }) {
   const paasedData = route.params;
-  const [date, setDate] = useState("2022-01-01");
+  const d = new Date();
+  const [date, setDate] = useState(d);
 
   const state = useSelector((state) => state);
   const stateData = { ...state };
