@@ -75,8 +75,19 @@ const StartQuizScreen = ({ navigation, route }) => {
           <ActivityIndicator animating={true} size={40} />
         </View>
       ) : (
-        <View style={{ flex: 1 }}>
-          <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, justifyContent: "space-evenly" }}>
+          <Text style={styles.headingText}>{title}</Text>
+          <View
+            style={{
+              //backgroundColor: "lightyellow",
+              padding: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 5,
+              borderColor: "#1A759F",
+              borderRadius: 20,
+            }}
+          >
             <Text style={styles.text}>Title:</Text>
             <Text style={styles.detail}>{title}</Text>
 
@@ -87,7 +98,7 @@ const StartQuizScreen = ({ navigation, route }) => {
             <Text style={styles.detail}>{time}</Text>
           </View>
 
-          <View style={styles.bannerContainer}></View>
+          {/* <View style={styles.bannerContainer}></View> */}
           {BUTTON && (
             <TouchableOpacity
               onPress={() =>
@@ -126,9 +137,19 @@ const styles = StyleSheet.create({
     width: 300,
   },
   container: {
-    paddingTop: 40,
+    //paddingTop: 40,
     paddingHorizontal: 20,
     height: "100%",
+  },
+  headingText: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    fontSize: 30,
+    color: "#185079",
+    //marginTop: 10,
+    //marginBottom: 40,
+    textDecorationLine: "underline",
+    //letterSpacing: 9,
   },
   button: {
     width: "100%",
@@ -161,9 +182,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: "flex-start",
     marginLeft: "10%",
+    textDecorationLine: "underline",
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "600",
     color: "white",
   },

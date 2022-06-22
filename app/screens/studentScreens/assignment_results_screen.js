@@ -69,7 +69,9 @@ function AssignmentResultsScreen({ route }) {
         <ScrollView horizontal={true} style={styles.container}>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title style={styles.alpha}>Quiz Name</DataTable.Title>
+              <DataTable.Title style={styles.alpha}>
+                Assignment Name
+              </DataTable.Title>
               <DataTable.Title style={styles.numeric} numeric>
                 Total Marks
               </DataTable.Title>
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   numeric: {
-    width: 40,
+    width: 100,
   },
 });
 

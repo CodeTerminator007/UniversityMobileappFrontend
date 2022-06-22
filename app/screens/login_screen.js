@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-native";
 import URI from "../../app/context/uri";
+import { ActivityIndicator } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setToken,
@@ -26,6 +27,7 @@ export default loginScreen = () => {
   const [usernamecheck, setusernamecheck] = useState(null);
   const [passwordcheck, setpasswordcheck] = useState(null);
   const [errorcheck, seterrorcheck] = useState(null);
+  const [isloading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -36,6 +38,7 @@ export default loginScreen = () => {
   }, [state]);
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     // if (!username) {
     //   setusernamecheck("Username is missing");
@@ -68,51 +71,70 @@ export default loginScreen = () => {
           } else if (is_faculty) {
             navigation.replace("Teacher");
           }
+          setIsLoading(false);
         })
         .catch((err) => {
+          setIsLoading(false);
           if ((err = 401)) {
             seterrorcheck("The username password are not correct");
           }
         });
-    }
-    else{
+    } else {
       Alert.alert("Login", "Please provide required credential.");
     }
   };
   return (
-    <View style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/RipLogo.png")} />
-      <Text style={styles.logoText}>Welcome</Text>
-      <Text style={styles.logoText2}>Login to Continue</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="User Name..."
-          placeholderTextColor="#003f5c"
-          onChangeText={setUsername}
-        />
-      </View>
-      <Text style={styles.error}>{usernamecheck}</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          secureTextEntry
-          style={styles.inputText}
-          placeholder="Password..."
-          placeholderTextColor="#003f5c"
-          onChangeText={setPassword}
-        />
-      </View>
-      <Text style={styles.error}>{passwordcheck}</Text>
-      <TouchableOpacity>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
+    <>
+      {isloading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator animating={true} size={40} />
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <Image
+            style={styles.logo}
+            source={require("../assets/RipLogo.png")}
+          />
+          <Text style={styles.logoText}>Welcome</Text>
+          <Text style={styles.logoText2}>Login to Continue</Text>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="User Name..."
+              placeholderTextColor="#003f5c"
+              onChangeText={setUsername}
+            />
+          </View>
+          <Text style={styles.error}>{usernamecheck}</Text>
+          <View style={styles.inputView}>
+            <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              placeholder="Password..."
+              placeholderTextColor="#003f5c"
+              onChangeText={setPassword}
+            />
+          </View>
+          <Text style={styles.error}>{passwordcheck}</Text>
+          <TouchableOpacity>
+            <Text style={styles.forgot}>Forgot Password?</Text>
+          </TouchableOpacity>
 
-      <Text style={styles.usernamepassword_wrong}>{errorcheck}</Text>
+          <Text style={styles.usernamepassword_wrong}>{errorcheck}</Text>
 
-      <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit}>
+            <Text style={styles.loginText}>LOGIN</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 };
 
