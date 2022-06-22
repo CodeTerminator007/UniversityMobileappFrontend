@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import URI from "../../app/context/uri";
 import { useSelector, useDispatch } from "react-redux";
@@ -73,6 +74,9 @@ export default loginScreen = () => {
             seterrorcheck("The username password are not correct");
           }
         });
+    }
+    else{
+      Alert.alert("Login", "Please provide required credential.",'login-password');
     }
   };
   return (
