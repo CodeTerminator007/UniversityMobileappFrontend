@@ -76,7 +76,7 @@ export default loginScreen = () => {
         });
     }
     else{
-      Alert.alert("Login", "Please provide required credential.",'login-password');
+      Alert.alert("Login", "Please provide required credential.");
     }
   };
   return (
