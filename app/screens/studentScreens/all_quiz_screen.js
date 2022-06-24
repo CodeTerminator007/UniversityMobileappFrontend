@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
 import URI from "../../context/uri";
@@ -57,6 +58,7 @@ function AllQuizScreen({ navigation, route }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

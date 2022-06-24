@@ -32,6 +32,8 @@ function StudentTimetableScreen() {
       })
 
       .catch((error) => {
+        setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -59,6 +61,8 @@ function StudentTimetableScreen() {
       })
 
       .catch((error) => {
+        setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

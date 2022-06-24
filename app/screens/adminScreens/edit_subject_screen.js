@@ -101,6 +101,7 @@ function EditSubjectScreen({ route }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -122,6 +123,7 @@ function EditSubjectScreen({ route }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -143,6 +145,7 @@ function EditSubjectScreen({ route }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

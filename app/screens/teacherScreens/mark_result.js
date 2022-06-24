@@ -19,16 +19,16 @@ import URI from "../../context/uri";
 // import { setToken, setName, setUserData } from "../redux/actions";
 // import { useNavigation } from "@react-navigation/native";
 
-function MarkResultScreen({navigation,route}) {
-    const state = useSelector((state) => state);
-    const stateData = { ...state };
-    const Token = stateData.userReducer.token;
-    const ID = stateData.userReducer.id;    
+function MarkResultScreen({ navigation, route }) {
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const ID = stateData.userReducer.id;
   const [midmarks, setMidmarks] = useState(null);
   const [finalmarks, setFinalmarks] = useState(null);
   const [sessional, setSessional] = useState(null);
   const [isloading, setIsLoading] = useState(false);
-  
+
   const { class_id } = route.params;
   const { studentid } = route.params;
   const { subject_id } = route.params;
@@ -42,69 +42,67 @@ function MarkResultScreen({navigation,route}) {
 
   const AuthStr = "Bearer ".concat(Token);
 
-    if (!isFetching) {
-      useEffect(() => {
-        setIsLoading(true);
-        axios
-          .get(`${URI.uri}/Result/`, {
-            headers: { Authorization: AuthStr },
-          })
-          .then((response) => {
-            const data1 = response.data;
-            setIsLoading(false);
-            const g = data1.map((item) => {
-              return {
-                value: item.id,
-                label: item.name,
-              };
-            })
-            setYearlist(g)
-          })
-            .catch((error) => {
-              console.log("error " + error);
-            });        
-  
-      }, [isFetching]);
-    }
-
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const AuthStr = "Bearer ".concat(Token);
-      const option = {
-        headers: { Authorization: AuthStr },
-      };
+  if (!isFetching) {
+    useEffect(() => {
       setIsLoading(true);
       axios
-        .post(
-          `${URI.uri}/SubjectResult/`,
-          {
-            midobtainedMarks: midmarks,
-            finalobtainedMarks: finalmarks,
-            sessionalmarks: sessional,
-            classid: class_id,
-            student: studentid,
-            subject: subject_id,
-            result:year,
-          },
-          option
-        )
-        .then((res) => {
-          setIsLoading(false);
-          if (res.status == 201) {
-            Alert.alert(
-              "Marks",
-              "Marks has been added for the student."
-            );
-          }
+        .get(`${URI.uri}/Result/`, {
+          headers: { Authorization: AuthStr },
         })
-        .catch((err) => {
+        .then((response) => {
+          const data1 = response.data;
           setIsLoading(false);
-          if ((err = 400)) {
-            Alert.alert("Error", "Empty Fields fill all the fields");
-          }
-          console.log("error", err);
+          const g = data1.map((item) => {
+            return {
+              value: item.id,
+              label: item.name,
+            };
+          });
+          setYearlist(g);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          Alert.alert("Error", "Network Error");
+          console.log("error " + error);
         });
+    }, [isFetching]);
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const AuthStr = "Bearer ".concat(Token);
+    const option = {
+      headers: { Authorization: AuthStr },
     };
+    setIsLoading(true);
+    axios
+      .post(
+        `${URI.uri}/SubjectResult/`,
+        {
+          midobtainedMarks: midmarks,
+          finalobtainedMarks: finalmarks,
+          sessionalmarks: sessional,
+          classid: class_id,
+          student: studentid,
+          subject: subject_id,
+          result: year,
+        },
+        option
+      )
+      .then((res) => {
+        setIsLoading(false);
+        if (res.status == 201) {
+          Alert.alert("Marks", "Marks has been added for the student.");
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        if ((err = 400)) {
+          Alert.alert("Error", "Empty Fields fill all the fields");
+        }
+        console.log("error", err);
+      });
+  };
   return (
     <>
       {isloading ? (
@@ -173,10 +171,7 @@ function MarkResultScreen({navigation,route}) {
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.button}
-              onPress={handleSubmit}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
             <Text style={styles.loginText}>Post</Text>
           </TouchableOpacity>
         </View>

@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
@@ -32,7 +33,7 @@ function AllClassesForResult({ navigation }) {
       })
       .then((response) => {
         const d = response.data;
-        console.log(d)
+        console.log(d);
         const g = d.map((item) => {
           return {
             class_id: item.class_id,
@@ -45,6 +46,8 @@ function AllClassesForResult({ navigation }) {
       })
 
       .catch((error) => {
+        setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

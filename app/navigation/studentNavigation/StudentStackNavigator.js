@@ -102,10 +102,12 @@ const StudentNotificationStackNavigator = () => {
       <Stack.Screen
         name="Student Notifications"
         component={StudentNotificationScreen}
+        options={{ title: "Notification" }}
       />
       <Stack.Screen
         name="Student Notifications Detail"
         component={StudentNotificationDetailScreen}
+        options={{ title: "Notification Detail" }}
       />
     </Stack.Navigator>
   );
@@ -117,7 +119,7 @@ const StudentProfileStackNavigator = () => {
       <Stack.Screen
         name="Student Profile"
         component={StudentProfileScreen}
-        //options={{ headerShown: false }}
+        options={{ title: "Profile" }}
       />
     </Stack.Navigator>
   );
@@ -143,11 +145,13 @@ const StudentTimetableStackNavigator = () => {
               <AntDesign name="edit" size={24} color="black" />
             </TouchableOpacity>
           ),
+          title: "Timetable",
         }}
       />
       <Stack.Screen
         name="Student Edit Timetable"
         component={StudentEditTimetableScreen}
+        options={{ title: "Edit Timetable" }}
       />
     </Stack.Navigator>
   );
@@ -159,14 +163,17 @@ const StudentUploadAssignmentStackNavigator = () => {
       <Stack.Screen
         name="All Subjects For Assignment"
         component={AllSubjectsForAssignmentScreen}
+        options={{ title: "All Subjects" }}
       />
       <Stack.Screen
         name="Student All Assignment"
         component={StudentAllAssignmentsScreen}
+        options={{ title: "All Assignments" }}
       />
       <Stack.Screen
         name="View Assignment Screen"
         component={StudentViewAssignmentScreen}
+        options={{ title: "View Assignment" }}
       />
       <Stack.Screen
         name="Upload Assignment"
@@ -183,10 +190,12 @@ const StudentAssignmentResultsStackNavigator = () => {
       <Stack.Screen
         name="Subjects For Assignment Result"
         component={AllSubjectsForAssignmentResultScreen}
+        options={{ title: "All Subjects" }}
       />
       <Stack.Screen
         name="Assignment Results Screen"
         component={AssignmentResultsScreen}
+        options={{ title: "Assignments Result" }}
       />
     </Stack.Navigator>
   );
@@ -198,7 +207,7 @@ const StudentQuizStackNavigator = () => {
       <Stack.Screen
         name="Subjects For Quiz"
         component={AllSubjectsForQuizScreen}
-        //options={{ headerShown: false }}
+        options={{ title: "All Subjects" }}
       />
       <Stack.Screen
         name="All Quiz"
@@ -230,8 +239,13 @@ const StudentQuizResultsStackNavigator = () => {
       <Stack.Screen
         name="Subjects For Quiz Result"
         component={AllSubjectsForQuizResultScreen}
+        options={{ title: "All Subjects" }}
       />
-      <Stack.Screen name="Quiz Results Screen" component={QuizresultsScreen} />
+      <Stack.Screen
+        name="Quiz Results Screen"
+        component={QuizresultsScreen}
+        options={{ title: "Quiz Results" }}
+      />
     </Stack.Navigator>
   );
 };
@@ -254,7 +268,7 @@ const StudentResultStackNavigator = () => {
       <Stack.Screen
         name="View Result"
         component={StudentResultScreen}
-        //options={{ headerShown: false }}
+        options={{ title: "Result" }}
       />
     </Stack.Navigator>
   );

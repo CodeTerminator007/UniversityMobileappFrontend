@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import URI from "../../context/uri";
 import { DataTable } from "react-native-paper";
@@ -51,28 +52,28 @@ function StudentResultScreen() {
               value: item.id,
               label: item.name,
             };
-          })
-          setYearlist(g)
+          });
+          setYearlist(g);
         })
-          .catch((error) => {
-            console.log("error " + error);
-          });        
-
+        .catch((error) => {
+          Alert.alert("Error", "Network Error");
+          console.log("error " + error);
+        });
     }, [isFetching]);
   }
-  if (year){
+  if (year) {
     axios
-    .get(`${URI.uri}/SubjectResult/?student_id=${ID}&result_id=${year}`, {
-      headers: { Authorization: AuthStr },
-    })
-    .then((response) => {
-      const data2 = response.data;
-      set_attandance_data(data2)
-
-    })
-    .catch((error) => {
-      console.log("error " + error);
-    });
+      .get(`${URI.uri}/SubjectResult/?student_id=${ID}&result_id=${year}`, {
+        headers: { Authorization: AuthStr },
+      })
+      .then((response) => {
+        const data2 = response.data;
+        set_attandance_data(data2);
+      })
+      .catch((error) => {
+        Alert.alert("Error", "Network Error");
+        console.log("error " + error);
+      });
   }
   return (
     <>
@@ -102,7 +103,7 @@ function StudentResultScreen() {
               containerStyle={{
                 width: "150%",
                 height: 50,
-                marginLeft :80,
+                marginLeft: 80,
                 marginBottom: yearopen ? 175 : 0,
                 justifyContent: "center",
                 //padding: 20,
@@ -120,17 +121,12 @@ function StudentResultScreen() {
                 marginLeft: 19,
               }}
             />
-
           </View>
           <ScrollView horizontal={true} style={styles.container}>
             <DataTable>
               <DataTable.Header>
-                <DataTable.Title style={styles.alpha}>
-                  Subject
-                </DataTable.Title>
-                <DataTable.Title style={styles.alpha}>
-                  Teacher
-                </DataTable.Title>
+                <DataTable.Title style={styles.alpha}>Subject</DataTable.Title>
+                <DataTable.Title style={styles.alpha}>Teacher</DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
                   Mid
                 </DataTable.Title>
@@ -138,7 +134,7 @@ function StudentResultScreen() {
                   Final
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
-                Sessional 
+                  Sessional
                 </DataTable.Title>
                 <DataTable.Title style={styles.numeric} numeric>
                   Total
@@ -153,7 +149,7 @@ function StudentResultScreen() {
                       {item.subjectname}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.alpha}>
-                    {item.teacherfirstname + item.teacherlastname}
+                      {item.teacherfirstname + item.teacherlastname}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
                       {item.midobtainedMarks}
@@ -165,7 +161,9 @@ function StudentResultScreen() {
                       {item.sessionalmarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                    {item.midobtainedMarks+item.finalobtainedMarks+item.sessionalmarks}
+                      {item.midobtainedMarks +
+                        item.finalobtainedMarks +
+                        item.sessionalmarks}
                     </DataTable.Cell>
                   </DataTable.Row>
                 )}
@@ -193,7 +191,9 @@ function StudentResultScreen() {
                       {item.sessionalmarks}
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.numeric} numeric>
-                    {item.midobtainedMarks+item.finalobtainedMarks+item.sessionalmarks}
+                      {item.midobtainedMarks +
+                        item.finalobtainedMarks +
+                        item.sessionalmarks}
                     </DataTable.Cell>
                   </DataTable.Row>
                 </DataTable>
@@ -217,10 +217,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   alpha: {
+    marginLeft: 7,
     width: 190,
+    borderRightWidth: 0.5,
+    borderRightColor: "lightgrey",
   },
   numeric: {
-    width: 40,
+    justifyContent: "center",
+    width: 100,
+    borderRightWidth: 0.5,
+    borderRightColor: "lightgrey",
   },
   header: {
     flexDirection: "row",

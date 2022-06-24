@@ -51,6 +51,7 @@ const AdminBottomTabNavigator = () => {
           options={{
             tabBarIcon: () => <AntDesign name="home" size={24} color="black" />,
             headerShown: false,
+            title: "Dashboard",
           }}
         />
         {/* <Tab.Screen 
@@ -75,6 +76,7 @@ const AdminBottomTabNavigator = () => {
               <Ionicons name="newspaper-outline" size={24} color="black" />
             ),
             headerShown: false,
+            title: "Post Event",
           }}
         />
         {/* <Tab.Screen
@@ -95,6 +97,7 @@ const AdminBottomTabNavigator = () => {
               <Ionicons name="person-outline" size={24} color="black" />
             ),
             headerShown: false,
+            title: "Profile",
           }}
         />
       </Tab.Navigator>

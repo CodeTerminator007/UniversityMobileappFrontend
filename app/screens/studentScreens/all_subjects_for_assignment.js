@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import ClassListItem from "../../components/class_list_item";
 import URI from "../../context/uri";
@@ -39,6 +40,7 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   }
@@ -63,6 +65,7 @@ function AllSubjectsForAssignmentScreen({ navigation }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

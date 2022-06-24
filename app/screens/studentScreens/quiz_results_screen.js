@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import URI from "../../context/uri";
 import { DataTable } from "react-native-paper";
@@ -42,6 +43,7 @@ function QuizresultsScreen({ route }) {
         setIsLoading(false);
       })
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -138,9 +140,14 @@ const styles = StyleSheet.create({
   },
   alpha: {
     width: 200,
+    borderRightWidth: 0.5,
+    borderRightColor: "lightgrey",
   },
   numeric: {
+    justifyContent: "center",
     width: 40,
+    borderRightWidth: 0.5,
+    borderRightColor: "lightgrey",
   },
 });
 

@@ -6,6 +6,7 @@ import {
   View,
   Switch,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
@@ -65,9 +66,11 @@ function TeacherMarkAttandanceScreen({ route }) {
             console.log("error", err2);
           });
         setIsLoading(false);
+        Alert.alert("Attandance", "Attandance has been added.");
       })
       .catch((err) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error", err);
       });
   };
@@ -100,6 +103,7 @@ function TeacherMarkAttandanceScreen({ route }) {
 
       .catch((error) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

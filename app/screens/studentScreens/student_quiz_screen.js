@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import URI from "../../context/uri";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -48,6 +48,9 @@ const StudentQuizScreen = ({ navigation, route }) => {
         settotalquestions(data.allquestions.length);
         setOptions(generateOptionsAndShuffle(data.allquestions[0]));
         setIsLoading(false);
+      })
+      .catch((error) => {
+        Alert.alert("Error", "Network Error");
       });
   };
 

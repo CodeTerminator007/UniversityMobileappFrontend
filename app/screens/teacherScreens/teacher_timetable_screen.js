@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View, Alert } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -43,6 +43,7 @@ function TeacherTimetableScreen() {
 
       .catch((error) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

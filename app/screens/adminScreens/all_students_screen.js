@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import URI from "../../context/uri";
 import { ActivityIndicator } from "react-native-paper";
@@ -61,6 +62,7 @@ function AllStudentsScreen({ navigation }) {
 
       .catch((error) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

@@ -48,6 +48,7 @@ const QuizResultScreen = ({ navigation, route }) => {
         setIsLoading(false);
       })
       .catch((err) => {
+        Alert.alert("Error", "Network Error");
         console.log("error", err);
       });
   };

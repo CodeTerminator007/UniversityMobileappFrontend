@@ -88,6 +88,7 @@ function EditStudentScreen2({ navigation, route }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -110,6 +111,7 @@ function EditStudentScreen2({ navigation, route }) {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

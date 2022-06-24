@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import URI from "../../context/uri";
 import { useSelector } from "react-redux";
@@ -42,6 +43,7 @@ const StartQuizScreen = ({ navigation, route }) => {
         setIsLoading(false);
       })
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

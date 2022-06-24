@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import URI from "../../context/uri";
 import { DataTable } from "react-native-paper";
@@ -39,13 +40,13 @@ function StudentAttandanceScreen() {
           const data1 = response.data;
           setIsLoading(false);
 
-          set_attandance_data(data1).catch((error) => {
-            console.log("error " + error);
-          });
+          set_attandance_data(data1);
+        })
+        .catch((error) => {
+          Alert.alert("error", error);
         });
     }, [isFetching]);
   }
-
   return (
     <>
       {isloading ? (
@@ -152,10 +153,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   alpha: {
+    marginLeft: 10,
     width: 190,
+    borderRightWidth: 0.5,
+    borderRightColor: "lightgrey",
   },
   numeric: {
+    justifyContent: "center",
     width: 40,
+    borderRightWidth: 0.5,
+    borderRightColor: "lightgrey",
   },
 });
 

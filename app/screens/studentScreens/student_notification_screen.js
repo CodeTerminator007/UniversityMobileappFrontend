@@ -7,6 +7,7 @@ import {
   ScrollView,
   SafeAreaView,
   FlatList,
+  Alert,
 } from "react-native";
 import URI from "../../context/uri";
 import ListItem from "../../components/ListItem";
@@ -34,6 +35,8 @@ function StudentNotificationScreen({ navigation }) {
         setIsLoading(false);
       })
       .catch((error) => {
+        setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

@@ -90,6 +90,8 @@ function AssignmentDetailScreen({ navigation, route }) {
 
       .catch((error) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
+        setIsLoading(false);
 
         console.log("error " + error);
       });

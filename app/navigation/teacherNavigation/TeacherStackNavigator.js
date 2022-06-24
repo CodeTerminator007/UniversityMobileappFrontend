@@ -100,6 +100,7 @@ const TeacherCreateAssignmentStackNavigator = () => {
       <Stack.Screen
         name="All Classes For Assignment"
         component={AllClassesForAssignmentScreen}
+        options={{ title: "All Classes" }}
       />
       <Stack.Screen name="All Assignments" component={AllAssignmentsScreen} />
       <Stack.Screen
@@ -138,7 +139,11 @@ const TeacherCreateAssignmentStackNavigator = () => {
 const TeacherCreateQuizStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="All Classes Quiz" component={AllClassesForQuiz} />
+      <Stack.Screen
+        name="All Classes Quiz"
+        component={AllClassesForQuiz}
+        options={{ title: "All Classes" }}
+      />
       <Stack.Screen name="Create Quiz" component={TeacherCreateQuizScreen} />
       <Stack.Screen name="Add Question" component={AddQuestion} />
       <Stack.Screen name="Add Option" component={AddOptions} />
@@ -148,7 +153,11 @@ const TeacherCreateQuizStackNavigator = () => {
 const TeacherMarkAttandanceStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="All Classes Screen" component={AllClassesScreen} />
+      <Stack.Screen
+        name="All Classes Screen"
+        component={AllClassesScreen}
+        options={{ title: "All Classes" }}
+      />
       <Stack.Screen
         name="Mark Attandance"
         component={TeacherMarkAttandanceScreen}
@@ -164,6 +173,7 @@ const TeacherTimetableStackNavigator = () => {
         name="Teacher Timetable"
         component={TeacherTimetableScreen}
         options={{
+          title: "Timetable",
           headerStyle: {
             //padding: 20
           },
@@ -184,6 +194,7 @@ const TeacherTimetableStackNavigator = () => {
       <Stack.Screen
         name="Teacher Edit Timetable"
         component={TeacherEditTimetableScreen}
+        options={{ title: "Edit Timetable" }}
       />
     </Stack.Navigator>
   );
@@ -194,10 +205,12 @@ const TeacherNotificationStackNavigator = () => {
       <Stack.Screen
         name="Teacher Notifications"
         component={TeacherNotificationScreen}
+        options={{ title: "Notification" }}
       />
       <Stack.Screen
         name="Teacher Notifications Detail"
         component={TeacherNotificationDetailScreen}
+        options={{ title: "Notification Detail" }}
       />
     </Stack.Navigator>
   );
@@ -209,7 +222,7 @@ const TeacherProfileStackNavigator = () => {
       <Stack.Screen
         name="Teacher Profile"
         component={TeacherProfileScreen}
-        //options={{ headerShown: false }}
+        options={{ title: "Profile" }}
       />
     </Stack.Navigator>
   );
@@ -218,12 +231,21 @@ const TeacherProfileStackNavigator = () => {
 const TeacherMarkResultStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="All Classes Result" component={AllClassesForResult} />
+      <Stack.Screen
+        name="All Classes Result"
+        component={AllClassesForResult}
+        options={{ title: "All Classes" }}
+      />
       <Stack.Screen
         name="All Subjects Result"
         component={AllSubjectsForResult}
+        options={{ title: "All Subjects" }}
       />
-      <Stack.Screen name="All Students Result" component={AllStudentsResult} />
+      <Stack.Screen
+        name="All Students Result"
+        component={AllStudentsResult}
+        options={{ title: "All Students" }}
+      />
       <Stack.Screen name="Mark Result" component={MarkResultScreen} />
     </Stack.Navigator>
   );

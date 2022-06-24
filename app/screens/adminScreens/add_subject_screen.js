@@ -81,6 +81,7 @@ function AddSubjectScreen() {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -102,6 +103,7 @@ function AddSubjectScreen() {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };
@@ -123,6 +125,7 @@ function AddSubjectScreen() {
       })
 
       .catch((error) => {
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

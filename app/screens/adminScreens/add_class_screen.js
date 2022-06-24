@@ -53,6 +53,7 @@ function AddClassScreen() {
 
       .catch((error) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
   };

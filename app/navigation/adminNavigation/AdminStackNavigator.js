@@ -107,7 +107,7 @@ const AdminPostNotificationStackNavigator = () => {
       <Stack.Screen
         name="Admin Post Notification"
         component={AdminPostNotificationScreen}
-        //options={{ headerShown: false }}
+        options={{ title: "Post Notification" }}
       />
     </Stack.Navigator>
   );
@@ -187,6 +187,7 @@ const AdminClassesStackNavigator = () => {
               <Ionicons name="ios-add-circle-outline" size={30} color="black" />
             </TouchableOpacity>
           ),
+          title: "All Classes",
         }}
       />
       <Stack.Screen

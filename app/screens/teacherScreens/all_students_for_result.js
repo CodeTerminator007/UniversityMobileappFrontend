@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
@@ -16,24 +17,24 @@ import axios from "axios";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Students from "../../components/students";
 
-function AllStudentsResult({ navigation ,route }) {
-    const { id } = route.params;
-    const { class_id } = route.params;
-    const { subject_id } = route.params;
+function AllStudentsResult({ navigation, route }) {
+  const { id } = route.params;
+  const { class_id } = route.params;
+  const { subject_id } = route.params;
 
-    const state = useSelector((state) => state);
-    const stateData = { ...state };
-    const Token = stateData.userReducer.token;
-    const AuthStr = "Bearer ".concat(Token);
-    const [data, setdata] = useState(null);
-    const [isFetching, setIssFethin] = useState(false);
-    const ID = stateData.userReducer.id;
+  const state = useSelector((state) => state);
+  const stateData = { ...state };
+  const Token = stateData.userReducer.token;
+  const AuthStr = "Bearer ".concat(Token);
+  const [data, setdata] = useState(null);
+  const [isFetching, setIssFethin] = useState(false);
+  const ID = stateData.userReducer.id;
 
   const [isloading, setIsLoading] = useState(false);
 
-    const getstudentslist = () => {
-      setIsLoading(true);
-      axios
+  const getstudentslist = () => {
+    setIsLoading(true);
+    axios
       .get(`${URI.uri}/user/student/${class_id}`, {
         headers: { Authorization: AuthStr },
       })
@@ -45,8 +46,8 @@ function AllStudentsResult({ navigation ,route }) {
             title: item.username,
             rollNo: item.roll_num.toString(),
             id: item.user.toString(),
-            class_id:class_id,
-            subject_id:subject_id
+            class_id: class_id,
+            subject_id: subject_id,
           };
         });
         setdata(g);
@@ -55,14 +56,15 @@ function AllStudentsResult({ navigation ,route }) {
 
       .catch((error) => {
         setIsLoading(false);
+        Alert.alert("Error", "Network Error");
         console.log("error " + error);
       });
-    };
-    useEffect(() => {
-      if (!isFetching) {
-        getstudentslist();
-      }
-    }, [isFetching]);
+  };
+  useEffect(() => {
+    if (!isFetching) {
+      getstudentslist();
+    }
+  }, [isFetching]);
   return (
     <>
       {isloading ? (
@@ -85,11 +87,13 @@ function AllStudentsResult({ navigation ,route }) {
               <Students
                 title={item.title}
                 rollNo={item.rollNo}
-                onPress={() => navigation.navigate("Mark Result" ,{
-                  studentid: item.id,
-                  class_id:class_id,
-                  subject_id:subject_id
-                })}
+                onPress={() =>
+                  navigation.navigate("Mark Result", {
+                    studentid: item.id,
+                    class_id: class_id,
+                    subject_id: subject_id,
+                  })
+                }
               />
             )}
           />

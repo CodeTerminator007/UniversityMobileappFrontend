@@ -50,6 +50,7 @@ const StudentBottomTabNavigator = () => {
           options={{
             tabBarIcon: () => <AntDesign name="home" size={24} color="black" />,
             headerShown: false,
+            title: "Dashboard",
           }}
         />
         {/* <Tab.Screen 
@@ -74,6 +75,7 @@ const StudentBottomTabNavigator = () => {
               <Ionicons name="newspaper-outline" size={24} color="black" />
             ),
             headerShown: false,
+            title: "Notification",
           }}
         />
         <Tab.Screen
@@ -84,6 +86,7 @@ const StudentBottomTabNavigator = () => {
               <Ionicons name="person-outline" size={24} color="black" />
             ),
             headerShown: false,
+            title: "Profile",
           }}
         />
       </Tab.Navigator>
