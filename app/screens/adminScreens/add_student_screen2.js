@@ -135,6 +135,7 @@ function AddStudentScreen2({ navigation, route }) {
       .then((res) => {
         setIsLoading(false);
         Alert.alert("Student", "The Student has been added.");
+        navigation.navigate("All Students");
       })
       .catch((err) => {
         setIsLoading(false);

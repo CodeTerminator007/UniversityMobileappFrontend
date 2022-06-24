@@ -13,8 +13,10 @@ import {
 import { ActivityIndicator } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
+import DatePickerr from "../../components/date_picker";
 import URI from "../../context/uri";
 import { Alert } from "react-native";
+
 function EditStudentScreen({ navigation, route }) {
   const { id } = route.params;
   const { first_name } = route.params;
@@ -183,14 +185,7 @@ function EditStudentScreen({ navigation, route }) {
             </View>
 
             <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder={Dob}
-                placeholderTextColor="#003f5c"
-                onChangeText={setDobirth}
-              />
-            </View>
+            <DatePickerr date={dobirth} setDate={setDobirth} />
 
             <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
             <View style={styles.inputView}>

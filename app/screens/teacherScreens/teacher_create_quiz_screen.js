@@ -13,11 +13,13 @@ import {
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
+import DatePickerr from "../../components/date_picker";
 
 function TeacherCreateQuizScreen({ navigation, route }) {
   const [title, setTitle] = useState(null);
   const [time, setTime] = useState(null);
-  const [date, setDate] = useState(null);
+  const d = new Date();
+  const [date, setDate] = useState(d);
   const [isloading, setIsLoading] = useState(false);
 
   const { id } = route.params;
@@ -96,14 +98,7 @@ function TeacherCreateQuizScreen({ navigation, route }) {
           </View>
 
           <Text style={styles.text}>Date (YY-MM-DD)</Text>
-          <View style={styles.titleinputView}>
-            <TextInput
-              style={styles.titleinputText}
-              placeholder="Date"
-              placeholderTextColor="#003f5c"
-              onChangeText={setDate}
-            />
-          </View>
+          <DatePickerr date={date} setDate={setDate} />
 
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Create</Text>

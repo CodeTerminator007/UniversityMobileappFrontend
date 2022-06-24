@@ -17,13 +17,16 @@ import { ActivityIndicator } from "react-native-paper";
 import URI from "../../context/uri";
 import DropDownPicker from "react-native-dropdown-picker";
 import ImagePickerr from "../../components/image_picker";
+import DatePickerr from "../../components/date_picker";
 
 function AddStudentScreen({ navigation, route }) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [firstname, setFirstname] = useState(null);
   const [lastname, setLastname] = useState(null);
-  const [dobirth, setDobirth] = useState(null);
+
+  const d = new Date();
+  const [dobirth, setDobirth] = useState(d);
   const [cnic, setCnic] = useState(null);
   const [email, setEmail] = useState(null);
   const [phone1, setPhone1] = useState(null);
@@ -193,14 +196,7 @@ function AddStudentScreen({ navigation, route }) {
             </View>
 
             <Text style={styles.text}>Date Of Birth(YYYY-MM-DD)</Text>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                placeholder="Date of Birth"
-                placeholderTextColor="#003f5c"
-                onChangeText={setDobirth}
-              />
-            </View>
+            <DatePickerr date={dobirth} setDate={setDobirth} />
 
             <Text style={styles.text}>CNIC(33104-0012345-7)</Text>
             <View style={styles.inputView}>

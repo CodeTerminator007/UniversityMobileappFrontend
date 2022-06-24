@@ -80,6 +80,7 @@ export default loginScreen = () => {
           }
         });
     } else {
+      setIsLoading(false);
       Alert.alert("Login", "Please provide required credential.");
     }
   };
@@ -123,7 +124,11 @@ export default loginScreen = () => {
             />
           </View>
           <Text style={styles.error}>{passwordcheck}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              Alert.alert("Forgot Password", "Please contact your supervisor");
+            }}
+          >
             <Text style={styles.forgot}>Forgot Password?</Text>
           </TouchableOpacity>
 
