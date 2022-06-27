@@ -29,7 +29,6 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
   const [isFetching, setIssFethin] = useState(false);
   const [isloading, setIsLoading] = useState(false);
 
-  console.log("the assignment id = " + id);
   const getsubmittedassignmentdetail = () => {
     setIsLoading(true);
     axios
@@ -38,13 +37,20 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
       })
       .then((response) => {
         const d = response.data;
-        console.log(d);
+        console.log(d.marks);
         const g = d.map((item) => {
           return {
             id: item.student,
             title: `${item.first_name} ${item.last_name}`,
             class_id: class_id,
             assignemt_id: id,
+            theid:item.id,
+            comment:item.comment,
+            submission_datetime:item.submission_datetime,
+            document:item.document,
+            document2:item.document2,
+            marks:item.marks,
+            roll_no:item.roll_no.toString()
           };
         });
         setdata(g);
@@ -110,6 +116,14 @@ function SubmittedAssignmentsScreen({ navigation, route }) {
                       student_id: item.id,
                       assignemt: item.assignemt_id,
                       subject_id: subject_id,
+                      theid:item.theid,
+                      commentback:item.comment,
+                      submission_datetime:item.submission_datetime,
+                      documentback:item.document,
+                      document2:item.document2,
+                      marksback:item.marks,
+                      roll_no:item.roll_no.toString(),
+                      nameback:item.title,                      
                     })
                   }
                 />

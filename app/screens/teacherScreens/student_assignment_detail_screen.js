@@ -21,74 +21,91 @@ const { StorageAccessFramework } = FileSystem;
 function StudentAssignmentDetailScreen({ navigation, route }) {
   const { student_id } = route.params;
   const { subject_id } = route.params;
+  const { theid } = route.params;
+  const { commentback } = route.params;
+  const { submission_datetime } = route.params;
+  const { documentback } = route.params;
+  const { document2 } = route.params;
+  const { marksback } = route.params;
+  const { roll_no } = route.params;
+  const { nameback } = route.params; 
+  const { assignemt } = route.params; 
 
-  const { assignemt } = route.params;
   const [data, setdata] = useState(null);
   const state = useSelector((state) => state);
   const stateData = { ...state };
   const Token = stateData.userReducer.token;
   const AuthStr = "Bearer ".concat(Token);
-  const [name, setName] = useState("Default");
-  const [rollno, setRollno] = useState();
-  const [marks, setMarks] = useState("0");
-  const [comment, setComment] = useState("Default");
+  const [name, setName] = useState(nameback);
+  const [rollno, setRollno] = useState(roll_no);
+  const [marks, setMarks] = useState(null);
+  const [comment, setComment] = useState(commentback);
   const [date, setDate] = useState("12");
-  const [iid, setiid] = useState(null);
+  const [iid, setiid] = useState(theid);
   const [isFetching, setIssFethin] = useState(false);
-  const [document, setDocument] = useState("Default");
+  const [document, setDocument] = useState(documentback);
   const [isloading, setIsLoading] = useState(false);
 
-  const getassignmentdetail = () => {
-    axios
-      .get(
-        `${URI.uri}/AssignmentSubmissionViewSet/?student_id=${student_id}&assignment=${assignemt}`,
-        {
-          headers: { Authorization: AuthStr },
-        }
-      )
-      .then((response) => {
-        const d = response.data;
-        setdata(d);
-        if (data) {
-          setiid(data[0].id);
-          console.log(data[0].id);
-          setIssFethin(true);
-          setIsLoading(false);
-        }
-      })
+  // setiid(theid)
+  // setName(nameback)
+  // setRollno(roll_no)
+  if(date=='12'){
+  const d = submission_datetime;
+  const z = d.toString().replace("T", "  ");
+  const g = z.replace("Z", " ").toString();
+  setDate(g);
+}
+if (marks==null){
+  console.log(marksback);
+  setMarks(marksback)
+}
+  // setDocument(documentback)
+  // setComment(commentback)
 
-      .catch((error) => {
-        setIsLoading(false);
-        Alert.alert("Error", "Network Error");
-        console.log("error " + error);
-      });
-  };
-  if (!isFetching) {
-    getassignmentdetail();
-  }
-
-  const download_file = () => {};
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    getassignmentdetail();
-  }, [isFetching]);
-  if (data != null) {
-    if (data.length != 0) {
-      setComment(data[0].comment);
-      const d = data[0].submission_datetime;
-      const z = d.toString().replace("T", "  ");
-      const g = z.replace("Z", " ").toString();
-      setDate(g);
-      setDocument(data[0].document);
-      setMarks(data[0].marks.toString());
-      setName(`${data[0].first_name} ${data[0].last_name}`);
-      setRollno(data[0].roll_no.toString());
-
-      setdata(null);
+  const downlaodfile = async () => {
+    const permissions =
+      await StorageAccessFramework.requestDirectoryPermissionsAsync();
+    if (!permissions.granted) {
+      return;
     }
-  }
+
+    const fileName = "assignment";
+    try {
+      await StorageAccessFramework.createFileAsync(
+        permissions.directoryUri,
+        fileName,
+        "application/pdf"
+      )
+        .then(async (uri) => {
+          await FileSystem.writeAsStringAsync(uri, document2, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+        })
+        .catch((e) => {
+          Alert.alert("Error", "Network Error");
+          console.log(e);
+        });
+    } catch (e) {
+      Alert.alert("Error", "Network Error");
+      throw new Error(e);
+    }
+  };
+  // useEffect(() => {
+  //   setIsLoading(true);
+
+  // }, [isFetching]);
+  // if (data != null) {
+  //   if (data.length != 0) {
+  //     setComment(data[0].comment);
+
+  //     setDocument(data[0].document);
+  //     setMarks(data[0].marks.toString());
+  //     setName(`${data[0].first_name} ${data[0].last_name}`);
+  //     setRollno(data[0].roll_no.toString());
+
+  //     setdata(null);
+  //   }
+  // }
   const handleSubmit = async (event) => {
     setIsLoading(true);
     event.preventDefault();
@@ -218,7 +235,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
                 style={styles.fileView}
                 onPress={() =>
                   navigation.navigate("File Reader", {
-                    uri: document,
+                    uri: `${URI.uri}${document}`,
                   })
                 }
               >
@@ -227,7 +244,7 @@ function StudentAssignmentDetailScreen({ navigation, route }) {
 
               <TouchableOpacity
                 style={styles.fileDownload}
-                onPress={download_file}
+                onPress={downlaodfile}
               >
                 <Text style={styles.buttonText}>Download</Text>
               </TouchableOpacity>
